@@ -1,0 +1,13 @@
+{
+  "name": "AIVPOS",
+  "description": "POS from Captur Ltd",
+  "version": "2.3.2",
+  "main": "main.js",
+  "license": "UNLICENSED",
+  "author": "Captur Ltd",
+  "dependencies": {
+    "electron-nucleus": "^1.13.1"
+  }
+  
+  
+}

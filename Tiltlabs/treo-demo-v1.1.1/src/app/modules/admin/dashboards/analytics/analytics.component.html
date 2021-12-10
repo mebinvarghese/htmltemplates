@@ -1,0 +1,639 @@
+<div class="flex flex-col flex-auto w-full p-8 xs:p-2">
+
+    <div class="flex flex-wrap w-full">
+
+        <div class="flex items-center justify-between w-full my-4 px-4 xs:pr-0">
+            <div class="mr-6">
+                <h2 class="m-0">Analytics dashboard</h2>
+                <div class="text-secondary tracking-tight">Monitor key metrics, check reporting and review insights</div>
+            </div>
+            <!-- Action buttons -->
+            <div class="flex items-center">
+                <button class="xs:hidden"
+                        mat-stroked-button>
+                    <mat-icon class="icon-size-20"
+                              [svgIcon]="'save'"></mat-icon>
+                    <span class="ml-2">Export</span>
+                </button>
+                <button class="ml-2 xs:hidden"
+                        mat-stroked-button>
+                    <mat-icon class="icon-size-20 rotate-90 mirror"
+                              [svgIcon]="'tune'"></mat-icon>
+                    <span class="ml-2">Settings</span>
+                </button>
+
+                <!-- Actions menu (visible on xs) -->
+                <div class="hidden xs:flex">
+                    <button [matMenuTriggerFor]="actionsMenu"
+                            mat-icon-button>
+                        <mat-icon [svgIcon]="'more_vert'"></mat-icon>
+                    </button>
+                    <mat-menu #actionsMenu="matMenu">
+                        <button mat-menu-item>
+                            <mat-icon class="icon-size-20"
+                                      [svgIcon]="'save'"></mat-icon>
+                            <span class="ml-2">Export</span>
+                        </button>
+                        <button mat-menu-item>
+                            <mat-icon class="icon-size-20"
+                                      [svgIcon]="'share'"></mat-icon>
+                            <span class="ml-2">Share</span>
+                        </button>
+                        <button mat-menu-item>
+                            <mat-icon class="icon-size-20 rotate-90 mirror"
+                                      [svgIcon]="'tune'"></mat-icon>
+                            <span class="ml-2">Settings</span>
+                        </button>
+                    </mat-menu>
+                </div>
+            </div>
+        </div>
+
+        <!-- Purchases -->
+        <div class="flex flex-auto w-1/3 min-w-80 h-50 p-4 theme-dark bg-transparent">
+            <div class="flex flex-col flex-auto p-6 pb-4 bg-card shadow-md rounded overflow-hidden">
+                <div class="flex items-center justify-between">
+                    <div class="flex flex-col">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Purchases</div>
+                        <div class="text-sm text-hint font-medium">Number of purchases</div>
+                    </div>
+                    <div class="-mr-2">
+                        <button class="h-8 min-h-8 px-2"
+                                mat-button
+                                [matMenuTriggerFor]="purchasesMenu">
+                            <span class="font-medium text-sm text-hint">30 days</span>
+                        </button>
+                        <mat-menu #purchasesMenu="matMenu">
+                            <button mat-menu-item>30 days</button>
+                            <button mat-menu-item>3 months</button>
+                            <button mat-menu-item>9 months</button>
+                        </mat-menu>
+                    </div>
+                </div>
+                <div class="flex items-center h-20 mt-auto">
+                    <div class="flex flex-col">
+                        <div class="font-semibold text-5xl tracking-tighter leading-tight">{{data.purchases.amount | number:'1.0-0'}}</div>
+                        <div class="flex items-center">
+                            <mat-icon class="mr-1 text-red"
+                                      [svgIcon]="'trending_down'"></mat-icon>
+                            <div class="font-medium text-sm text-secondary leading-none whitespace-no-wrap">
+                                <span class="text-red">2%</span>
+                                less purchase
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-auto h-full ml-6">
+                        <apx-chart class="flex-auto w-full h-full"
+                                   [chart]="purchasesOptions.chart"
+                                   [colors]="purchasesOptions.colors"
+                                   [series]="purchasesOptions.series"
+                                   [stroke]="purchasesOptions.stroke"
+                                   [tooltip]="purchasesOptions.tooltip"
+                                   [xaxis]="purchasesOptions.xaxis"
+                                   [yaxis]="purchasesOptions.yaxis"></apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Unique visitors -->
+        <div class="flex flex-auto w-1/3 min-w-80 h-50 p-4">
+            <div class="flex flex-col flex-auto p-6 pb-4 bg-card shadow-md rounded overflow-hidden">
+                <div class="flex items-center justify-between">
+                    <div class="flex flex-col">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Unique Visitors</div>
+                        <div class="text-sm text-hint font-medium">Number of unique visitors</div>
+                    </div>
+                    <div class="-mr-2">
+                        <button class="h-8 min-h-8 px-2"
+                                mat-button
+                                [matMenuTriggerFor]="uniqueVisitorsMenu">
+                            <span class="font-medium text-sm text-hint">30 days</span>
+                        </button>
+                        <mat-menu #uniqueVisitorsMenu="matMenu">
+                            <button mat-menu-item>30 days</button>
+                            <button mat-menu-item>3 months</button>
+                            <button mat-menu-item>9 months</button>
+                        </mat-menu>
+                    </div>
+                </div>
+                <div class="flex items-center h-20 mt-auto">
+                    <div class="flex flex-col">
+                        <div class="font-semibold text-5xl tracking-tighter leading-tight">{{data.uniqueVisitors.amount | number:'1.0-0'}}</div>
+                        <div class="flex items-center">
+                            <mat-icon class="mr-1 text-red"
+                                      [svgIcon]="'trending_down'"></mat-icon>
+                            <div class="font-medium text-sm text-secondary leading-none whitespace-no-wrap">
+                                <span class="text-red">2%</span>
+                                less purchase
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-auto h-full ml-6">
+                        <apx-chart class="flex-auto w-full h-full"
+                                   [chart]="uniqueVisitorsOptions.chart"
+                                   [colors]="uniqueVisitorsOptions.colors"
+                                   [series]="uniqueVisitorsOptions.series"
+                                   [stroke]="uniqueVisitorsOptions.stroke"
+                                   [tooltip]="uniqueVisitorsOptions.tooltip"
+                                   [xaxis]="uniqueVisitorsOptions.xaxis"
+                                   [yaxis]="uniqueVisitorsOptions.yaxis"></apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total visits -->
+        <div class="flex flex-auto w-1/3 min-w-80 h-50 p-4">
+            <div class="flex flex-col flex-auto p-6 pb-4 bg-card shadow-md rounded overflow-hidden">
+                <div class="flex items-center justify-between">
+                    <div class="flex flex-col">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Total Visits</div>
+                        <div class="text-sm text-hint font-medium">Number of total visits from all visitors</div>
+                    </div>
+                    <div class="-mr-2">
+                        <button class="h-8 min-h-8 px-2"
+                                mat-button
+                                [matMenuTriggerFor]="totalVisitsMenu">
+                            <span class="font-medium text-sm text-hint">30 days</span>
+                        </button>
+                        <mat-menu #totalVisitsMenu="matMenu">
+                            <button mat-menu-item>30 days</button>
+                            <button mat-menu-item>3 months</button>
+                            <button mat-menu-item>9 months</button>
+                        </mat-menu>
+                    </div>
+                </div>
+                <div class="flex items-center h-20 mt-auto">
+                    <div class="flex flex-col">
+                        <div class="font-semibold text-5xl tracking-tighter leading-tight">{{data.totalVisits.amount | number:'1.0-0'}}</div>
+                        <div class="flex items-center">
+                            <mat-icon class="mr-1 text-red"
+                                      [svgIcon]="'trending_down'"></mat-icon>
+                            <div class="font-medium text-sm text-secondary leading-none whitespace-no-wrap">
+                                <span class="text-red">2%</span>
+                                less purchase
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-auto h-full ml-6">
+                        <apx-chart class="flex-auto w-full h-full"
+                                   [chart]="totalVisitsOptions.chart"
+                                   [colors]="totalVisitsOptions.colors"
+                                   [series]="totalVisitsOptions.series"
+                                   [stroke]="totalVisitsOptions.stroke"
+                                   [tooltip]="totalVisitsOptions.tooltip"
+                                   [xaxis]="totalVisitsOptions.xaxis"
+                                   [yaxis]="totalVisitsOptions.yaxis"></apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Average purchase value -->
+        <div class="flex flex-auto w-1/3 min-w-80 h-50 p-4">
+            <div class="flex flex-col flex-auto p-6 pb-4 bg-card shadow-md rounded overflow-hidden">
+                <div class="flex items-center justify-between">
+                    <div class="flex flex-col">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Avg. purchase value</div>
+                        <div class="text-sm text-hint font-medium">Avg. amount spent by each customer</div>
+                    </div>
+                    <div class="-mr-2">
+                        <button class="h-8 min-h-8 px-2"
+                                mat-button
+                                [matMenuTriggerFor]="avgPurchaseValueMenu">
+                            <span class="font-medium text-sm text-hint">30 days</span>
+                        </button>
+                        <mat-menu #avgPurchaseValueMenu="matMenu">
+                            <button mat-menu-item>30 days</button>
+                            <button mat-menu-item>3 months</button>
+                            <button mat-menu-item>9 months</button>
+                        </mat-menu>
+                    </div>
+                </div>
+                <div class="mt-auto mb-2 font-semibold text-5xl tracking-tighter leading-none">{{data.averagePurchaseValue.amount | currency:'USD'}}</div>
+                <div class="flex items-end">
+                    <apx-chart class="w-full h-8"
+                               [chart]="averagePurchaseValueOptions.chart"
+                               [colors]="averagePurchaseValueOptions.colors"
+                               [fill]="averagePurchaseValueOptions.fill"
+                               [series]="averagePurchaseValueOptions.series"
+                               [stroke]="averagePurchaseValueOptions.stroke"
+                               [tooltip]="averagePurchaseValueOptions.tooltip"
+                               [xaxis]="averagePurchaseValueOptions.xaxis"></apx-chart>
+                </div>
+            </div>
+        </div>
+
+        <!-- Unique purchases -->
+        <div class="flex flex-auto w-1/3 min-w-80 h-50 p-4">
+            <div class="flex flex-col flex-auto p-6 pb-4 bg-card shadow-md rounded overflow-hidden">
+                <div class="flex items-center justify-between">
+                    <div class="flex flex-col">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Unique purchases</div>
+                        <div class="text-sm text-hint font-medium">Number of different items sold</div>
+                    </div>
+                    <div>
+                        <button class="h-8 min-h-8 px-2"
+                                mat-button
+                                [matMenuTriggerFor]="uniquePurchasesMenu">
+                            <span class="font-medium text-sm text-hint">30 days</span>
+                        </button>
+                        <mat-menu #uniquePurchasesMenu="matMenu">
+                            <button mat-menu-item>30 days</button>
+                            <button mat-menu-item>3 months</button>
+                            <button mat-menu-item>9 months</button>
+                        </mat-menu>
+                    </div>
+                </div>
+                <div class="mt-auto mb-2 font-semibold text-5xl tracking-tighter leading-none">{{data.uniquePurchases.amount | number: '1.0-0'}}</div>
+                <div class="flex items-end">
+                    <apx-chart class="w-full h-8"
+                               [chart]="uniquePurchasesOptions.chart"
+                               [colors]="uniquePurchasesOptions.colors"
+                               [fill]="uniquePurchasesOptions.fill"
+                               [series]="uniquePurchasesOptions.series"
+                               [stroke]="uniquePurchasesOptions.stroke"
+                               [tooltip]="uniquePurchasesOptions.tooltip"
+                               [xaxis]="uniquePurchasesOptions.xaxis"></apx-chart>
+                </div>
+            </div>
+        </div>
+
+        <!-- Refunds -->
+        <div class="flex flex-auto w-1/3 min-w-80 h-50 p-4">
+            <div class="flex flex-col flex-auto p-6 pb-4 bg-card shadow-md rounded overflow-hidden">
+                <div class="flex items-center justify-between">
+                    <div class="flex flex-col">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Refunds</div>
+                        <div class="text-sm text-hint font-medium">Value of refunded orders</div>
+                    </div>
+                    <div class="-mr-2">
+                        <button class="h-8 min-h-8 px-2"
+                                mat-button
+                                [matMenuTriggerFor]="refundsMenu">
+                            <span class="font-medium text-sm text-hint">30 days</span>
+                        </button>
+                        <mat-menu #refundsMenu="matMenu">
+                            <button mat-menu-item>30 days</button>
+                            <button mat-menu-item>3 months</button>
+                            <button mat-menu-item>9 months</button>
+                        </mat-menu>
+                    </div>
+                </div>
+                <div class="mt-auto mb-2 font-semibold text-5xl tracking-tighter leading-none">{{data.refunds.amount | currency:'USD'}}</div>
+                <div class="flex items-end">
+                    <apx-chart class="w-full h-8"
+                               [chart]="refundsOptions.chart"
+                               [colors]="refundsOptions.colors"
+                               [fill]="refundsOptions.fill"
+                               [series]="refundsOptions.series"
+                               [stroke]="refundsOptions.stroke"
+                               [tooltip]="refundsOptions.tooltip"
+                               [xaxis]="refundsOptions.xaxis"></apx-chart>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audience & Behaviors -->
+        <div class="flex flex-col w-full mt-10 mb-3 px-4">
+            <h3 class="m-0">Audience & Behavior</h3>
+            <div class="text-secondary tracking-tight">Demographic properties and general behaviors of the users</div>
+        </div>
+
+        <!-- New vs. returning -->
+        <div class="flex flex-auto w-1/5 min-w-80 h-100 p-4">
+            <div class="flex flex-col flex-auto bg-card shadow-md rounded overflow-hidden">
+                <div class="flex flex-col p-4 pl-6">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">New vs. Returning</div>
+                        <div>
+                            <button class="h-8 min-h-8 px-2"
+                                    mat-button
+                                    [matMenuTriggerFor]="newVsReturningMenu">
+                                <span class="font-medium text-sm text-hint">30 days</span>
+                            </button>
+                            <mat-menu #newVsReturningMenu="matMenu">
+                                <button mat-menu-item>30 days</button>
+                                <button mat-menu-item>3 months</button>
+                                <button mat-menu-item>9 months</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col flex-auto px-6 pb-6">
+                    <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
+                               [chart]="newVsReturningOptions.chart"
+                               [colors]="newVsReturningOptions.colors"
+                               [labels]="newVsReturningOptions.labels"
+                               [plotOptions]="newVsReturningOptions.plotOptions"
+                               [series]="newVsReturningOptions.series"
+                               [states]="newVsReturningOptions.states"
+                               [tooltip]="newVsReturningOptions.tooltip"></apx-chart>
+                </div>
+                <div class="flex flex-col justify-end text-md px-6 pb-3">
+                    <div class="flex items-center justify-between py-3 border-b last:border-b-0"
+                         *ngFor="let dataset of data.newVsReturning.series; let i = index">
+                        <div class="flex items-center w-1/3">
+                            <div class="flex-shrink-0 w-2 h-2 mr-3 rounded-full"
+                                 [style.backgroundColor]="newVsReturningOptions.colors[i]"></div>
+                            <div class="truncate">{{data.newVsReturning.labels[i]}}</div>
+                        </div>
+                        <div class="w-1/3 font-medium text-right">{{data.uniqueVisitors.amount * dataset / 100 | number:'1.0-0'}}</div>
+                        <div class="w-1/3 text-right text-secondary">{{dataset}}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gender -->
+        <div class="flex flex-auto w-1/5 min-w-80 h-100 p-4">
+            <div class="flex flex-col flex-auto bg-card shadow-md rounded overflow-hidden">
+                <div class="flex flex-col p-4 pl-6">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Gender</div>
+                        <div>
+                            <button class="h-8 min-h-8 px-2"
+                                    mat-button
+                                    [matMenuTriggerFor]="genderMenu">
+                                <span class="font-medium text-sm text-hint">30 days</span>
+                            </button>
+                            <mat-menu #genderMenu="matMenu">
+                                <button mat-menu-item>30 days</button>
+                                <button mat-menu-item>3 months</button>
+                                <button mat-menu-item>9 months</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col flex-auto px-6 pb-6">
+                    <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
+                               [chart]="genderOptions.chart"
+                               [colors]="genderOptions.colors"
+                               [labels]="genderOptions.labels"
+                               [plotOptions]="genderOptions.plotOptions"
+                               [series]="genderOptions.series"
+                               [states]="genderOptions.states"
+                               [tooltip]="genderOptions.tooltip"></apx-chart>
+                </div>
+                <div class="flex flex-col justify-end text-md px-6 pb-3">
+                    <div class="flex items-center justify-between py-3 border-b last:border-b-0"
+                         *ngFor="let dataset of data.gender.series; let i = index">
+                        <div class="flex items-center w-1/3">
+                            <div class="flex-shrink-0 w-2 h-2 mr-3 rounded-full"
+                                 [style.backgroundColor]="genderOptions.colors[i]"></div>
+                            <div class="truncate">{{data.gender.labels[i]}}</div>
+                        </div>
+                        <div class="w-1/3 font-medium text-right">{{data.uniqueVisitors.amount * dataset / 100 | number:'1.0-0'}}</div>
+                        <div class="w-1/3 text-right text-secondary">{{dataset}}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Age -->
+        <div class="flex flex-auto w-1/5 min-w-80 h-100 p-4">
+            <div class="flex flex-col flex-auto bg-card shadow-md rounded overflow-hidden">
+                <div class="flex flex-col p-4 pl-6">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Age</div>
+                        <div>
+                            <button class="h-8 min-h-8 px-2"
+                                    mat-button
+                                    [matMenuTriggerFor]="ageMenu">
+                                <span class="font-medium text-sm text-hint">30 days</span>
+                            </button>
+                            <mat-menu #ageMenu="matMenu">
+                                <button mat-menu-item>30 days</button>
+                                <button mat-menu-item>3 months</button>
+                                <button mat-menu-item>9 months</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col flex-auto px-6 pb-6">
+                    <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
+                               [chart]="ageOptions.chart"
+                               [colors]="ageOptions.colors"
+                               [labels]="ageOptions.labels"
+                               [plotOptions]="ageOptions.plotOptions"
+                               [series]="ageOptions.series"
+                               [states]="ageOptions.states"
+                               [tooltip]="ageOptions.tooltip"></apx-chart>
+                </div>
+                <div class="flex flex-col justify-end text-md px-6 pb-3">
+                    <div class="flex items-center justify-between py-3 border-b last:border-b-0"
+                         *ngFor="let dataset of data.age.series; let i = index">
+                        <div class="flex items-center w-1/3">
+                            <div class="flex-shrink-0 w-2 h-2 mr-3 rounded-full"
+                                 [style.backgroundColor]="ageOptions.colors[i]"></div>
+                            <div class="truncate">{{data.age.labels[i]}}</div>
+                        </div>
+                        <div class="w-1/3 font-medium text-right">{{data.uniqueVisitors.amount * dataset / 100 | number:'1.0-0'}}</div>
+                        <div class="w-1/3 text-right text-secondary">{{dataset}}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Language -->
+        <div class="flex flex-auto w-1/5 min-w-80 h-100 p-4">
+            <div class="flex flex-col flex-auto bg-card shadow-md rounded overflow-hidden">
+                <div class="flex flex-col p-4 pl-6">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Language</div>
+                        <div>
+                            <button class="h-8 min-h-8 px-2"
+                                    mat-button
+                                    [matMenuTriggerFor]="languageMenu">
+                                <span class="font-medium text-sm text-hint">30 days</span>
+                            </button>
+                            <mat-menu #languageMenu="matMenu">
+                                <button mat-menu-item>30 days</button>
+                                <button mat-menu-item>3 months</button>
+                                <button mat-menu-item>9 months</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col flex-auto px-6 pb-6">
+                    <apx-chart class="flex flex-auto items-center justify-center w-full h-full"
+                               [chart]="languageOptions.chart"
+                               [colors]="languageOptions.colors"
+                               [labels]="languageOptions.labels"
+                               [plotOptions]="languageOptions.plotOptions"
+                               [series]="languageOptions.series"
+                               [states]="languageOptions.states"
+                               [tooltip]="languageOptions.tooltip"></apx-chart>
+                </div>
+                <div class="flex flex-col justify-end text-md px-6 pb-3">
+                    <div class="flex items-center justify-between py-3 border-b last:border-b-0"
+                         *ngFor="let dataset of data.language.series; let i = index">
+                        <div class="flex items-center w-1/3">
+                            <div class="flex-shrink-0 w-2 h-2 mr-3 rounded-full"
+                                 [style.backgroundColor]="languageOptions.colors[i]"></div>
+                            <div class="truncate">{{data.language.labels[i]}}</div>
+                        </div>
+                        <div class="w-1/3 font-medium text-right">{{data.uniqueVisitors.amount * dataset / 100 | number:'1.0-0'}}</div>
+                        <div class="w-1/3 text-right text-secondary">{{dataset}}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Channels -->
+        <div class="flex flex-auto w-1/5 min-w-80 h-100 p-4">
+            <div class="flex flex-col flex-auto bg-card shadow-md rounded overflow-hidden">
+                <div class="flex flex-col p-4 pl-6">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Channels</div>
+                        <div>
+                            <button class="h-8 min-h-8 px-2"
+                                    mat-button
+                                    [matMenuTriggerFor]="channelsMenu">
+                                <span class="font-medium text-sm text-hint">30 days</span>
+                            </button>
+                            <mat-menu #channelsMenu="matMenu">
+                                <button mat-menu-item>30 days</button>
+                                <button mat-menu-item>3 months</button>
+                                <button mat-menu-item>9 months</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div class="mt-6 font-semibold text-2xl leading-tight">
+                        <span class="text-purple-600">Direct</span>
+                        is the most popular channel
+                    </div>
+                </div>
+                <div class="flex flex-auto items-center px-6">
+                    <apx-chart class="w-full h-3"
+                               [chart]="channelsOptions.chart"
+                               [colors]="channelsOptions.colors"
+                               [grid]="channelsOptions.grid"
+                               [plotOptions]="channelsOptions.plotOptions"
+                               [series]="channelsOptions.series"
+                               [states]="channelsOptions.states"
+                               [tooltip]="channelsOptions.tooltip"
+                               [xaxis]="channelsOptions.xaxis"
+                               [yaxis]="channelsOptions.yaxis"></apx-chart>
+                </div>
+                <div class="flex flex-col flex-auto justify-end text-md px-6 pb-3">
+                    <div class="flex items-center justify-between py-3 border-b last:border-b-0"
+                         *ngFor="let dataset of data.channels.series; let i = index">
+                        <div class="flex items-center w-1/3">
+                            <div class="flex-shrink-0 w-2 h-2 mr-3 rounded-full"
+                                 [style.backgroundColor]="channelsOptions.colors[i]"></div>
+                            <div class="truncate">{{dataset.name}}</div>
+                        </div>
+                        <div class="w-1/3 font-medium text-right">{{dataset.data[0] | number:'1.0-0'}}</div>
+                        <div class="w-1/3 text-right text-secondary">{{dataset.data[0] * 100 / data.channels.amount | number:'1.0-0'}}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Devices -->
+        <div class="flex flex-auto w-1/5 min-w-80 h-100 p-4">
+            <div class="flex flex-col flex-auto bg-card shadow-md rounded overflow-hidden">
+                <div class="flex flex-col p-4 pl-6">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Devices</div>
+                        <div>
+                            <button class="h-8 min-h-8 px-2"
+                                    mat-button
+                                    [matMenuTriggerFor]="devicesMenu">
+                                <span class="font-medium text-sm text-hint">30 days</span>
+                            </button>
+                            <mat-menu #devicesMenu="matMenu">
+                                <button mat-menu-item>30 days</button>
+                                <button mat-menu-item>3 months</button>
+                                <button mat-menu-item>9 months</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div class="mt-6 font-semibold text-2xl leading-tight">
+                        <span class="text-teal-600">Desktop</span>
+                        is the most popular device
+                    </div>
+                </div>
+                <div class="flex flex-auto items-center px-6">
+                    <apx-chart class="w-full h-3"
+                               [chart]="devicesOptions.chart"
+                               [colors]="devicesOptions.colors"
+                               [grid]="devicesOptions.grid"
+                               [plotOptions]="devicesOptions.plotOptions"
+                               [series]="devicesOptions.series"
+                               [states]="devicesOptions.states"
+                               [tooltip]="devicesOptions.tooltip"
+                               [xaxis]="devicesOptions.xaxis"
+                               [yaxis]="devicesOptions.yaxis"></apx-chart>
+                </div>
+                <div class="flex flex-col flex-auto justify-end text-md px-6 pb-3">
+                    <div class="flex items-center justify-between py-3 border-b last:border-b-0"
+                         *ngFor="let dataset of data.devices.series; let i = index">
+                        <div class="flex items-center w-1/3">
+                            <div class="flex-shrink-0 w-2 h-2 mr-3 rounded-full"
+                                 [style.backgroundColor]="devicesOptions.colors[i]"></div>
+                            <div class="truncate">{{dataset.name}}</div>
+                        </div>
+                        <div class="w-1/3 font-medium text-right">{{dataset.data[0] | number:'1.0-0'}}</div>
+                        <div class="w-1/3 text-right text-secondary">{{dataset.data[0] * 100 / data.devices.amount | number:'1.0-0'}}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Browsers -->
+        <div class="flex flex-auto w-1/5 min-w-80 h-100 p-4">
+            <div class="flex flex-col flex-auto bg-card shadow-md rounded overflow-hidden">
+                <div class="flex flex-col p-4 pl-6">
+                    <div class="flex items-center justify-between">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Browsers</div>
+                        <div>
+                            <button class="h-8 min-h-8 px-2"
+                                    mat-button
+                                    [matMenuTriggerFor]="browsersMenu">
+                                <span class="font-medium text-sm text-hint">30 days</span>
+                            </button>
+                            <mat-menu #browsersMenu="matMenu">
+                                <button mat-menu-item>30 days</button>
+                                <button mat-menu-item>3 months</button>
+                                <button mat-menu-item>9 months</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div class="mt-6 font-semibold text-2xl leading-tight">
+                        <span class="text-pink-600">Chrome</span>
+                        is the most popular browser
+                    </div>
+                </div>
+                <div class="flex flex-auto items-center px-6">
+                    <apx-chart class="w-full h-3"
+                               [chart]="browsersOptions.chart"
+                               [colors]="browsersOptions.colors"
+                               [grid]="browsersOptions.grid"
+                               [plotOptions]="browsersOptions.plotOptions"
+                               [series]="browsersOptions.series"
+                               [states]="browsersOptions.states"
+                               [tooltip]="browsersOptions.tooltip"
+                               [xaxis]="browsersOptions.xaxis"
+                               [yaxis]="browsersOptions.yaxis"></apx-chart>
+                </div>
+                <div class="flex flex-col flex-auto justify-end text-md px-6 pb-3">
+                    <div class="flex items-center justify-between py-3 border-b last:border-b-0"
+                         *ngFor="let dataset of data.browsers.series; let i = index">
+                        <div class="flex items-center w-1/3">
+                            <div class="flex-shrink-0 w-2 h-2 mr-3 rounded-full"
+                                 [style.backgroundColor]="browsersOptions.colors[i]"></div>
+                            <div class="truncate">{{dataset.name}}</div>
+                        </div>
+                        <div class="w-1/3 font-medium text-right">{{dataset.data[0] | number:'1.0-0'}}</div>
+                        <div class="w-1/3 text-right text-secondary">{{dataset.data[0] * 100 / data.browsers.amount | number:'1.0-0'}}%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

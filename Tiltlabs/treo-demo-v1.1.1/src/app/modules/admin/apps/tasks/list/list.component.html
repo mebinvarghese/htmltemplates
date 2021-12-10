@@ -1,0 +1,164 @@
+<div class="content-layout right-sidebar-fullheight-basic-inner-scroll">
+
+    <mat-drawer-container (backdropClick)="onBackdropClicked()">
+
+        <!-- Drawer -->
+        <mat-drawer [mode]="drawerMode"
+                    [opened]="false"
+                    [position]="'end'"
+                    [disableClose]="true"
+                    #matDrawer>
+
+            <router-outlet></router-outlet>
+
+        </mat-drawer>
+
+        <mat-drawer-content>
+
+            <!-- Main -->
+            <div class="main">
+
+                <!-- Header -->
+                <div class="header">
+
+                    <!-- Title -->
+                    <div class="title">
+
+                        <h1>Tasks</h1>
+
+                        <div class="remaining-tasks-count">
+                            <span *ngIf="tasksCount.incomplete === 0">All tasks completed!</span>
+                            <span *ngIf="tasksCount.incomplete !== 0">{{tasksCount.incomplete}} remaining tasks</span>
+                        </div>
+
+                    </div>
+
+                    <!-- Main actions -->
+                    <div class="main-actions">
+
+                        <!-- Add task button -->
+                        <button class="add-task"
+                                mat-flat-button
+                                [color]="'primary'"
+                                (click)="createTask('task')"
+                                [matTooltip]="'Shortcut: Ctrl + /'">
+                            <mat-icon [svgIcon]="'add'"></mat-icon>
+                            Add Task
+                        </button>
+
+                        <!-- Add section button -->
+                        <button class="add-section"
+                                mat-flat-button
+                                [color]="'accent'"
+                                (click)="createTask('section')"
+                                [matTooltip]="'Shortcut: Ctrl + .'">
+                            <mat-icon [svgIcon]="'add'"></mat-icon>
+                            Add Section
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- Tasks list -->
+                <div class="tasks-list"
+                     cdkDropList
+                     [cdkDropListData]="tasks"
+                     (cdkDropListDropped)="dropped($event)">
+
+                    <ng-container *ngIf="tasks && tasks.length > 0; else noTasks">
+
+                        <!-- Task -->
+                        <div [id]="'task-' + task.id"
+                             class="task"
+                             *ngFor="let task of tasks; trackBy: trackByFn"
+                             [class.completed]="task.completed"
+                             [class.selected]="selectedTask && selectedTask.id === task.id"
+                             [ngClass]="'type-' + task.type"
+                             cdkDrag>
+
+                            <!-- Task content -->
+                            <div class="task-content">
+
+                                <!-- Drag handle -->
+                                <div class="drag-handle"
+                                     cdkDragHandle>
+                                    <mat-icon [svgIcon]="'drag_indicator'"></mat-icon>
+                                </div>
+
+                                <!-- Complete task button -->
+                                <button class="complete-task"
+                                        *ngIf="task.type === 'task'"
+                                        (click)="toggleCompleted(task)"
+                                        mat-icon-button>
+
+                                    <mat-icon [color]="'primary'"
+                                              *ngIf="task.completed"
+                                              [svgIcon]="'check_box'"></mat-icon>
+
+                                    <mat-icon *ngIf="!task.completed"
+                                              [svgIcon]="'check_box_outline_blank'"></mat-icon>
+
+                                </button>
+
+                                <!-- Task link -->
+                                <a [routerLink]="[task.id]">
+
+                                    <div class="title">
+                                        <span *ngIf="task.title">{{task.title}}</span>
+                                        <span class="placeholder"
+                                              *ngIf="!task.title && task.type === 'task'">
+                                            Task title
+                                        </span>
+                                        <span class="placeholder"
+                                              *ngIf="!task.title && task.type === 'section'">
+                                            Section title
+                                        </span>
+                                    </div>
+
+                                    <div class="priority"
+                                         *ngIf="task.type === 'task'">
+
+                                        <!-- Low -->
+                                        <mat-icon class="low"
+                                                  *ngIf="task.priority === 0"
+                                                  [svgIcon]="'arrow_downward'"
+                                                  [title]="'Low'"></mat-icon>
+
+                                        <!-- High -->
+                                        <mat-icon class="high"
+                                                  *ngIf="task.priority === 2"
+                                                  [svgIcon]="'arrow_upward'"
+                                                  [title]="'High'"></mat-icon>
+
+                                    </div>
+
+                                    <div class="due-date"
+                                         *ngIf="task.type === 'task'">
+                                        {{task.dueDate | date:'LLL dd'}}
+                                    </div>
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </ng-container>
+
+                    <ng-template #noTasks>
+                        <div class="no-tasks">
+                            <mat-icon [svgIcon]="'iconsmind:bulleted_list'"></mat-icon>
+                            <h4>Add a task to start planning!</h4>
+                        </div>
+                    </ng-template>
+
+                </div>
+
+            </div>
+
+        </mat-drawer-content>
+
+    </mat-drawer-container>
+
+</div>

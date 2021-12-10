@@ -1,0 +1,40 @@
+@import 'treo';
+
+mailbox-sidebar {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+
+    .title {
+        margin: 40px 24px 24px 24px;
+    }
+
+    .compose-button {
+        margin: 0 24px;
+
+        .mat-icon {
+            @include treo-icon-size(18);
+            margin-right: 4px;
+        }
+    }
+
+    .navigation {
+
+        treo-vertical-navigation {
+
+            .treo-vertical-navigation-wrapper {
+                border-right-width: 0;
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    mailbox-sidebar {
+
+    }
+}

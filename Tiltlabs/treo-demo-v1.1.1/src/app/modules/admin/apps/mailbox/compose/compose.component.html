@@ -1,0 +1,117 @@
+<div class="header">
+    <div class="title">New Message</div>
+    <button class="close-button"
+            mat-icon-button
+            (click)="saveAndClose()"
+            [tabIndex]="-1">
+        <mat-icon [svgIcon]="'close'"></mat-icon>
+    </button>
+</div>
+
+<form [formGroup]="composeForm">
+
+    <!-- To -->
+    <mat-form-field class="to">
+        <mat-label>To</mat-label>
+        <input matInput
+               [formControlName]="'to'">
+        <div class="copy-fields-toggles"
+             matSuffix>
+            <span class="cc-toggle"
+                  *ngIf="!copyFields.cc"
+                  (click)="showCopyField('cc')">
+                Cc
+            </span>
+            <span class="bcc-toggle"
+                  *ngIf="!copyFields.bcc"
+                  (click)="showCopyField('bcc')">
+                Bcc
+            </span>
+        </div>
+    </mat-form-field>
+
+    <!-- Cc -->
+    <mat-form-field class="cc"
+                    *ngIf="copyFields.cc">
+        <mat-label>Cc</mat-label>
+        <input matInput
+               [formControlName]="'cc'">
+    </mat-form-field>
+
+    <!-- Bcc -->
+    <mat-form-field class="bcc"
+                    *ngIf="copyFields.bcc">
+        <mat-label>Bcc</mat-label>
+        <input matInput
+               [formControlName]="'bcc'">
+    </mat-form-field>
+
+    <!-- Subject -->
+    <mat-form-field class="subject">
+        <mat-label>Subject</mat-label>
+        <input matInput
+               [formControlName]="'subject'">
+    </mat-form-field>
+
+    <!-- Body -->
+    <quill-editor [formControlName]="'body'"
+                  [modules]="quillModules"></quill-editor>
+
+    <div class="actions">
+
+        <div class="formatting">
+
+            <!-- Attach file -->
+            <button mat-icon-button>
+                <mat-icon [svgIcon]="'attach_file'"></mat-icon>
+            </button>
+
+            <!-- Insert link -->
+            <button mat-icon-button>
+                <mat-icon [svgIcon]="'link'"></mat-icon>
+            </button>
+
+            <!-- Insert emoji -->
+            <button mat-icon-button>
+                <mat-icon [svgIcon]="'insert_emoticon'"></mat-icon>
+            </button>
+
+            <!-- Insert image -->
+            <button mat-icon-button>
+                <mat-icon [svgIcon]="'image'"></mat-icon>
+            </button>
+
+        </div>
+
+        <div class="buttons">
+
+            <!-- Discard -->
+            <button class="discard-button"
+                    mat-button
+                    (click)="discard()">
+                <mat-icon [svgIcon]="'delete'"></mat-icon>
+                <span>Discard</span>
+            </button>
+
+            <!-- Save as draft -->
+            <button class="save-button"
+                    mat-button
+                    (click)="saveAsDraft()">
+                <mat-icon [svgIcon]="'save'"></mat-icon>
+                <span>Save as draft</span>
+            </button>
+
+            <!-- Send -->
+            <button class="send-button"
+                    mat-flat-button
+                    [color]="'primary'"
+                    [disabled]="composeForm.pristine || composeForm.invalid"
+                    (click)="send()">
+                <span>Send</span>
+            </button>
+
+        </div>
+
+    </div>
+
+</form>

@@ -1,0 +1,155 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="left">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">GUIDES</span>
+                <span class="separator">/</span>
+                <span class="path">CUSTOMIZATION</span>
+            </div>
+
+            <h1>Theming</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                Since Treo uses <em>Angular Material</em> as its primary UI library, it also uses the <a href="https://material.angular.io/guide/theming-your-components"
+                                                                                                         rel="noreferrer"
+                                                                                                         target="_blank">Angular Material Theming</a> with some modifications
+                on top of it. There are two color themes for Treo; <b>dark</b> and <b>light</b>. These themes can be found within the <code>src/styles/themes.scss</code> file:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="scss">
+                $treo-themes: (
+
+                    // Dark theme
+                    'treo-theme-dark': treo-dark-theme(
+                        treo-palette('teal'),
+                        treo-palette('pink', 500),
+                        treo-palette('red', 400)
+                    ),
+
+                    // Light theme
+                    'treo-theme-light': treo-light-theme(
+                        treo-palette('indigo', 600),
+                        treo-palette('cool-gray', 800),
+                        treo-palette('red', 700)
+                    )
+                )
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                The <code>$treo-themes</code> map is very important, you must <b>NOT</b> remove or rename the map or modify theme names since Treo uses them internally.
+                If you don't provide a theme, none of the UI elements that comes from Angular Material look right. You can modify the colors for both light and dark themes using
+                <code>treo-palette</code> function.
+            </p>
+            <p>
+                All the palettes are generated from TailwindCSS colors automatically, so if you add a new set of color or a new hue level for an existing color set using
+                TailwindCSS config file, it will be automatically available as a <strong>treo-palette</strong>.
+            </p>
+            <p>
+                The <code>treo-theme-dark</code> and <code>treo-theme-light</code> values are going to be converted into class names and added to the <strong>body</strong> element
+                depending on the selected theme which will apply the theme to the entire app:
+            </p>
+            <textarea treo-highlight
+                      lang="html">
+                <body class="treo-theme-light ...">
+            </textarea>
+            <p>
+                The default theme can be set using the <code>app/core/config/app.config.ts</code> file and can be changed at any time using the <code>TreoConfigService</code>.
+            </p>
+
+            <h2>Auto Color Theme</h2>
+            <p>
+                You can also set the <code>theme</code> configuratioin from <code>app/core/config/app.config.ts</code> to <code>'auto'</code> which will activate the <b>auto</b>
+                mode. This will allow Treo to change the color theme depending on user's operating system color scheme. If the operating system is set to use <em>Dark scheme</em> then
+                the dark theme will be the default and if it's set to <em>Light scheme</em> then the light theme will be the default.
+            </p>
+            <p>
+                This also works real time, so if the user changes the operating system's color scheme for any reason, Treo will automatically adjust without needing to a reload. This is
+                especially useful if the operating system has an <em>auto</em> mode which changes to a dark mode at nights. In that case, Treo will also adjust itself automatically to
+                provide a better experience to the user.
+            </p>
+
+            <h2>Component Theming</h2>
+            <p>
+                Normally, Angular Material requires a separate .scss file for theming and that file must be included into a mixin where the defined Angular Material themes can be
+                applied. This approach not only forces you to create another .scss file for component theming, but it also forces you to import that file from another place just so
+                you can use the Angular Material mixin to apply the theme.
+            </p>
+            <p>
+                This brakes the modularity because now you have a reference to your component's theming file from who knows where and you also have to remember to do all this again
+                and again every time you want to use the theme colors from your components.
+            </p>
+            <p>
+                Treo, on the other hand, provides a way easier method to add theming to your components. It still uses the same <em>Angular Material theming</em>, but thanks to
+                the modifications it provides, you can just include the <code>treo-theme</code> mixin at the end of your component's .scss file and the <code>$theme</code> map will
+                be available within that mixin with the selected theme's properties:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight lang="scss">
+                // ------------------------------------------------------------------
+                // @ Theming
+                // ------------------------------------------------------------------
+                @include treo-theme {
+
+                    $background: map-get($theme, background);
+                    $foreground: map-get($theme, foreground);
+                    $primary: map-get($theme, primary);
+                    $accent: map-get($theme, accent);
+                    $warn: map-get($theme, warn);
+                    $is-dark: map-get($theme, is-dark);
+
+                    .some-element {
+                        background-color: map-get($background, card);
+                        color: map-get($primary, default);
+                    }
+                }
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                From there, you can access to theme colors and apply them to your components.
+            </p>
+
+            <!-- Nav -->
+            <div class="flex items-center xs:flex-col xs:items-stretch w-full mt-16">
+
+                <!-- Prev -->
+                <a class="bg-card flex items-center justify-between flex-1 mr-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:mr-0 xs:mt-4 xs:order-2"
+                   [routerLink]="['../tailwindcss']">
+                    <mat-icon [svgIcon]="'arrow_back'"></mat-icon>
+                    <div>
+                        <div class="text-md text-secondary text-right">Previous</div>
+                        <div class="mt-1 text-lg font-medium">TailwindCSS</div>
+                    </div>
+                </a>
+
+                <!-- Next -->
+                <a class="bg-card flex items-center justify-between flex-1 ml-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:ml-0 xs:order-1"
+                   [routerLink]="['../splash-screen']">
+                    <div>
+                        <div class="text-md text-secondary">Next</div>
+                        <div class="mt-1 text-lg font-medium">Splash Screen</div>
+                    </div>
+                    <mat-icon [svgIcon]="'arrow_forward'"></mat-icon>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

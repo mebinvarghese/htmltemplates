@@ -1,0 +1,564 @@
+@import 'treo';
+
+mailbox-details {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    overflow: hidden;
+
+    @include treo-breakpoint('lt-lg') {
+        display: none;
+        z-index: 10;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    > .header {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 auto;
+        width: 100%;
+        z-index: 10;
+        border-bottom-width: 1px;
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            min-height: 64px;
+            padding: 0 24px;
+            border-bottom-width: 1px;
+
+            .back-button {
+                display: none !important;
+                margin: 0 auto 0 -12px;
+
+                @include treo-breakpoint('lt-lg') {
+                    display: inline-flex !important;
+                }
+            }
+
+            .toggle-labels {
+                margin: 0 8px 0 -12px;
+            }
+
+            .toggle-important,
+            .toggle-starred {
+                margin-right: 8px;
+            }
+
+        }
+
+        .info {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 20px 24px;
+
+            .subject {
+                display: flex;
+                flex: 1 1 auto;
+                margin: 4px 16px 4px 0;
+                font-size: 20px;
+            }
+
+            .labels {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: flex-start;
+                margin: 0 -4px;
+
+                .label {
+                    height: 20px;
+                    padding: 0 10px;
+                    margin: 4px;
+                    border-radius: 10px;
+                    font-size: 11px;
+                    font-weight: 500;
+                    line-height: 21px;
+                    white-space: nowrap;
+                    text-transform: uppercase;
+                }
+            }
+        }
+    }
+
+    .threads {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        padding: 12px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+
+        @include treo-breakpoint('lt-lg') {
+            flex: 1 0 auto;
+            overflow-y: hidden;
+        }
+
+        .thread {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex: 0 0 auto;
+            width: 100%;
+            padding: 32px 24px 12px 24px;
+            border-width: 1px;
+            border-radius: 8px;
+
+            .header {
+                display: flex;
+                align-items: center;
+                width: 100%;
+
+                .avatar {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 40px;
+                    min-width: 40px;
+                    height: 40px;
+                    min-height: 40px;
+                    border-radius: 50%;
+                    overflow: hidden;
+
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        bottom: 0;
+                        left: 0;
+                        border-radius: 50%;
+                    }
+                }
+
+                .info {
+                    margin-left: 16px;
+                    min-width: 0;
+
+                    .from {
+                        font-size: 15px;
+                        font-weight: 600;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+
+                    .to {
+                        display: flex;
+                        align-items: center;
+                        height: 20px;
+
+                        .to-label {
+                            margin-right: 4px;
+                        }
+
+                        .me-label {
+                            margin-right: 4px;
+                            font-weight: 600;
+                        }
+
+                        .others {
+
+                            .and-label {
+                                margin-right: 4px;
+                            }
+
+                            .count {
+                                margin-right: 4px;
+                                font-weight: 600;
+                            }
+
+                            .label {
+                                margin-right: 4px;
+                                font-weight: 600;
+                            }
+                        }
+
+                        .info-details-panel-button {
+                            width: 20px;
+                            height: 20px;
+                            min-height: 20px;
+                            line-height: 20px !important;
+
+                            .mat-icon {
+                                @include treo-icon-size(20);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .content {
+                display: flex;
+                margin-top: 32px;
+                white-space: pre-line;
+                line-height: 1.7;
+            }
+
+            .attachments {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+
+                .title {
+                    display: flex;
+                    align-items: center;
+                    margin-top: 48px;
+
+                    .mat-icon {
+                        margin-right: 8px;
+                    }
+
+                    div {
+                        font-weight: 600;
+                    }
+                }
+
+                .files {
+                    display: flex;
+                    flex-wrap: wrap;
+
+                    .file {
+                        display: flex;
+                        align-items: center;
+                        margin: 24px 24px 0 0;
+
+                        &:last-child {
+                            margin-right: 0;
+                        }
+
+                        .preview-image {
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 4px;
+                        }
+
+                        .preview-file {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            border-radius: 4px;
+                            width: 40px;
+                            height: 40px;
+
+                            .file-type {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 12px;
+                                font-weight: 500;
+                            }
+                        }
+
+                        .file-info {
+                            margin-left: 16px;
+
+                            .file-name {
+                                font-size: 13px;
+                                font-weight: 500;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                            }
+
+                            .file-size {
+                                font-size: 13px;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .buttons {
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+                margin-top: 64px;
+
+                .mat-stroked-button {
+                    margin: 0 16px 16px 0;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+
+                    > span {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .mat-icon {
+                        margin-right: 8px;
+                        @include treo-icon-size(20);
+                    }
+                }
+            }
+
+            .reply-form {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                margin: 64px 0 16px 0;
+
+                .textarea {
+                    min-height: 80px;
+                }
+
+                .actions {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-top: 32px;
+
+                    .formatting {
+
+                        button {
+
+                            .mat-icon {
+                                @include treo-icon-size(20);
+                            }
+                        }
+                    }
+
+                    .reply-form-buttons {
+                        display: flex;
+                        align-items: center;
+
+                        button {
+                            margin-right: 8px;
+
+                            &:last-child {
+                                margin-right: 0;
+                            }
+
+                            &.send-button {
+                                min-width: 96px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .select-mail-to-read {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        .mat-icon {
+            @include treo-icon-size(96);
+        }
+
+        h4 {
+            margin-top: 16px;
+        }
+    }
+}
+
+.mailbox-details-toggle-label-menu-panel {
+
+    .mat-menu-item {
+        padding: 0;
+
+        .mat-checkbox {
+            display: flex;
+            align-items: center;
+            height: 100%;
+
+            .mat-checkbox-layout {
+                align-items: center;
+                padding: 0 16px;
+                width: 100%;
+                height: 100%;
+
+                .mat-checkbox-inner-container {
+                    margin: 0 12px 0 0;
+                }
+            }
+        }
+    }
+}
+
+.mailbox-info-details-panel {
+    display: flex;
+    padding: 16px 24px;
+    max-width: 640px;
+    border: 1px solid;
+    border-radius: 6px;
+    font-size: 13px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    @include treo-elevation('md');
+
+    table {
+
+        tbody {
+
+            tr {
+
+                td {
+                    vertical-align: top;
+                    padding-bottom: 6px;
+
+                    &.title {
+                        font-weight: 500;
+                        text-align: right;
+                        padding-right: 8px;
+                    }
+
+                    &.detail {
+                        white-space: pre-wrap;
+                    }
+                }
+
+                &:last-child {
+
+                    td {
+                        padding-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $is-dark: map-get($theme, is-dark);
+    $primary: map-get($theme, primary);
+
+    mailbox-details {
+        @if (not $is-dark) {
+            background: map-get($background, card);
+        }
+
+        > .header {
+
+            .toolbar {
+                @if (not $is-dark) {
+                    background: treo-color('cool-gray', 50);
+                }
+
+                .toggle-important {
+
+                    .important {
+                        @if ($is-dark) {
+                            color: treo-color('red', 600);
+                        } @else {
+                            color: treo-color('red', 500);
+                        }
+                    }
+
+                    .not-important {
+                        color: map-get($foreground, secondary-text);
+                    }
+                }
+
+                .toggle-starred {
+
+                    .starred {
+                        @if ($is-dark) {
+                            color: treo-color('orange', 400);
+                        } @else {
+                            color: treo-color('orange', 500);
+                        }
+                    }
+
+                    .not-starred {
+                        color: map-get($foreground, secondary-text);
+                    }
+                }
+            }
+        }
+
+        .threads {
+            @if (not $is-dark) {
+                background: treo-color('cool-gray', 100);
+            }
+
+            .thread {
+                @if ($is-dark) {
+                    background: rgba(0, 0, 0, 0.09);
+                } @else {
+                    background: map-get($background, card);
+                }
+
+                .header {
+
+                    .from-to-info {
+
+                        .info {
+
+                            .to {
+                                color: map-get($foreground, secondary-text);
+                            }
+                        }
+                    }
+                }
+
+                .attachments {
+
+                    .title {
+
+                        .mat-icon {
+                            color: map-get($foreground, secondary-text);
+                        }
+                    }
+
+                    .file {
+
+                        .preview-file {
+                            background-color: map-get($primary, 100);
+
+                            .file-type {
+                                color: map-get($primary, default);
+                            }
+                        }
+
+                        .file-info {
+
+                            .file-size {
+                                color: map-get($foreground, secondary-text);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .select-mail-to-read {
+            @if (not $is-dark) {
+                background: treo-color('cool-gray', 100);
+            }
+
+            .mat-icon {
+                color: map-get($foreground, secondary-text);
+            }
+
+            h4 {
+                color: map-get($foreground, secondary-text);
+            }
+        }
+    }
+
+    .mailbox-info-details-panel {
+        background: map-get($background, card);
+        border-color: map-get($foreground, divider);
+    }
+}

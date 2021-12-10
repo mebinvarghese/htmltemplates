@@ -1,0 +1,1002 @@
+<ion-view>
+	<ion-content scroll="false" class="has-header padding  aiv-pos-back" style="padding:0px;">
+		<!-- TAKEAWAY VIEW -->
+		<div ng-show="posview.type=='POS'" class="row" style="height:100%;padding:0px;">
+			<div class="col col-40 flex-container" style="background-color:#FFF;padding:0px 5px;">
+				<!--<div data-barcode-scanner="barcodeScanned" data-ng-model="aiv_scan_input"></div>-->
+				<div ng-if="hf_loyalty.enabled" data-barcode-scanner="searchLoyaltyCustomer" data-ng-model="loyalty_card_id"></div>
+				<label class="item item-input flex-item" style="border:none;">
+					<i class="icon ion-search placeholder-icon"></i>
+					<input id="aiv-scan-input" ng-change="barcodeScanned(aiv_scan_input,false,false)" ng-click="aiv_scan_input=''" type="text" placeholder="Product Search/Barcode" ng-model="aiv_scan_input" ng-virtual-keyboard="kb_config" style="height:19px;"/>
+				</label>
+				
+				<div class="row header responsive-sm flex-item" style="padding:0 5px;background-color:#387ef5;color:#FFF;">
+					<div class="col col-50 ">Name</div>
+					<div class="col col-center">Qty</div>
+					<div class="col col-center">Price</div>
+					<div class="col col-center">Total</div>
+					<div class="col col-10"></div>
+				</div>
+				<ion-scroll id="cart-scroll" class="flex-item flex-grow" direction="y" delegate-handle="cartScroll">
+			        <ion-list>
+						<div ng-repeat="product in cartItems track by $index" ng-init="productIndex = $index">
+						<ion-item class="item item-text-wrap pos-cart pos-list"  ng-init="calculateTotal(product,$index)" ng-click="checkSetSelectedItem($index,product);" ng-class="{selected : $index === idSelectedItem.index,'aiv-disabled':compulsory_option_mode}">
+							<div class="row responsive-sm product-gallery cart-list">
+								<div  class="col col-50 col-center"  style="font-size: 0.8em;font-weight:bold;">{{product.title}}</div>
+								<div class="col col-10 col-center" style="font-size: 0.8em;font-weight:bold;">{{product.quantity}}</div>
+								<div class="col col-15 col-center " style="font-size: 0.8em;font-weight:bold;">{{product.sel_variations.attributes?product.sel_variations.price:product.price | currency:"":2}}</div>
+								<div class="col col-15 col-center " style="font-size: 0.8em;font-weight:bold;">{{product.sel_variations.attributes?product.sel_variations.price*product.quantity:product.price*product.quantity | currency:"":2}}</div>
+								<div class="col col-10 col-center text-right">
+									<!--<button class="button button-small calm " ng-click="openNoteModal('PRODUCT',product)"><i class="icon ion-clipboard"></i></button>-->
+									<button ng-disabled="!product.edit" class="button button-small assertive" ng-click="deleteProduct($index);"><i class="icon ion-close"></i></button>
+								</div>
+							</div>
+						</ion-item>	
+						<ion-item ng-repeat="(key, value) in product.sel_variations.attributestoshow track by $index" ng-init="optionIndex = $index" class="item item-text-wrap pos-cart pos-list" ng-click="setSelectedSubItem(productIndex,optionIndex,product,key)" ng-class="{'option-selected' : $index === idSelectedSubItem.index&&productIndex === idSelectedItem.index,'aiv-disabled':compulsory_option_mode}">
+							<div class="row responsive-sm product-gallery cart-list"  >
+								<div  class="col col-50 col-center"  style="color:#F00;font-size: 0.8em;font-weight:bold;">--{{key| split:'###':0 | split:'_':0 }}</div>
+								<div class="col col-10 col-center" style="font-size: 0.8em;font-weight:bold;">1</div>
+								<div class="col col-15 col-center " style="font-size: 0.8em;font-weight:bold;">{{value.toFixed(2)}}</div>
+								<div class="col col-15 col-center " style="font-size: 0.8em;font-weight:bold;"></div>
+								<div class="col col-10 col-center text-right"><!--<button class="button button-small calm " ng-click="editOptions(product)" ng-if="product.sel_variations.attributes" ><i class="icon ion-edit"></i></button>-->
+									<button ng-disabled="!product.edit||productIndex!=cartItems.length-1" class="button button-small assertive" ng-click="deleteSub(key,product);"><i class="icon ion-close"></i></button>
+								</div>
+							</div>
+						</ion-item>
+						<ion-item ng-show="product.dash" class="item item-text-wrap pos-cart pos-list">
+							<div class="row responsive-sm product-gallery cart-list">
+								<div class="col col-50 col-center"  style="font-weight:bold;">----------------</div>
+								<div class="col col-center" style="font-weight:bold;"></div>
+								<div class="col col-center " style="font-weight:bold;"></div>
+								<div class="col col-center " style="font-weight:bold;"></div>
+								<div class="col col-20 col-center text-right">
+									<button ng-disabled="!product.edit" class="button button-small assertive" ng-click="updateDash(false,productIndex);"><i class="icon ion-close"></i></button>
+								</div>
+							</div>
+						</ion-item>
+						</div>
+					</ion-list>
+				</ion-scroll>
+				<!--<div ng-if="terminalData.type!='FRONT' && !cartItems.length" class="flex-item pos-cart">
+					<button class="button button-positive button-block" ng-click="openShippingModal();"><i class="icon ion-plus-circled"></i> New Order</button>
+				</div>-->
+				<div class="flex-item pos-cart" style="border: 1px solid #dddddd;border-right:0px;border-left:0px;background-color: #ffc900;">
+					<!--<div ng-if="DealArr['B1G1']['show_msg']" class="item item-button-right item-assertive" style="border: 0px;">
+						<strong>{{DealArr['B1G1']['msg']}}</strong>
+						<button class="button button-small button-positive" ng-click="getDealDiscount(true)">APPLY</button>
+					</div>-->
+					<div ng-if="deal_status.show_msg&&!deal_status.status" class="item item-assertive text-center" style="border: 0px;padding: 5px;">
+						<strong>{{deal_status.msg}}</strong>
+					</div>
+					<div ng-if="formCheckout.shipping_note" class="item" style="border:0px;padding:5px;color:#999;">
+						<strong  >Note:</strong> {{formCheckout.shipping_note}}
+					</div>
+					<div class="row responsive-sm"  >
+						<div class="col col-25 col-bottom">
+							<button ng-if="startup.action=='TABLEVIEW'" class="button button-full button-balanced " title="table number" ><span class=""> TABLE {{selectedTable.number}}</span></button>
+							<button ng-if="DealArr['B1G1']['show_msg']" class="button button-full button-assertive" ng-click="applyOffer();"><strong>{{DealArr['B1G1']['msg']}}?</strong></button>
+							<button ng-disabled="loginInfo.role=='user'" class="button button-full button-royal" title="Open Cashdrawer" ng-click="openCashdrawer();"><span class="bar-btn-text"> Drawer</span></button>
+						</div>
+						<div class="col col-center text-right">
+							<div class="row responsive-sm" style="margin-top:5px;" >
+								<div class="col col-35 col-center text-left aiv-text" style="font-weight:bolder;color:#333;">Sub Total</div>
+								<div class="col col-center text-center aiv-text">{{grand.Total | currency:"£":2}}</div>
+							</div>
+							<div class="row responsive-sm aiv-text" style="margin-top:0px;">
+								<div class="col col-35 col-center text-left aiv-text" style="font-weight:bolder;color:#333;">Discount</div>
+								<div class="col col-center text-center"><button style="width:100%" class="button button-small button-positive aiv-text" ng-class="grand.Discount?'button-assertive':'button-light'" ng-click="openDiscountModal();">-{{grand.Discount | currency:"£":2}}</button></div>
+							</div>
+							<div class="row responsive-sm aiv-text" style="margin-top:0px;" ng-if="startup.action!='TABLEVIEW'">
+								<div class="col col-35 col-center text-left aiv-text" style="font-weight:bolder;color:#333;" >Delivery</div>
+								<div class="col col-center text-center aiv-text"  ><button style="width:100%" class="button button-small aiv-text" ng-class="formCheckout.shipping_lines[0].method_id == 'local_delivery'?'button-assertive':'button-positive'" ng-click="openShippingModal();">{{formCheckout.shipping_lines[0].total | currency:"£":2}}</button></div>
+							</div>
+							<div class="row responsive-sm aiv-text" style="margin-top:0px;" ng-if="startup.action!='TABLEVIEW'">
+								<div class="col col-35 col-center text-left aiv-text aiv-text-wrap-off" style="font-weight:bolder;color:#333;" >Bag Charge</div>
+								<div class="col col-center text-center aiv-text"  ><button style="width:100%" class="button button-small button-positive aiv-text" ng-click="openBagChargesPopup();">{{bagCharges.selected | currency:"£":2}}</button></div>
+							</div>
+							<div class="row responsive-sm" >
+								<div class="col col-35 col-center h3 text-left" style="font-weight:bolder;" >Total</div>
+								<div class="col col-center h3 text-center" style="font-weight:bolder;" >{{grand.Total + grand.Shipping - grand.Discount + bagCharges.selected | currency:"£":2}}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="flex-item main-buttons">
+					<div class="button-bar pos-buttons1">
+						<label class="item item-input button-large" style="border:0px;">
+							<input ng-disabled="!idSelectedItem.item.edit" class="qty-txt" ng-model="pos_input.quantity" type="text" placeholder="Qty" ng-change="changeQuantity()"/>
+						</label>
+						<button class="button button-large button-positive  icon ion-plus" ng-class="{'disabled':idSelectedItem.item==null}" ng-click="addQuantity(idSelectedItem.item);" title="Increase qty"></button>
+						<button ng-disabled="!idSelectedItem.item.edit" class="button button-large button-positive  icon ion-minus" ng-class="{'disabled':idSelectedItem.item==null}" ng-click="subtractQuantity(idSelectedItem.item,idSelectedItem.index);" title="Decrease qty"></button>
+						<button class="button button-large button-positive icon ion-arrow-up-a " ng-class="{'disabled':idSelectedItem.item==null}" ng-click="cartMove('UP')" title="UP"></button>
+						<button class="button button-large button-positive  icon ion-arrow-down-a " ng-class="{'disabled':idSelectedItem.item==null}" ng-click="cartMove('DOWN')" title="DOWN"></button>
+					</div>
+					<div class="row">
+						<div class="col col-66">
+							<div class="button-bar bar-royal pos-buttons2 flex-row">
+								<button ng-if="startup.action!='TABLEVIEW'" class="button button-large" title="Save order" ng-click="complete('pending');"><span class="bar-btn-text"> Save</span></button>
+								<button ng-if="startup.action=='TABLEVIEW'" class="button button-large" title="Table View" ng-click="backToTableView();"><span class="bar-btn-text"> Table View</span></button>
+								<button class="button button-large" ng-click="openNoteModal('ORDER');" title="Add note"><span class="bar-btn-text"> Note</span></button>
+							</div>
+							<div class="button-bar pos-buttons3 flex-row">
+								<button class="button button-large button-assertive" ng-if="startup.action=='TABLEVIEW'" ng-click="backToTableView();" title="Clear Order"><span class="bar-btn-text"> Clear Order</span></button>
+								<button class="button button-large button-assertive" ng-if="startup.action!='TABLEVIEW'"ng-click="clearOrder();" title="Clear Order"><span class="bar-btn-text"> Clear Order</span></button>
+								<button class="button button-large button-positive" ng-click="openItemModal();" title="Open item"><span class="bar-btn-text"> Open Item</span></button>
+							</div>
+						</div>
+						<div class="col col-33">
+							<div class="button-bar pay-button flex-row">
+								<button ng-if="startup.action=='TABLEVIEW'" class="button button-large button-balanced" title="Place order" ng-click="placeTableOrder('on-hold');"><span class="bar-btn-text"> Place Order</span></button>
+								<button ng-if="startup.action!='TABLEVIEW'" class="button button-large button-balanced" ng-click="openPaymentModal();" title="Payment"><span class="bar-btn-text"> Payment</span></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col back-image" style="padding:0px;">
+				<ion-scroll direction="y" style="height:calc(100vh - 150px);" lazy-scroll delegate-handle="productScroll">
+					<div class="aiv-spinner"><ion-spinner ng-show="product_search_start" icon="android"></ion-spinner></div>
+					<div ng-if="sub_categories.items.length&&!sub_categories.show_as_product">
+						<div class="row responsive-sm product-gallery">
+							<div class="col col-20 aiv-click zero-padding" ng-class="{'aiv-disabled':compulsory_option_mode}" ng-repeat="sub in sub_categories.items | orderBy:'menu_order' track by sub.id" ng-click="onClickSub(sub);">
+								<div class="item product-style" style="min-height:50px;" ng-class="{'prdt-selected' : sub_categories.selected == sub.slug}">
+									<label class="item-text-wrap h5 product-letter" >{{sub.name | decodehtml}}</label>
+								</div>
+							</div>
+						</div>
+						<hr style="border: 1px solid #ddd;">
+					</div>
+					<label class="item item-text-wrap h5 text-center prdt-instruction" ng-if="sel_product.meta.wc_productdata_options[0].instruction&&!product_show">{{sel_product.meta.wc_productdata_options[0].instruction}}</label>
+					<label class="item item-text-wrap h5 prdt-instruction" style="background-color:#387ef5;" ng-if="!product_show&&otheroptions!=null&&otheroptions.length>0&&!sub_categories.subcategory_mode">Select {{otheroptions[0].parent.name}}</label>
+					<div class="row responsive-sm product-gallery ">
+						<div class="col col-33" ng-if="edit_mode">
+							<button class="button button-block button-positive button-outline icon ion-plus" ng-click="openUpdateProduct();" title="Add product"></button>
+						</div>
+						<div ng-if="product_show" class="col col-25 aiv-click zero-padding" ng-repeat="product in products | orderBy:'menu_order' track by product.id" ng-click="onClickProduct(product)">
+							<div class="item product-style" ng-class="{'prdt-selected':set_product_color(product),'padding-top':edit_mode}" ng-style="{'background-color':product.color}">
+								<label class="item-text-wrap h5 product-letter" >{{product.title| limitTo: 60}}</label>
+								<div class="note product-note">
+									<span ng-if="product_search" style="float:left;">{{product.categories[0] | decodehtml | split:'###':0}}</span>
+									<!--<span ng-if="product.meta.wc_productdata_options[0]._dealcode" class="aiv-offer-label">{{::product.meta.wc_productdata_options[0]._dealcode}}</span>-->
+								</div>
+								<button ng-if="edit_mode" class="button button-small button-outline button-positive icon item-update" ng-class="product_edited[$index]?'ion-checkmark':'ion-edit'" ng-click="openUpdateProduct(product,$index);$event.stopPropagation();" title="Edit product"></button>
+								<button ng-if="edit_mode" class="button button-small button-outline button-assertive icon item-delete" ng-class="product_removed[$index]?'ion-checkmark':'ion-close'" ng-click="removeProduct(product,$index);$event.stopPropagation();" title="Remove product"></button>
+							</div>
+						</div>
+						<div ng-if="!product_show" class="col col-25 aiv-click" style="padding:0px;" ng-repeat="product in otheroptions track by $index" ng-click="onClickOthers(product)">
+							<div class="item product-style" ng-style="{'background-color':product.color}">
+								<label class="item-text-wrap h5 product-letter" >{{product.stitle| limitTo: 60}}</label>
+							</div>
+						</div>
+						<div ng-if="!product_show&&otheroptions!=null&&otheroptions.length>0&&otheroptions.next.length" class="col col-25 aiv-click" style="padding:0px;">
+							<div  class="item product-style balanced" style="background-color:#33cd5f">
+								<button class="button button-large button-balanced button-full icon ion-arrow-right-a" ng-disabled="compulsory_option_mode" title="Next" ng-click="nextSub(otheroptions.next!=null&&otheroptions.next.length>0)"></button>
+							</div>
+						</div>
+						<div ng-if="!product_show&&(otheroptions.next==null||otheroptions.next.length==0)&&!sub_categories.subcategory_mode" class="col col-25 aiv-click" style="padding:0px;"  ng-click="exitSub(true)">
+							<div  class="item product-style" style="background-color:#76FF03;color:#111">
+								<label ng-class="{'aiv-disabled':compulsory_option_mode}" class="item-text-wrap h5 product-letter" style="color: #111!important;font-weight: bold;" >Finish</label>
+							</div>
+						</div>
+					</div>
+				</ion-scroll>
+				<!--<div class="row footer-block" >
+					<div class="col" style="padding:0;" >
+						<button class="button button-large button-full icon ion-arrow-left-a button-calm " title="Previous" ng-click="prevSub(otheroptions.prev!=null&&otheroptions.prev.length>0)"></button>
+					</div>
+					<div class="col" style="padding:0;" >
+						<button class="button button-large button-full icon ion-arrow-right-a button-positive" ng-disabled="compulsory_option_mode" title="Next" ng-click="nextSub(otheroptions.next!=null&&otheroptions.next.length>0)"></button>
+					</div>
+					<div class="col col-15" style="padding:0;" >
+						<button style="padding:0px" class="button button-large button-full button-balanced" ng-disabled="compulsory_option_mode" title="Done" ng-click="exitSub(true);">DONE</button>
+					</div>
+					<div class="col col-25" style="padding:0;" >
+						<button class="button button-large button-full button-assertive " title="Cooking Instructions" ng-disabled="compulsory_option_mode" ng-click="addInstructions();">Cook Inst</button>
+					</div>
+					<div class="col" style="padding:0;" >
+						<button style="padding:0px;" class="button button-large button-full button-royal " title="Extras/Toppings" ng-disabled="compulsory_option_mode" ng-click="editOptions(idSelectedItem.item);">Options</button>
+					</div>
+				</div>-->
+				<div class="row footer-block" >
+					<div class="col" style="padding:0;" >
+						<button class="button  button-full icon ion-arrow-left-a button-calm " title="Previous" ng-click="prevSub(otheroptions.prev!=null&&otheroptions.prev.length>0)"></button>
+					</div>
+					<div class="col" style="padding:0;" >
+						<button style="padding:0px" class="button  button-full button-balanced" ng-disabled="compulsory_option_mode" title="Done" ng-click="exitSub(true);">DONE</button>
+					</div>
+					<div class="col col-15" style="padding:0;" >
+						<button class="button   button-full button-creative" title="Dash" ng-click="updateDash(true);">----</button>
+					</div>
+					
+					<div class="col col-15" style="padding:0;" >
+						<button class="button   button-full  button-assertive " title="Extra" ng-click="ExtraClick('Extra');">Extra</button>
+					</div>
+					<div class="col col-15" style="padding:0;" >
+						<button class="button button-full button-calm " title="No prefix" ng-click="noClick();">No</button>
+					</div>
+					<div class="col" style="padding:0;" >
+						<button style="padding:0px;" class="button   button-full button-royal " title="Extras/Toppings" ng-click="editOptions(idSelectedItem.item);">Options</button>
+					</div>
+				</div>
+				<div class="row footer-block" >
+					<div class="col" style="padding:0;" >
+						<button class="button  button-full button-balanced " title="Cooking Instructions" ng-click="addInstructions();">Cook Inst</button>
+					</div>
+					<div class="col" style="padding:0;" >
+						<button class="button   button-full button-royal " title="On" ng-click="footerClick('On');">On</button>
+					</div>
+					<div class="col col-20" style="padding:0;" >
+						<button class="button  button-full button-calm" title="1st Half" ng-click="footerClick('1Half');">1Half</button>
+					</div>
+					<div class="col col-20" style="padding:0;" >
+						<button class="button   button-full button-positive" title="2nd Half" ng-click="footerClick('2Half');">2Half</button>
+					</div>
+					<div class="col col" style="padding:0;" >
+						<button class="button   button-full  button-assertive " title="Extra" ng-click="amentItem();">amend</button>
+					</div>
+					<!--<div class="col" style="padding:0;" >
+						<button class="button   button-full button-positive" title="All Over" ng-click="footerClick('All Over');">All Over</button>
+					</div>-->
+				</div>
+			</div>
+			<div style="padding:0px;width:150px;">
+				<ion-scroll direction="y" class="wide-as-needed menu-back-design aiv-pos-back" delegate-handle="categoryScroll" style="height:calc(100vh - 44px);">
+					<div class="list flex-container">
+						<ion-item ng-if="item.slug.indexOf('open-item1')<0&&!item.parent&&((startup.action=='TABLEVIEW'&&(item.serve_type.includes('sitin')||item.serve_type=='both'))||(startup.action!='TABLEVIEW'&&(item.serve_type==''||item.serve_type=='both'||item.serve_type.split(',').indexOf('takeaway')>-1)))" ng-class="{'menu-selected' : sel_category == item.slug,even: !item.odd}" class="menu-design item-text-wrap side-menu flex-child" ng-repeat="item in categories track by item.id" ng-click="getProducts(item,true)">
+							{{::item.name | decodehtml}}
+						</ion-item>	
+					</div>
+				</ion-scroll>
+			</div>
+		</div>
+		<!-- TABLE VIEW -->
+		<div ng-show="posview.type=='TABLE'" class="row" style="height:100%;">
+			<div class="col col-25 " style="background-color:#FFF">
+				<div class="row" style="padding-top:0;padding-bottom:0;">
+					<div class="col flex-container" style="height: calc(100vh - 100px);max-height: calc(100vh - 100px);padding-top:0;padding-bottom:0;">
+						<div class="row">
+							<div class="col col-50 col-center text-center">
+								<button class="button button-small  button-stable button_circle" ></button>
+								<p class="text_font">Empty</p>
+							</div>
+							<div class="col col-50 col-center text-center">
+								<button class="button button-small  button-calm button_circle" ></button>
+								<p class="text_font">Mains Released</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col col-50 col-center text-center">
+								<button class="button button-small  button-energized button_circle" ></button>
+								<p class="text_font">No Food Ordered</p>
+							</div>
+							<div class="col col-50 col-center text-center">
+								<button class="button button-small  button-positive button_circle" ></button>
+								<p class="text_font">Afters Ordered</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col col-50 col-center text-center">
+								<button class="button button-small  button_circle"  style="background-color: #FF9800"></button>
+								<p class="text_font">Starter Released</p>
+							</div>
+							
+							<div class="col col-50 col-center text-center">
+								<button class="button button-small button_circle" style="background-color: #009688"></button>
+								<p class="text_font">Drinks Released</p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col col-50 col-center text-center">
+								<button class="button button-small  button-balanced button_circle" ></button>
+								<p class="text_font">Food Ordered</p>
+							</div>
+							<div class="col col-50 col-center text-center">
+								<button class="button button-small  button-assertive button_circle" ></button>
+								<p class="text_font">Billed</p>
+							</div>
+						</div>
+						<div class ="row side_menu_BUTTON side_menu" ng-show="selectedTable.number">
+							<div style="padding:0px;" class="col col-20 col-center text-center side_menu_BUTTON">
+								<label class="item positive side_menu_BUTTON font_side">{{selectedTable.number}}</label>
+							</div>
+							<div style="padding:0px;" class="col col-15 col-center text-center side_menu_BUTTON">
+								<label class="item positive side_menu_BUTTON font_side">{{selectedTable.cover}}</label>
+							</div>
+							<div style="padding:0px;" class="col col-50 col-center text-center side_menu_BUTTON">
+								<label class="item positive side_menu_BUTTON font_side">{{selectedTable.server}}</label>
+							</div> 
+							<div class="col col-center text-right">
+								<button class="button button-small  button-balanced ion-chevron-right button_side" ng-if= "show_mode =='TABLE' && selectedTable.activity.length" ng-click="showButtonClick()"></button>
+							</div>
+						</div>
+						<button class="button button-small  button-balanced status_data" ng-if= "side_button_view ==true && show_mode =='TABLE' && selectedTable.number!=''" style="padding-bottom: 2%;" ng-click="showOrder()">Show</button>
+						<button class="button button-small  button-balanced status_data" ng-if= "side_button_view ==true && show_mode =='TABLE' && selectedTable.number!=''" style="padding-bottom: 2%;" ng-click="item_rediract('ADDTO')">Add To</button>
+						<button class="button button-small  button-balanced status_data" ng-if= "side_button_view ==true && show_mode =='TABLE' && selectedTable.number!=''" style="padding-bottom: 2%;" ng-click="releaseButton()">Release</button>
+						<button class="button button-small  button-balanced status_data" ng-if= "side_button_view ==true && show_mode =='TABLE' && selectedTable.number!=''" style="padding-bottom: 2%;" ng-click ="printBillClick('PRINT')">Print Bill</button>
+						<button class="button button-small  button-assertive status_data" ng-if= "side_button_view ==true && show_mode =='TABLE' && selectedTable.number!=''" style="padding-bottom: 2%;" ng-click="item_rediract('SPLITBILL')">Split Bill</button>
+						<button class="button button-small  button-assertive status_data" ng-if= "side_button_view ==true && show_mode =='TABLE' && selectedTable.number!=''" style="padding-bottom: 2%;" ng-click="printBillClick('PAYOFF')">Pay Off</button>
+						<button class="button button-small  button-assertive status_data" ng-if= "side_button_view ==true && show_mode =='TABLE' && selectedTable.number!=''" style="padding-bottom: 2%;" ng-click="item_rediract('TRANSFER')">Transfer</button>
+						<button class="button button-small  button-assertive status_data" ng-if= "side_button_view ==true && show_mode =='TABLE' && selectedTable.number!=''" style="padding-bottom: 2%" ng-click ="item_rediract('VOID')">Void</button>
+						<div class="responsive-sm" ng-if="show_button =='SHOW_BILL'">
+							<ion-scroll direction="y" style="height:45vh;" lazy-scroll>
+								<ion-list >
+									<ion-item class="item padding_remove"  ng-repeat="items in selectedTable.orders[0].split_item">
+										<div class ="row" ng-if="show_button =='SHOW_BILL'"  ng-repeat="item in items.cart">
+											<div  class="col col=75 col-center "  style="font-size: 0.8em;font-weight:bold;">{{item.title}}</div>
+											<div class="col  col-25 col-center " style="font-size: 0.8em;font-weight:bold;">{{item.sel_variations.attributes?item.sel_variations.price*item.quantity:item.price*item.quantity | currency:"£":2}}</div>
+										</div>
+										<div class ="row " ng-if="show_button =='SHOW_BILL'">
+											<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">TOTAL :</div>
+											<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">{{items.total| currency:"£":2}}</div> 
+										</div>
+									</ion-item>
+								</ion-list>
+							</ion-scroll>
+						</div>
+						<div class="responsive-sm" ng-if="show_button =='SHOW_UNEQUAL_BILL' && show_mode !='TABLE'">
+							<ion-scroll direction="y" style="height:45vh;" lazy-scroll delegate-handle="productScroll">
+								<ion-list >
+									<ion-item class="item padding_remove"  ng-repeat="items in unequal_value_data">
+										<div class ="row" >
+											<div  class="col  col-center "  style="font-size: 0.8em;font-weight:bold;">BIll {{$index}}</div>
+										</div>
+										<div class ="row " >
+											<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">TOTAL :</div>
+											<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">{{items.total| currency:"£":2}}</div> 
+										</div>
+									</ion-item>
+								</ion-list>
+							</ion-scroll>
+						</div>
+						<div class ="row" ng-if ="show_button =='SELECT_TRANSFER'">
+							<div class="col" style =" font-size: 150%;color: red;padding: 10%; margin-top: 20%;">
+							Select the Table where you want to transfer table {{selectedTable.number}} order
+							</div>
+						</div>
+						<button class="button button-small  button-dark status_data" style="padding-bottom: 2%;" ng-if= "show_mode !='TABLE' && show_mode!='BILL_SLIPT_ITEM'" ng-click="tableMode()">
+							Back
+						</button>
+						<div class ="row" ng-if ="show_button =='NONE'">
+							<div class="col">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class ="row" ng-if="show_mode =='TABLE'">
+					<div class="col">
+						<button class="button button-small  button-creative status_data" style="padding-bottom: 5px;margin-top:5px;" ng-click="show_login_screen(true)">
+						EXIT
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="col col-75" style="padding-top:2px;">
+				<div  ng-if="show_mode =='TABLE'">
+					<ion-scroll direction="y" style="style=height:calc(100vh - 44px);" lazy-scroll delegate-handle="productScroll">
+					<div class="row" ng-repeat="i in aivTableInfo track by $index" >
+						<div class="col " ng-repeat="table in i">
+								<div ng-if="table.number !=''" class="item item-icon-right product-style text-aiv-{{aiv_tables[table.index].status}}"  ng-class="{table_shape:aiv_tables[table.index].shape ==='circle'}"  style="box-shadow: 7px 5px 10px 4px #333; border-color: #333;min-height:calc((100vh - 144px)/10);" ng-click="table_selectiom(aiv_tables[table.index])">
+									<label class="item-text-wrap h5 product-letter table_text_color" >{{aiv_tables[table.index].number}}</label>
+									<i ng-if="aiv_tables[table.index].lock" class="icon creative ion-android-lock lock-icon"></i>
+								</div>
+								<div ng-if="table.number ==''" style="background-color: unset;"></div>
+						   </div>
+					</div>
+					<!--<div class="row responsive-sm product-gallery">
+						<div class="col col-10" ng-repeat="table in aiv_tables track by $index" ng-if="isIndex(table,$index)" >
+							<div class="item item-icon-right product-style text-aiv-{{table.status}}"  ng-class="{table_shape:table.shape ==='circle'}"  style="box-shadow: 7px 5px 10px 4px #333; border-color: #333;min-height:calc((100vh - 144px)/10);" ng-click="table_selectiom(table)">
+								<label class="item-text-wrap h5 product-letter table_text_color" >{{table.number}}</label>
+								<i ng-if="table.lock" class="icon creative ion-android-lock lock-icon"></i>
+							</div>
+					   </div>
+					</div>-->
+					</ion-scroll>
+				</div>
+				<div class="row responsive-sm product-gallery " ng-if="show_mode=='SEAT'">
+					<div class="col col-10 " ng-repeat="seat in range(1,50)"  >
+						<div class="item product-style seat_style" style="box-shadow: 7px 5px 10px 4px #333;" ng-click = "cover_selection(seat)">
+							<label class="item-text-wrap h5 product-letter table_text_color" >{{seat}}</label>
+						</div>																					
+					</div>
+				</div>
+				<div class="row responsive-sm product-gallery "  >
+					<div class="col col-20" ng-repeat="user in aiv_users.users track by user._id"  ng-if="show_mode =='SERVE'&& user.role=='server'">
+						<div class="item product-style server_style" style="box-shadow: 7px 5px 10px 4px #333;">
+							<label class="item-text-wrap h5 product-letter table_text_color" ng-click = "server_selection(user.user_displayname,'TABLE')" >{{user.user_displayname}}</label>
+						</div>
+					</div>
+				</div>
+				<div class ="row responsive-sm" ng-if="show_mode=='LIST'">
+					<div class="col">
+						<div class="list" style="padding-top:0px;padding-bottom:0px;">
+							<div class="row header responsive-sm flex-item" style="padding:0 25px 0 5px;background-color:#387ef5;color:#FFF;">
+								<div class="col col-50  col-center ">Name</div>
+								<div class="col  col-center">Qty</div>
+								<div class="col  col-center">Price</div>
+								<div class="col  col-center">Total</div>
+								<div class="col  col-center"></div>
+							</div>
+							<ion-scroll direction="y" style="max-height:calc(100vh - 120px);" lazy-scroll>
+								<div ng-repeat="product in cartItems track by $index">
+									<ion-item class="item item-text-wrap padding_remove">
+										<div class="row responsive-sm " >
+											<div class="col col-50 col-center"  style="font-weight:bold;">{{product.title}}</div>
+											<div class="col col-center" style="font-weight:bold;">{{product.quantity}}</div>
+											<div class="col col-center " style="font-weight:bold;">{{product.sel_variations.attributes?product.sel_variations.price:product.price | currency:"£":2}}</div>
+											<div class="col col-center " style="font-weight:bold;">{{product.sel_variations.attributes?product.sel_variations.price*product.quantity:product.price*product.quantity | currency:"£":2}}</div>
+											<div class="col col-center"></div>
+										</div>
+									</ion-item>
+									<div style="padding:0px;background-color: #fff" ng-repeat="(key, value) in product.sel_variations.attributestoshow track by $index"  class="row responsive-sm item-text-wrap padding_remove">
+											<div  class="col col-50 col-center"  style="color:#F00;font-weight:bold;">--{{key| split:'###':0 | split:'_':0 }}</div>
+											<div class="col col-center" style="font-weight:bold;">1</div>
+											<div class="col col-center " style="font-weight:bold;">{{value >= 0 ? '+' : ''}}{{value.toFixed(2)}}</div>
+											<div class="col col-center " style="font-weight:bold;"></div>
+											<div class="col col-center"></div>
+									</div>
+									<ion-item ng-show="product.dash" class="item item-text-wrap pos-cart pos-list">
+										<div class="row responsive-sm product-gallery">
+											<div class="col col-50 col-center"  style="font-weight:bold;">----------------</div>
+											<div class="col col-center" style="font-weight:bold;"></div>
+											<div class="col col-center " style="font-weight:bold;"></div>
+											<div class="col col-center " style="font-weight:bold;"></div>
+											<div class="col col-center"></div>
+										</div>
+									</ion-item>
+								</div>
+								<ion-item class="item item-text-wrap padding_remove" ng-repeat="product in selectedTable.orders[0].void_items track by $index" >
+									<div class="row responsive-sm " >
+										<div class="col col-50 col-center"  style="font-weight:bold;">{{product.title}}</div>
+										<div class="col col-center" style="font-weight:bold;">{{product.quantity}}</div>
+										<div class="col col-center " style="font-weight:bold;">{{product.sel_variations.attributes?product.sel_variations.price:product.price | currency:"£":2}}</div>
+										<div class="col col-center " style="font-weight:bold;">{{product.sel_variations.attributes?product.sel_variations.price*product.quantity:product.price*product.quantity | currency:"£":2}}</div>
+										<div class="col col-center" style="font-weight:bold;">V</div>
+									</div>
+								</ion-item>
+							</ion-scroll>
+							<div class ="row" style="padding:0 25px 0 5px;background-color: #ffc900;color: #444;">
+								<div class="col col-50 col-center" style="font-weight:bold;">GRAND TOTAL :</div>
+								<div class="col col-center"></div>
+								<div class="col col-center"></div>
+								<div class="col col-center" style="font-weight:bold;">{{grand.Total|currency:"£":2}}</div> 
+								<div class="col col-center"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row item responsive-sm product-gallery " ng-if="show_mode =='SHOW_DATA'" ng-repeat="count in show_service">
+					<div class="col">Date: {{count.date | date:'yyyy-MM-dd'}}</div>
+					<div class="col">Time: {{count.date | date:'hh:mm:ss a'}}</div>
+					<div class="col">Server: {{count.serverName}}</div>
+					<div class="col">Service: {{count.toStatus}}</div>
+				</div>
+				<div class="row responsive-sm product-gallery" ng-if="show_mode =='RELEASE'" >
+					<div class="col col-20">
+						<div class="item product-style sub_back_color" style="box-shadow: 7px 5px 10px 4px #333;" ng-click="relaseButtonServerDrinks()">
+							<label class="item-text-wrap h5 product-letter font_color"  >Drinks </label>
+						</div>
+					</div>
+					<div class="col col-20">
+						<div class="item product-style sub_back_color" style="box-shadow: 7px 5px 10px 4px #333;" ng-click="relaseButtonServerStarter()">
+							<label class="item-text-wrap h5 product-letter font_color"  >Starters </label>
+						</div>
+					</div>
+					<div class="col col-20">
+						<div class="item product-style sub_back_color" style="box-shadow: 7px 5px 10px 4px #333;" ng-click="relaseButtonServerMain()">
+							<label class="item-text-wrap h5 product-letter font_color"  >Main Course </label>
+						</div>
+					</div>
+					<div class="col col-20">
+						<div class="item product-style sub_back_color" style="box-shadow: 7px 5px 10px 4px #333;" ng-click="relaseButtonServerAfter()">
+							<label class="item-text-wrap h5 product-letter font_color" > Afters </label>
+						</div>
+					</div>
+				</div>
+				<div class="row responsive-sm product-gallery "  >
+					<div class="col col-20" ng-repeat="user in aiv_users.users track by user._id" ng-if="show_mode =='RELEASE_SERVER_STARTER'&& user.role=='server'" >
+						<div class="item product-style server_style " style="box-shadow: 7px 5px 10px 4px #333;">
+							<label class="item-text-wrap h5 product-letter table_text_color" ng-click = "server_selection(user.user_displayname,'RELEASE_SERVER_DRINKS_NEXT')" >{{user.user_displayname}}</label>
+						</div>
+					</div>
+					<div class="col col-20" ng-repeat="user in aiv_users.users track by user._id" ng-if="show_mode =='RELEASE_SERVER_STARTER'&& user.role=='server'" >
+						<div class="item product-style server_style " style="box-shadow: 7px 5px 10px 4px #333;">
+							<label class="item-text-wrap h5 product-letter table_text_color" ng-click = "server_selection(user.user_displayname,'RELEASE_SERVER_STARTER_NEXT')" >{{user.user_displayname}}</label>
+						</div>
+					</div>
+				</div>
+				<div class="row responsive-sm product-gallery "  >
+					<div class="col col-20" ng-repeat="user in aiv_users.users track by user._id" ng-if="show_mode =='RELEASE_SERVER_MAIN'&& user.role=='server'" >
+						<div class="item product-style server_style " style="box-shadow: 7px 5px 10px 4px #333;">
+							<label class="item-text-wrap h5 product-letter table_text_color" ng-click = "server_selection(user.user_displayname,'RELEASE_SERVER_MAIN_NEXT')" >{{user.user_displayname}}</label>
+						</div>
+					</div>
+				</div>
+				<div class="row responsive-sm product-gallery "  >
+					<div class="col col-20" ng-repeat="user in aiv_users.users track by user._id" ng-if="show_mode =='RELEASE_SERVER_AFTER'&& user.role=='server'" >
+						<div class="item product-style server_style " style="box-shadow: 7px 5px 10px 4px #333;">
+							<label class="item-text-wrap h5 product-letter table_text_color" ng-click = "server_selection(user.user_displayname,'RELEASE_SERVER_AFTER_NEXT')" >{{user.user_displayname}}</label>
+						</div>
+					</div>
+				</div>
+				<div class="row responsive-sm product-gallery " >
+					<div class="col col-20" ng-repeat="user in aiv_users.users track by user._id" ng-if="show_mode =='SERVER_SELECTION' && user.role=='server'" >
+						<div class="item product-style server_style " style="box-shadow: 7px 5px 10px 4px #333;">
+							<label class="item-text-wrap h5 product-letter table_text_color" ng-click = "server_selected(user.user_displayname)" >{{user.user_displayname}}</label>
+						</div>
+					</div>
+				</div>
+				<div class="row responsive-sm product-gallery" style="margin-top: 20%;" ng-if="show_mode =='RELEASE_SERVER_STARTER_NEXT'">
+					<div class="col col-50  product-style" style="box-shadow: 7px 5px 10px 4px #333;background-color: white;margin-left: 20%;"  >
+						<div class="row">
+							<div class ="col">								
+							   <div class="item release_confrom">
+									<label class="item-text-wrap h5 product-letter table_text_color" style="margin-left: 20%;" >DO you Want to Release Starters</label>
+								</div>
+								<div class="item release_confrom" ng-if="starter_relase==true">
+									<label class="item-text-wrap h5 product-letter table_text_color" style="margin-left: 20%;" >Note : It's already released Once by {{server_name}}</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<button class="button button-small  button-balanced status_data release_confrom_no" ng-click="tableMode()" >
+								NO
+								</button>
+							</div>
+							<div class="col">
+								<button class="button button-small  button-balanced status_data release_confrom_yes" ng-click="onClickStarterYes()">
+								YES
+								</button>
+							</div>		
+						</div>
+					</div>
+				</div>
+				<div class="row responsive-sm product-gallery" style="margin-top: 20%;" ng-if="show_mode =='RELEASE_SERVER_DRINKS_NEXT'">
+					<div class="col col-50  product-style" style="box-shadow: 7px 5px 10px 4px #333;background-color: white;margin-left: 20%;"  >
+						<div class="row">
+							<div class ="col">								
+							   <div class="item release_confrom">
+									<label class="item-text-wrap h5 product-letter table_text_color" style="margin-left: 20%;" >DO you Want to Release Drinks</label>
+								</div>
+								<div class="item release_confrom" ng-if="drinks_relase==true">
+									<label class="item-text-wrap h5 product-letter table_text_color" style="margin-left: 20%;" >Note : It's already released Once by {{server_name}}</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<button class="button button-small  button-balanced status_data release_confrom_no" ng-click="tableMode()" >
+								NO
+								</button>
+							</div>
+							<div class="col">
+								<button class="button button-small  button-balanced status_data release_confrom_yes" ng-click="onClickDrinksYes()">
+								YES
+								</button>
+							</div>		
+						</div>
+					</div>
+				</div>
+				<div class="row responsive-sm product-gallery" style="margin-top: 20%;" ng-if="show_mode =='RELEASE_SERVER_MAIN_NEXT'">
+					<div class="col col-50  product-style" style="box-shadow: 7px 5px 10px 4px #333;background-color: white;margin-left: 20%;"  >
+						<div class="row">
+							<div class ="col">								
+							   <div class="item release_confrom">
+									<label class="item-text-wrap h5 product-letter table_text_color" style="margin-left: 20%;" >DO you Want to Release Main</label>
+								</div>
+								<div class="item release_confrom" ng-if="main_relase==true">
+									<label class="item-text-wrap h5 product-letter table_text_color" style="margin-left: 20%;" >Note : It's already released Once by {{server_name}}</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<button class="button button-small  button-balanced status_data release_confrom_no" ng-click="tableMode()" >
+								NO
+								</button>
+							</div>
+							<div class="col">
+								<button class="button button-small  button-balanced status_data release_confrom_yes" ng-click="onClickMainYes()">
+								YES
+								</button>
+							</div>		
+						</div>
+					</div>
+				</div>
+				<div class="row responsive-sm product-gallery" style="margin-top: 20%;" ng-if="show_mode =='RELEASE_SERVER_AFTER_NEXT'">
+					<div class="col col-50 product-style"  style="box-shadow: 7px 5px 10px 4px #333;    background-color: white;margin-left: 20%;"  >
+						<div class ="row">
+							<div class="col">
+								<div class="item  " style="background-color: antiquewhite;">
+									<label class="item-text-wrap h5 product-letter table_text_color" style="margin-left: 20%;" >DO you Want to Release After</label>
+								</div>
+								<div class="item release_confrom" ng-if="main_after==true">
+									<label class="item-text-wrap h5 product-letter table_text_color" style="margin-left: 20%;" >Note : It's already released Once by {{server_name_1}}</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<button class="button button-small  button-balanced status_data"  style=" width: 30%;left: 80%;background-color: red" ng-click="tableMode()" >
+								NO
+								</button>
+							</div>
+							<div class="col">
+								<button class="button button-small  button-balanced status_data"  style="width: 30%;" ng-click="onClickAfterYes()">
+								YES
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class ="" ng-if="show_mode =='TABLE_TANSFER'">
+					<ion-scroll direction="y" style="style=height:calc(100vh - 44px);" lazy-scroll delegate-handle="productScroll">
+						<div class="row responsive-sm product-gallery">
+							<div class="col col-10" ng-repeat="table in aiv_tables track by $index" ng-if="((table.table_loc.row*table_matrix.col)+table.table_loc.col)==$index">
+								<div class="item product-style text-aiv-{{table.status}}"  ng-class="{table_shape:table.shape ==='circle'}"  style="box-shadow: 7px 5px 10px 4px #333; border-color: #333;min-height:calc((100vh - 144px)/10);" ng-click="transferTbaleClick(table)">
+									<label class="item-text-wrap h5 product-letter table_text_color" >{{table.number}}</label>
+									<i ng-if="table.lock" class="icon creative ion-android-lock lock-icon"></i>
+								</div>
+							</div>
+						</div>
+					</ion-scroll>
+				</div>
+				<div class ="row responsive-sm  " ng-if="show_mode =='TABLE_TRANSER_MODE'">
+					<div class="col col-20 " >
+						<div class="item product-style font_color sub_back_color" style="box-shadow: 7px 5px 10px 4px #333;" ng-click="tansferModeClick('TABLE_TANSFER','FULL_TRANSFER')">		
+							<label class="item-text-wrap h5 product-letter font_color" >Full order</label>
+						</div>
+					</div>
+					<div class="col col-20 "  >
+						<div class="item product-style font_color sub_back_color"  style="box-shadow: 7px 5px 10px 4px #333;"ng-click="tansferModeClick('TRRANSFER_SELECTED','PART_TRANSFER')">
+							<label class="item-text-wrap h5 product-letter font_color" >Selected order</label>
+						</div>
+					</div>
+				</div>
+				
+				<div class ="row responsive-sm" ng-if="show_mode=='TRRANSFER_SELECTED'">
+					<div class="col">
+						<div class="card" >
+							<div class="row header responsive-sm flex-item" style="padding:0 5px;background-color:#387ef5;color:#FFF;">
+								<div class="col col-50  col-center">Name</div>
+								<div class="col  col-center">Qty</div>
+								<div class="col  col-center">Price</div>
+								<div class="col  col-center">Total</div>
+							</div>
+							<ion-scroll direction="y" style="height:45vh;" lazy-scroll>
+								<ion-list >
+									<ion-item class="item item-text-wrap padding_remove" ng-repeat="product in cart_copy_2 track by $index" ng-click="transferTableByOreder(product,$index)"  ng-class="{splt_bill_value_1 : $index === index_table}" >
+										<div class="row responsive-sm ">
+											<div  class="col col-50 col-center padding_remove"  style="font-size: 0.8em;font-weight:bold;">{{product.title}}</div>
+											<div class="col col-center" style="font-size: 0.8em;font-weight:bold;">{{product.quantity}}</div>
+											<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">{{product.sel_variations.attributes?product.sel_variations.price:product.price | currency:"£":2}}</div>
+											<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">{{product.sel_variations.attributes?product.sel_variations.price*product.quantity:product.price*product.quantity | currency:"£":2}}</div>
+										</div>
+									</ion-item>
+								</ion-list>
+							</ion-scroll>
+						</div>
+						<div class="row responsive-sm">
+							<div class="col col-center text-center">
+								<button class="button button-positive split_bill_button"  ng-click="movePartToTable()">
+								 Move to Table
+								</button>
+							</div>
+						</div>
+						<div class="row responsive-sm">
+							<div class="col col-center text-center">
+								<button class="button button-balanced split_bill_button" ng-click="tansferModeClick('TABLE_TANSFER','PART_TRANSFER')">
+								NEXT
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card" >
+							<div class="row header responsive-sm flex-item" style="padding:0 5px;background-color:#387ef5;color:#FFF;">
+								<div class="col col-50  col-center">Name</div>
+								<div class="col  col-center">Qty</div>
+								<div class="col  col-center">Price</div>
+								<div class="col  col-center">Total</div>
+							</div>
+							<ion-scroll direction="y" style="height:45vh;" lazy-scroll>
+								<ion-list >
+									<ion-item class="item item-text-wrap padding_remove" ng-repeat ="n in item_1 track by $index" ng-click="tableReverse(n,$index)"  ng-class="{splt_bill_value : $index === index_table_1}">
+										<div class="row responsive-sm product-gallery" >
+											<div  class="col col-50 col-center"  style="font-size: 0.8em;font-weight:bold;">{{n.title}}</div>
+											<div class="col col-center" style="font-size: 0.8em;font-weight:bold;">{{n.quantity}}</div>
+											<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">{{n.sel_variations.attributes?n.sel_variations.price:n.price| currency:"£":2}}</div>
+											<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">{{n.sel_variations.attributes?n.sel_variations.price*n.quantity:n.price*n.quantity | currency:"£":2}}</div>
+										</div>
+									</ion-item>
+								</ion-list>
+							</ion-scroll>
+						</div>
+						<div class="row responsive-sm">
+							<div class="col col-center text-center">
+								<button class="button button-positive split_bill_button" ng-if="show_button_split_to =='VIEW'" ng-click="tableReverseClick()">
+								 Move Back to Main Table
+								</button>
+							</div>
+						</div>
+					   <div class="row responsive-sm">
+							<div class="col col-center text-center">
+								<button class="button button-assertive split_bill_button" ng-click="tableMode()">
+								Cancel
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row responsive-sm product-gallery" style="margin-top: 20%;"  ng-if="show_mode =='TRANSFER_OK'">
+					<div class="col col-50 product-style " style="box-shadow: 7px 5px 10px 4px #333;background-color: white;margin-left: 20%;">
+						<div class="row" style="background-color: bisque;">
+							<div class="col transfer_conform">
+								<label class="item-text-wrap h5 product-letter table_text_color">successfully transferred</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<button class="button button-small  button-balanced status_data transfer_ok" ng-click ="tableMode()"  >
+								OK
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class ="row responsive-sm product-gallery " ng-if="show_mode =='SLPIT_BILL_CLICK'">
+					<div class="col col-10 " >
+						<div class="item product-style sub_back_color " style="box-shadow: 7px 5px 10px 4px #333;" ng-click="splitBillAction('ITEM')">		
+							<label class="item-text-wrap h5 product-letter font_color" >Item</label>
+						</div>
+					</div>
+					<div class="col col-10 "  >
+						<div class="item product-style  sub_back_color"  style="box-shadow: 7px 5px 10px 4px #333;" ng-click="splitBillAction('VALUE')">
+							<label class="item-text-wrap h5 product-letter font_color" >Equal Value</label>
+						</div>
+					</div>
+					<div class="col col-10 "  >
+						<div class="item product-style  sub_back_color"  style="box-shadow: 7px 5px 10px 4px #333;" ng-click="splitBillAction('UNEQUAL')">
+							<label class="item-text-wrap h5 product-letter font_color" >UnEqual Value</label>
+						</div>
+					</div>
+				</div>
+				<div class="card" ng-if="show_mode=='BILL_SLIPT_UNEQUVAL_VALUE'" style="padding-bottom:10px;">
+					<label class="item bold-text tile-appear text-center">Total Bill Amount :{{grand.Total | currency:"£":2}}</label>
+					<label class="item item-input-inset">
+						<span class="input-label">Enter Amount to Split</span>
+						<input type="text" placeholder="Enter value"  ng-model="split.unequalvalue" value="{{split.unequalvalue}}" >
+					</label>
+					<div class="padding">
+						<ng-keypad on-key-pressed='onKeyPressed' class=" bold-text large-text tile-appear">
+							<ng-key class="aiv-key" ng-repeat='key in ::aivkeys track by $index' ng-key-data='key' ng-key-type='keypad.type'>{{::key}}</ng-key>
+						</ng-keypad>			
+					</div>
+					<div class ="row">
+						<div class ="col col-33">
+							<button class="button button-balanced button-block bold-text tile-appear" ng-click="finishButtonClick('BILL_SLIPT_UNEQUVAL_VALUE')">
+							Finish
+							</button>
+						</div>
+						<div class ="col col-33">
+							<button class="button button-assertive button-block bold-text tile-appear" ng-click="tableMode('SPLIT_UNEQUAL')">
+							Cancel
+							</button>
+						</div>
+						<div class ="col col-33">
+							<button class="button button-positive button-block bold-text tile-appear" ng-click ="finishUnequalClick()">
+							Next
+							</button>
+						</div>
+					</div>	
+				</div>					
+				
+				<div class="row responsive-sm product-gallery " ng-if="show_mode=='BILL_SLIPT'">
+					<div class="col col-10 " ng-repeat="seat in range(1,10)"  >
+						<div class="item product-style seat_style" style="box-shadow: 7px 5px 10px 4px #333;" ng-click = "spiltBillConform()">
+							<label class="item-text-wrap h5 product-letter" >{{seat}}</label>
+						</div>																																																
+					</div>
+				</div>
+				<div class="card" ng-if="show_mode=='BILL_SLIPT_VALUE'" style="padding-bottom:10px;">
+					<label class="item bold-text tile-appear text-center">{{split.value?split.value:'1'}} X {{(grand.Total/(split.value?split.value:1)).toFixed(2)}} = {{grand.Total | currency:"£":2}}</label>
+					<label class="item item-input-inset">
+						<span class="input-label">Number of Splits</span>
+						<input type="text" placeholder="Enter value"  ng-model="split.value" value="{{split.value}}" >
+					</label>
+					<div class="padding">
+						<ng-keypad on-key-pressed='onKeyPressed' class=" bold-text large-text tile-appear">
+							<ng-key class="aiv-key" ng-repeat='key in ::aivkeys track by $index' ng-key-data='key' ng-key-type='keypad.type'>{{::key}}</ng-key>
+						</ng-keypad>			
+					</div>	
+				</div>
+				<div class="row responsive-sm" style="text-align: center;background-color: aliceblue;" ng-if="show_mode=='BILL_SLIPT_ITEM'">
+					<div class="col">
+						<label>Split Table Order Bills</label>
+					</div>				
+				</div>
+				<div class ="row responsive-sm" ng-if="show_mode=='BILL_SLIPT_ITEM'">
+					<div class="col">
+						<div class="card" >
+							<div class="row header responsive-sm flex-item" style="padding:0 5px;background-color:#387ef5;color:#FFF;">
+								<div class="col col-50  col-center">Name</div>
+								<div class="col  col-center">Qty</div>
+								<div class="col  col-center">Price</div>
+								<div class="col  col-center">Total</div>
+							</div>
+							<ion-scroll direction="y" style="height:45vh;" lazy-scroll>
+								<ion-list >
+									<ion-item class="item item-text-wrap padding_remove" ng-repeat="product in cart_copy track by $index" ng-click="splitBillByValue(product,$index)"  ng-class="{splt_bill_value_1 : $index === index_globel}" >
+										<div class="row responsive-sm " >
+											<div  class="col col-50 col-center padding_remove"  style="font-size: 0.8em;font-weight:bold;">{{product.title}}</div>
+											<div class="col col-center" style="font-size: 0.8em;font-weight:bold;">{{product.quantity}}</div>
+											<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">{{product.sel_variations.attributes?product.sel_variations.price:product.price | currency:"£":2}}</div>
+											<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">{{product.sel_variations.attributes?product.sel_variations.price*product.quantity:product.price*product.quantity | currency:"£":2}}</div>
+										</div>
+									</ion-item>
+								</ion-list>
+							</ion-scroll>
+						</div>
+						<div class="row responsive-sm">
+							<div class="col col-center text-center">
+								<button class="button button-positive split_bill_button" ng-click="movePartToBill()">
+								 Move to Part Bill
+								</button>
+							</div>
+						</div>
+						<div class="row responsive-sm">
+							<div class="col col-center text-center">
+								<button class="button button-positive split_bill_button" ng-click="makeOrderSplitBill('REST')">
+								Print Bill for the Rest
+								</button>
+							</div>
+						</div>
+						<div class="row responsive-sm">
+							<div class="col col-center text-center">
+								<button class="button button-balanced split_bill_button" ng-click="finishButtonClick()">
+								Finish
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card" >
+							<div class="row header responsive-sm flex-item" style="padding:0 5px;background-color:#387ef5;color:#FFF;">
+								<div class="col col-50  col-center">Name</div>
+								<div class="col  col-center">Qty</div>
+								<div class="col  col-center">Price</div>
+								<div class="col  col-center">Total</div>
+							</div>
+							<ion-scroll direction="y" style="height:45vh;" lazy-scroll>
+								<ion-list >
+									<ion-item class="item item-text-wrap padding_remove" ng-repeat ="n in item track by $index" ng-click="splitBillReverse(n,$index)"  ng-class="{splt_bill_value : $index === index_value}">
+										<div class="row responsive-sm "  >
+											<div  class="col col-50 col-center"  style="font-size: 0.8em;font-weight:bold;">{{n.title}}</div>
+											<div class="col col-center" style="font-size: 0.8em;font-weight:bold;">{{n.quantity}}</div>
+											<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">{{n.sel_variations.attributes?n.sel_variations.price:n.price| currency:"£":2}}</div>
+											<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">{{n.sel_variations.attributes?n.sel_variations.price*n.quantity:n.price*n.quantity | currency:"£":2}}</div>
+										</div>
+									</ion-item>
+								</ion-list>
+							</ion-scroll>
+						</div>
+						<div class="row responsive-sm">
+							<div class="col col-center text-center">
+								<button class="button button-positive split_bill_button" ng-if="show_button_split_to =='VIEW'" ng-click="splitbillReverseClick()">
+								 Move Back to Main List
+								</button>
+							</div>
+						</div>
+						<div class="row responsive-sm">
+							<div class="col col-center text-center">
+								<button class="button button-positive split_bill_button" ng-click="makeOrderSplitBill('PART')">
+								Print Part Bill
+								</button>
+							</div>
+						</div>
+					   <div class="row responsive-sm">
+							<div class="col col-center text-center">
+								<button class="button button-assertive split_bill_button" ng-click="tableMode('SPLIT_ITEM')">
+								Cancel
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+                <ion-scroll direction="y" ng-if="show_mode =='PRINT_BILL'" style="max-height:90vh;" lazy-scroll>
+					<ion-list class="card">
+						<div class="row responsive-sm" style="padding:0 5px;background-color:#387ef5;color:#FFF;">
+							<div class="col col-offset-20 col-50 col-center">Name</div>
+							<div class="col col-30 col-center">Total</div>
+						</div>
+						<ion-item class="item-text-wrap padding_remove" ng-repeat="item in cartItems track by $index" ng-click="splitBillByValue(product,$index)"  ng-class="{splt_bill_value_1 : $index === index_globel}" >
+							<div class="row responsive-sm" >
+								<div  class="col col-offset-20 col-50 col-center"  style="font-size: 0.8em;font-weight:bold;">{{item.title}}</div>
+								<div class="col col-30 col-center" style="font-size: 0.8em;font-weight:bold;">{{item.sel_variations.attributes?item.sel_variations.price*item.quantity:item.price*item.quantity | currency:"£":2}}</div>
+							</div>
+						</ion-item>
+						<div class="row responsive-sm" style="background-color:#fff;color:red;">
+							<div class="col col-offset-20 col-50 col-center" style="font-weight:bold;">GRAND TOTAL</div>
+							<div class="col col-30 col-center" style="font-weight:bold;">{{grand.Total|currency:"£":2}}</div> 
+						</div>
+					</ion-list>
+					<ion-list class="card" ng-if="selectedTable.orders[0].split_item.length>0 || selectedTable.orders[0].split_value!='' ||selectedTable.orders[0].split_unequal_value.length">
+						<ion-item class="item-divider text-center item-positive"> Bill is Split</ion-item>
+						<ion-item class="item-text-wrap padding_remove" ng-repeat="items in print_val[0]">
+							<div class="row responsive-sm">
+								<div class="col col-offset-20 col-50 col-center" style="font-size: 0.8em;font-weight:bold;">BILL {{$index+1}} TOTAL</div>
+								<div class="col col-20 col-center" style="font-size: 0.8em;font-weight:bold;">{{items.total| currency:"£":2}}</div> 
+								<div class="col col-10 col-center">
+									<button class="button button-balanced icon ion-printer bar-button" title="Print receipt" ng-click="billClick('PRINT',items,$index);$event.stopPropagation();"></button>
+								</div> 
+							</div>
+						</ion-item>
+					</ion-list>
+				</ion-scroll>	
+				<div class ="row responsive-sm product-gallery " ng-if="show_mode =='PAYOFF' && (selectedTable.orders[0].split_item.length>0 || selectedTable.orders[0].split_value!='' ||selectedTable.orders[0].split_unequal_value.length)">
+					<div class="col col-33 " ng-repeat="items in print_val[0]" >
+						<div class="item card text-center" ng-class="{payoff:items.status == 'PAID'}" style="box-shadow: 7px 5px 10px 4px #333; border-color: black;padding-bottom: 10%;padding-top: 10%;background-color: gold;" ng-click="billClick('PAYOFF',items,$index);">
+							<div class="card" >BILL {{$index+1}}</div>
+							<div class="" style="font-weight: 700;" >Amount :{{items.total| currency:"£":2}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="row responsive-sm product-gallery" ng-if="show_mode =='VOID'" >
+					<div class="col col-20">
+						<div class="item product-style sub_back_color" style="box-shadow: 7px 5px 10px 4px #333;" ng-click="viodButtonClick('TABLE')">
+							<label class="item-text-wrap h5 product-letter font_color"  >Table</label>
+						</div>
+					</div>
+					<div class="col col-20">
+						<div class="item product-style sub_back_color" style="box-shadow: 7px 5px 10px 4px #333;" ng-click="viodButtonClick('ITEM')">
+							<label class="item-text-wrap h5 product-letter font_color" >Item</label>
+						</div>
+					</div>
+				</div>
+				<div class="card" ng-if="show_mode =='TABLE_VOID'">
+					<div ng-show="errors.void_reason" class="error assertive animated fadeInLeft h4 padding-left">
+						<i class="ion-information-circled"></i> {{errors.void_reason}}
+					</div>
+					<ion-list>
+					  <ion-radio name="void_reason" ng-model="void_condtions.selected" ng-init="void_condtions.selected=''" ng-value="item" ng-repeat="item in void_condtions.values" ng-change="updateVoidReason()">{{item}}</ion-radio>
+					</ion-list>
+					<label class="item item-input">
+						<input type="text" placeholder="Type if other condition" ng-focus="setKeyInput('VOID_REASON',void_input.reason)" ng-model="void_input.reason">
+					</label>
+					<ng-keypad on-key-pressed='onKeyPressed' style="font-size:large;" class="bold-text tile-appear">
+						<ng-key style="background-color:{{::key.bk_color}}" class="aiv_qwerty" ng-repeat='key in ::aiv_qwerty2 track by $index' ng-key-data='key.value' ng-key-type='keypad.type'>{{::key.value}}</ng-key>
+						<ng-key class="aiv_qwerty" style="width:40%;" ng-key-type='keypad.type' ng-key-data="aiv_space_key">{{::aiv_space_key}}</ng-key>
+						<ng-key class="aiv_qwerty" style="width:20%;" ng-key-type='keypad.type' ng-key-data="aiv_bksp_key">{{::aiv_bksp_key}}</ng-key>
+						<ng-key class="aiv_qwerty" style="width:20%;" ng-key-type='keypad.type' ng-key-data="aiv_clear_key">{{::aiv_clear_key}}</ng-key>
+						<ng-key class="aiv_qwerty" style="width:20%;background-color:#886aea;" ng-key-type='keypad.type' ng-key-data="aiv_enter_key">{{::aiv_enter_key}}</ng-key>
+					</ng-keypad>			
+				</div>
+				<div class="card" ng-if="show_mode=='ITEM_VOID'" style="background-color: #ffffff00">
+					<div class="row responsive-sm flex-item" style="padding:0 5px;background-color:#387ef5;color:#FFF;">
+						<div class="col col-50  col-center ">Name</div>
+						<div class="col  col-center">Qty</div>
+						<div class="col  col-center">Price</div>
+						<div class="col  col-center">Total</div>
+						<div class="col  col-center"></div>
+					</div>
+					<ion-scroll direction="y" style="max-height:45vh;" lazy-scroll>
+						<ion-list >
+							<ion-item class="item item-text-wrap padding_remove" ng-repeat="product in cart_void track by $index" ng-click="splitBillByValue(product,$index)"  ng-class="{splt_bill_value_1 : $index === index_globel}" >
+								<div class="row responsive-sm " >
+									<div class="col col-50 col-center"  style="font-size: 0.8em;font-weight:bold;">{{product.title}}</div>
+									<div class="col col-center" style="font-size: 0.8em;font-weight:bold;">{{product.quantity}}</div>
+									<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">{{product.sel_variations.attributes?product.sel_variations.price:product.price | currency:"£":2}}</div>
+									<div class="col col-center " style="font-size: 0.8em;font-weight:bold;">{{product.sel_variations.attributes?product.sel_variations.price*product.quantity:product.price*product.quantity | currency:"£":2}}</div>
+									<div class="col  col-center"><button class="button button-small assertive" ng-click="voidProduct($index)"><i class="icon ion-close"></i></button></div>
+								</div>
+							</ion-item>
+						</ion-list>
+					</ion-scroll>
+					<button class="button button-balanced button-block bold-text tile-appear" ng-click="finishVoid()" style="margin-bottom:0px;">
+						Finish
+					</button>
+				</div>
+			</div>	
+		</div>
+	</ion-content>
+</ion-view>

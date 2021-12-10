@@ -1,0 +1,98 @@
+<ion-view view-title="Kitchen Monitor">
+	<ion-content scroll="false" class="has-header has-footer custom-footer padding" style="padding:0px;">
+		<div class="row kitchen-row" style="background-color: #fafafa;padding:0px;height:100%;">
+			<div class="col col-80" style="border: 1px solid #dddddd;">
+				<div class="row responsive-sm" style="height:50%;">
+					<div class="col col-center">
+						<label class="item item-positive text-center h1" style="padding:8px;">In Shop Orders</label>
+						<div class="list">
+							<ion-scroll direction="x" scrollbar-x="false" class="wide-as-needed" style="height:35vh;" delegate-handle="topKitchenScroll">
+								<div style="height:100%;" id="order_{{order.data.order_meta.bill_number}}" class="card kitchen-card" ng-click="add2action(order)" ng-class="order.data.status=='re-opened'?'aiv-disabled':''" aivColor={{order.data.order_meta.bill_number%2}} ng-repeat="order in kitchenOrders | filter:{data:{shipping_lines:''}} | orderBy:'data.created_at' track by $index">
+									<label class="item item-divider item-icon-left item-icon-right text-center " aivColor={{$index%7}}><i ng-show="set_order_selected(order)" class="icon assertive ion-checkmark"></i>
+										ORDER <span ng-if="order.data.order_meta.daily_order_no">{{order.data.order_meta.daily_order_no}}</span>
+										<span ng-if="!order.data.order_meta.daily_order_no">{{order.data.id}}</span>
+										<i class="icon assertive " ng-class="order.data.status=='sent-to-kitchen'?'ion-coffee':''"></i>
+									</label>
+									<label class="item kitchen-note">{{order.data.note}}</label>
+									<ion-scroll direction="y" style="height:78%;padding:0px 10px;">
+										<ion-item ng-show="terminalData.dept.indexOf(product.dept)>-1" class="item item-text-wrap pos-cart" ng-repeat="product in order.data.line_items track by $index">
+											<div class="row responsive-sm product-gallery">
+												<div class="col col-90 col-center">{{product.title}}
+													<p ng-repeat="(key, value) in product.attributestoshow">+{{key | split:'###':0 | split:'_':0}}</p>
+												</div>
+												<div class="col col-center">{{product.quantity}}</div>
+											</div>
+										</ion-item>	
+									</ion-scroll>
+								</div>
+							</ion-scroll>
+						</div>
+					</div>
+				</div>
+				<div class="row responsive-sm" style="height:50%;">
+					<div class="col col-center">
+						<label class="item item-positive text-center h1" style="padding:8px;">Collection/Delivery Orders</label>
+						<div class="list">
+							<ion-scroll direction="x" scrollbar-x="false" class="wide-as-needed" style="height:40vh;" delegate-handle="bottomKitchenScroll">
+								<div style="height:100%;" id="order_{{order.data.order_meta.bill_number}}" class="card kitchen-card" ng-click="add2action(order)" ng-class="order.data.status=='re-opened'?'aiv-disabled':(order.data.order_meta.on_priority?'blink':'')" aivColor={{order.data.order_meta.bill_number%2}} ng-repeat="order in kitchenOrders | filter:{data:{shipping_lines:[]}} | orderBy:'data.created_at' track by $index">
+									<label class="item item-divider item-icon-left item-icon-right text-center " aivColor={{$index%7}}><i ng-show="set_order_selected(order)" class="icon assertive ion-checkmark"></i>
+										ORDER <span ng-if="order.data.order_meta.daily_order_no">{{order.data.order_meta.daily_order_no}}</span>
+										<span ng-if="!order.data.order_meta.daily_order_no">{{order.data.id}}</span>
+										<i class="icon assertive " ng-class="order.data.status=='sent-to-kitchen'?'ion-coffee':''"></i>
+									</label>
+									<label class="item kitchen-note">{{::order.data.note}}</label>
+									<ion-scroll direction="y" style="height:{{::order.data.note_height}};padding:0px 10px;">
+										<ion-item ng-show="terminalData.dept.indexOf(product.dept)>-1" class="item item-text-wrap pos-cart" ng-repeat="product in order.data.line_items track by $index">
+											<div class="row responsive-sm product-gallery">
+												<div class="col col-90 col-center">{{product.title}}
+													<p ng-repeat="(key, value) in product.attributestoshow">+{{key | split:'###':0 | split:'_':0}}</p>
+												</div>
+												<div class="col col-center">{{product.quantity}}</div>
+											</div>
+										</ion-item>	
+									</ion-scroll>
+									<label ng-show="order.data.order_meta.end_time" class="item item-divider text-center aiv-timer">
+										<timer id="timer_{{order.data.order_meta.bill_number}}" interval="10000" finish-callback="onPriority(order)" end-time="order.data.order_meta.end_time">{{hhours}}:{{mminutes}}:{{sseconds}}</timer>
+									</label>
+								</div>
+							</ion-scroll>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col col-20" style="padding-top:2px;" ng-hide="kitchen_menu.products">
+				<label class="item item-positive text-center h1" style="padding:8px;">In Shop</label>
+				<ion-scroll direction="y" style="height:45%;">
+					<a class="item item-icon-right" ng-click="scrollTo(order.data.order_meta.bill_number,'KITCHEN_TOP')" ng-repeat="order in kitchenOrders | filter:{data:{shipping_lines:''}} | orderBy:'data.created_at' track by $index">
+						<i class="icon assertive " ng-class="order.data.status=='sent-to-kitchen'?'ion-coffee':''"></i>
+						Order : <span class="positive">{{order.data.order_meta.daily_order_no}}</span>
+					</a>
+				</ion-scroll>
+				<label class="item item-positive text-center h1" style="padding:8px;">Collection/Delivery</label>
+				<ion-scroll direction="y" style="height:45%;">
+					<a class="item item-icon-right" ng-click="scrollTo(order.data.order_meta.bill_number,'KITCHEN_BOTTOM')" ng-repeat="order in kitchenOrders | filter:{data:{shipping_lines:[]}} | orderBy:'data.created_at' track by $index">
+						<i class="icon assertive " ng-class="order.data.status=='sent-to-kitchen'?'ion-coffee':''"></i>
+						Order : <span class="positive" ng-if="order.data.order_meta.daily_order_no">{{order.data.order_meta.daily_order_no}}</span>
+						<span class="positive" ng-if="!order.data.order_meta.daily_order_no">{{order.data.id}}</span>
+					</a>
+				</ion-scroll>
+			</div>
+			<div class="col col-20" style="padding-top:2px;" ng-show="kitchen_menu.products">
+				<ion-scroll direction="y" style="height:85vh;">
+					<a class="item" ng-repeat="(name,count) in kitchenProducts">
+						<span>{{name}}</span>
+						<span class="badge badge-assertive">{{count}}</span>
+					</a>
+				</ion-scroll>
+			</div>
+		</div>
+	</ion-content>
+	<ion-footer-bar align-title="center" class="bar-light kitchen-footer">
+		<div class="button-bar pos-buttons3">
+			<button class="button button-assertive" ng-click="setCookingStatus()"><i class="icon ion-coffee"></i> COOKING</button>
+			<button class="button button-positive" ng-click="viewKitchenOrder()"><i class="icon ion-eye"></i> VIEW</button>
+			<button class="button button-balanced" ng-click="setReadyStatus()"><i class="icon ion-checkmark"></i> READY</button>
+			<button class="button button-assertive" ng-click="readyAllOrders()"><i class="icon ion-checkmark"></i> READY ALL</button>
+		</div>
+	</ion-footer-bar>
+</ion-view>

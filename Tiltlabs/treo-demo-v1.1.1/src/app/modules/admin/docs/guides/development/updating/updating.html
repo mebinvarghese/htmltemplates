@@ -1,0 +1,80 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="left">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">GUIDES</span>
+                <span class="separator">/</span>
+                <span class="path">DEVELOPMENT</span>
+            </div>
+
+            <h1>Updating</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                Since Treo is built as a <em>Starter kit</em> and an <em>Admin template</em>, there is no easy or a set way of updating it like a normal library. Though
+                it's completely up to you to keep the Treo updated, there are two key points that might help you with the task:
+            </p>
+            <ul>
+                <li>
+                    <p>
+                        Do <strong>NOT</strong> touch the <strong>@treo</strong> folder unless you absolutely have to. Keeping that folder intact is the key to have easier
+                        upgrades.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        Fork the original Treo repo from its Github and build on top of that. That way, you can merge the changes from the origin repo as updates released.
+                    </p>
+                </li>
+            </ul>
+            <p>
+                If you follow these two rules, it will make the updating process a little bit more easier.
+            </p>
+            <p>
+                The best way of updating Treo is to compare the latest version with your version using Github's compare feature. After that, you can either manually patch your
+                setup or merge (and resolve conflicts) through Github. Every release is tagged and available under the <strong>Releases</strong> tab of Treo's Github repo.
+            </p>
+
+            <!-- Nav -->
+            <div class="flex items-center xs:flex-col xs:items-stretch w-full mt-16">
+
+                <!-- Prev -->
+                <a class="bg-card flex items-center justify-between flex-1 mr-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:mr-0 xs:mt-4 xs:order-2"
+                   [routerLink]="['../deployment']">
+                    <mat-icon [svgIcon]="'arrow_back'"></mat-icon>
+                    <div>
+                        <div class="text-md text-secondary text-right">Previous</div>
+                        <div class="mt-1 text-lg font-medium">Deployment</div>
+                    </div>
+                </a>
+
+                <!-- Next -->
+                <a class="bg-card flex items-center justify-between flex-1 ml-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:ml-0 xs:order-1"
+                   [routerLink]="['../../customization/theme-layouts']">
+                    <div>
+                        <div class="text-md text-secondary">Next</div>
+                        <div class="mt-1 text-lg font-medium">Theme Layouts</div>
+                    </div>
+                    <mat-icon [svgIcon]="'arrow_forward'"></mat-icon>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

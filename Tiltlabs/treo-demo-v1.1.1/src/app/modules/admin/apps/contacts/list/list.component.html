@@ -1,0 +1,173 @@
+<div class="content-layout right-sidebar-fullheight-basic-inner-scroll">
+
+    <mat-drawer-container (backdropClick)="onBackdropClicked()">
+
+        <!-- Drawer -->
+        <mat-drawer [mode]="drawerMode"
+                    [opened]="false"
+                    [position]="'end'"
+                    [disableClose]="true"
+                    #matDrawer>
+
+            <router-outlet></router-outlet>
+
+        </mat-drawer>
+
+        <mat-drawer-content>
+
+            <!-- Main -->
+            <div class="main">
+
+                <!-- Header -->
+                <div class="header">
+
+                    <!-- Title -->
+                    <div class="title">
+
+                        <h1>Contacts</h1>
+
+                        <div class="contacts-count">
+                            <ng-container *ngIf="contactsCount > 0">
+                                {{contactsCount}}
+                            </ng-container>
+                            {{contactsCount | i18nPlural: {
+                            '=0'   : 'No contacts',
+                            '=1'   : 'contact',
+                            'other': 'contacts'
+                        } }}
+                        </div>
+
+                    </div>
+
+                    <!-- Main actions -->
+                    <div class="main-actions">
+
+                        <!-- Search -->
+                        <div class="search">
+
+                            <mat-form-field class="treo-mat-dense treo-mat-no-subscript">
+                                <mat-icon matPrefix
+                                          [svgIcon]="'search'"></mat-icon>
+                                <input matInput
+                                       [formControl]="searchInputControl"
+                                       [autocomplete]="'off'"
+                                       [placeholder]="'Search contacts'">
+                            </mat-form-field>
+
+                        </div>
+
+                        <!-- Add contact button -->
+                        <button class="add-contact"
+                                mat-flat-button
+                                [color]="'primary'"
+                                (click)="createContact()">
+                            <mat-icon [svgIcon]="'add'"></mat-icon>
+                            Add
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- Contacts list -->
+                <div class="contacts-list">
+
+                    <ng-container *ngIf="contactsCount > 0; else noContacts">
+
+                        <!-- Table -->
+                        <table mat-table
+                               [dataSource]="contacts$"
+                               [trackBy]="trackByFn">
+
+                            <!-- Name -->
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell
+                                    *matHeaderCellDef>
+                                    Name
+                                </th>
+                                <td mat-cell
+                                    *matCellDef="let contact">
+                                    <div class="name-content">
+                                        <span class="avatar">
+                                            <img *ngIf="contact.avatar"
+                                                 [src]="contact.avatar">
+                                            <span *ngIf="!contact.avatar">
+                                                {{contact.name.charAt(0)}}
+                                            </span>
+                                        </span>
+                                        <span class="name">{{contact.name}}</span>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <!-- Email -->
+                            <ng-container matColumnDef="email">
+                                <th mat-header-cell
+                                    *matHeaderCellDef>
+                                    Email
+                                </th>
+                                <td mat-cell
+                                    *matCellDef="let contact">
+                                    <ng-container *ngIf="contact.emails && contact.emails[0]">
+                                        {{contact.emails[0].email}}
+                                    </ng-container>
+                                </td>
+                            </ng-container>
+
+                            <!-- Phone number -->
+                            <ng-container matColumnDef="phoneNumber">
+                                <th mat-header-cell
+                                    *matHeaderCellDef>
+                                    Phone number
+                                </th>
+                                <td mat-cell
+                                    *matCellDef="let contact">
+                                    <ng-container *ngIf="contact.phoneNumbers && contact.phoneNumbers[0]">
+                                        {{getCountryCode(contact.phoneNumbers[0].country) + ' ' + contact.phoneNumbers[0].number}}
+                                    </ng-container>
+                                </td>
+                            </ng-container>
+
+                            <!-- Job -->
+                            <ng-container matColumnDef="job">
+                                <th mat-header-cell
+                                    *matHeaderCellDef>
+                                    Job title & company
+                                </th>
+                                <td mat-cell
+                                    *matCellDef="let contact">
+                                    <ng-container *ngIf="contact.job">
+                                        <ng-container *ngIf="contact.job.title">{{contact.job.title}}</ng-container>
+                                        <ng-container *ngIf="contact.job.company">
+                                            <ng-container *ngIf="contact.job.title">,&nbsp;</ng-container>
+                                            {{contact.job.company}}
+                                        </ng-container>
+                                    </ng-container>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row
+                                *matHeaderRowDef="contactsTableColumns"></tr>
+                            <tr class="contact-row"
+                                [ngClass]="{'selected': selectedContact && selectedContact.id === row.id}"
+                                mat-row
+                                *matRowDef="let row; columns: contactsTableColumns;"
+                                (click)="goToContact(row.id)"></tr>
+
+                        </table>
+
+                    </ng-container>
+
+                    <ng-template #noContacts>
+                        <div class="no-contacts">There are no contacts!</div>
+                    </ng-template>
+
+                </div>
+
+            </div>
+
+        </mat-drawer-content>
+
+    </mat-drawer-container>
+
+</div>

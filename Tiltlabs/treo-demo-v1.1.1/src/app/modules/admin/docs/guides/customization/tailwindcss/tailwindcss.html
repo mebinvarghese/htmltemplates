@@ -1,0 +1,120 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="left">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">GUIDES</span>
+                <span class="separator">/</span>
+                <span class="path">CUSTOMIZATION</span>
+            </div>
+
+            <h1>TailwindCSS</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                As per the official page of Tailwind CSS, it is a highly customizable, low-level CSS framework that gives you all of the building blocks you need to build bespoke
+                designs without any annoying opinionated styles you have to fight to override.
+            </p>
+            <p>
+                To simply put, Tailwind provides helper classes for almost every CSS rule available.
+            </p>
+            <p>
+                Treo includes Tailwind by default and it can be used in any part of the theme. Majority of Treo's pages and apps still use the traditional styling with
+                ids and classes but they can be easily improved and modified using Tailwind. If you choose to use Tailwind as your main styling framework and don't want to use
+                traditional ids and classes for styling, you can always create apps and pages and use the helper classes from Tailwind to style them.
+            </p>
+            <p>
+                You can also choose to use Tailwind as a helper classes utility rather than your main style framework. Basically, you would still create id/class based styles
+                for complex styling and layouts and use only certain parts of the Tailwind to modify your styles, like quickly adding <b>margin</b> and <b>padding</b> to the
+                elements, or <b>showing</b> and/or <b>hiding</b> them based on breakpoints to create better mobile/table layouts without writing media queries all the time.
+            </p>
+
+            <h2>Configuration</h2>
+            <p>
+                To use Tailwind, you don't need to do any setup as all Tailwind classes can be accessible from any HTML file you create by default.
+            </p>
+            <p>
+                Tailwind configuration can be found in <code>/src/tailwind/config.js</code> file. This file is used to configure the generated classes by Tailwind. We already
+                configured the Tailwind using the config file to provide sensible defaults for a web app.
+            </p>
+            <p>
+                The generated scss file is located at the <code>/src/styles/tailwind.scss</code> and it's being included as one of the main style files in the building process
+                using <code>angular.json</code> configuration.
+            </p>
+
+            <h2>Tailwind and Treo</h2>
+            <p>
+                Treo also uses Tailwind as the main configuration for things like <strong>colors</strong>, <strong>font families and sizes</strong>,
+                <strong>breakpoints</strong>, <strong>shadows</strong> and more. Basically, some of the Tailwind configuration is exported during the Tailwind's build process to
+                make them available as SCSS variables. This allows Treo to use Tailwind's configuration as the single source of truth. This way, if you want to have another
+                color defined for your app, it will be available in both Treo as SCSS variable and in the Tailwind as a utility class.
+            </p>
+            <p>
+                To summarize; if you want to add/edit/remove any color, change the font families, modify the breakpoints or change any other visual configuration, you have to do
+                that via the Tailwind's config file and then build the Tailwind.
+            </p>
+
+            <h2>Building Tailwind</h2>
+            <p>
+                If you modify the Tailwind configuration file, you have to run the
+            </p>
+            <textarea treo-highlight
+                      lang="bash">
+                npm run tw
+            </textarea>
+            <p>
+                command to compile and build a new <code>tailwind.scss</code> file. The Tailwind configuration file is not being watched by AngularCLI so any changes on that file
+                <b>won't</b> trigger the Tailwind's building process automatically.
+            </p>
+
+            <h2>Official docs</h2>
+            <p>
+                Official Tailwind CSS documentation:
+                <a class="link"
+                   href="https://tailwindcss.com/"
+                   rel="noreferrer"
+                   target="_blank">https://tailwindcss.com/</a>
+            </p>
+
+            <!-- Nav -->
+            <div class="flex items-center xs:flex-col xs:items-stretch w-full mt-16">
+
+                <!-- Prev -->
+                <a class="bg-card flex items-center justify-between flex-1 mr-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:mr-0 xs:mt-4 xs:order-2"
+                   [routerLink]="['../content-layouts']">
+                    <mat-icon [svgIcon]="'arrow_back'"></mat-icon>
+                    <div>
+                        <div class="text-md text-secondary text-right">Previous</div>
+                        <div class="mt-1 text-lg font-medium">Content Layouts</div>
+                    </div>
+                </a>
+
+                <!-- Next -->
+                <a class="bg-card flex items-center justify-between flex-1 ml-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:ml-0 xs:order-1"
+                   [routerLink]="['../theming']">
+                    <div>
+                        <div class="text-md text-secondary">Next</div>
+                        <div class="mt-1 text-lg font-medium">Theming</div>
+                    </div>
+                    <mat-icon [svgIcon]="'arrow_forward'"></mat-icon>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

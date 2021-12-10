@@ -1,0 +1,286 @@
+<form [formGroup]="taskForm">
+
+    <div class="header">
+
+        <!-- Mark as ... button -->
+        <button class="mark-as-button"
+                mat-button
+                (click)="toggleCompleted()">
+
+            <!-- Mark as complete -->
+            <span class="complete"
+                  *ngIf="!taskForm.get('completed').value">
+                <mat-icon [svgIcon]="'check_box_outline_blank'"></mat-icon>
+                <span>MARK AS COMPLETE</span>
+            </span>
+
+            <!-- Mark as incomplete -->
+            <span class="incomplete"
+                  *ngIf="taskForm.get('completed').value">
+                <mat-icon [color]="'primary'"
+                          [svgIcon]="'check_box'"></mat-icon>
+                <span>MARK AS INCOMPLETE</span>
+            </span>
+
+        </button>
+
+        <!-- More menu -->
+        <button class="more-menu"
+                mat-icon-button
+                [matMenuTriggerFor]="moreMenu">
+            <mat-icon [svgIcon]="'more_vert'"></mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+            <button mat-menu-item
+                    (click)="deleteTask()">
+                <mat-icon [svgIcon]="'delete'"></mat-icon>
+                <span>Delete {{task.type === 'task' ? 'task' : 'section'}}</span>
+            </button>
+        </mat-menu>
+
+        <!-- Close button -->
+        <button mat-icon-button
+                [routerLink]="['../']">
+            <mat-icon [svgIcon]="'close'"></mat-icon>
+        </button>
+
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <!-- Title -->
+    <div class="title">
+        <mat-form-field class="treo-mat-textarea treo-mat-no-subscript">
+            <mat-label>{{task.type === 'task' ? 'Task title' : 'Section title'}}</mat-label>
+            <textarea matInput
+                      treoAutogrow
+                      [formControlName]="'title'"
+                      [spellcheck]="false"
+                      #titleField></textarea>
+        </mat-form-field>
+    </div>
+
+    <!-- Tags -->
+    <div class="tags">
+        <div class="label">Tags</div>
+        <div class="tag-wrapper">
+
+            <div class="tag"
+                 *ngFor="let tag of (task.tags | treoFindByKey:'id':tags); trackBy: trackByFn">
+                <span class="tag-title">{{tag.title}}</span>
+            </div>
+
+            <button mat-button
+                    (click)="openTagsPanel()"
+                    #tagsPanelOrigin>
+
+                <ng-container *ngIf="task.tags.length">
+                    <mat-icon class="edit-icon"
+                              [svgIcon]="'edit'"></mat-icon>
+                    <span>Edit</span>
+                </ng-container>
+
+                <ng-container *ngIf="!task.tags.length">
+                    <mat-icon class="add-icon"
+                              [svgIcon]="'add'"></mat-icon>
+                    <span>Add</span>
+                </ng-container>
+
+            </button>
+
+            <!-- Tags panel -->
+            <ng-template #tagsPanel>
+
+                <div class="tasks-details-tags-panel">
+
+                    <div class="tags-panel-header">
+
+                        <div class="new-tag">
+                            <mat-icon [svgIcon]="'search'"></mat-icon>
+                            <input type="text"
+                                   placeholder="Enter tag name"
+                                   (input)="filterTags($event)"
+                                   (keydown)="filterTagsInputKeyDown($event)"
+                                   [maxLength]="50"
+                                   #newTagInput>
+                        </div>
+
+                        <button class="toggle-edit-mode"
+                                mat-icon-button
+                                (click)="toggleTagsEditMode()">
+
+                            <mat-icon *ngIf="!tagsEditMode"
+                                      [svgIcon]="'edit'"></mat-icon>
+
+                            <mat-icon *ngIf="tagsEditMode"
+                                      [svgIcon]="'check'"></mat-icon>
+                        </button>
+
+                    </div>
+
+                    <div class="available-tags"
+                         [ngClass]="{'editing': tagsEditMode}">
+
+                        <!-- Tags -->
+                        <ng-container *ngIf="!tagsEditMode">
+                            <mat-checkbox *ngFor="let tag of filteredTags; trackBy: trackByFn"
+                                          [color]="'primary'"
+                                          [checked]="task.tags.includes(tag.id)"
+                                          (change)="toggleTaskTag(tag, $event)">
+                                {{tag.title}}
+                            </mat-checkbox>
+                        </ng-container>
+
+                        <!-- Tags editing -->
+                        <ng-container *ngIf="tagsEditMode">
+                            <div class="tag-edit"
+                                 *ngFor="let tag of filteredTags; trackBy: trackByFn">
+                                <mat-form-field class="treo-mat-dense treo-mat-no-subscript">
+                                    <input matInput
+                                           [value]="tag.title"
+                                           (input)="updateTagTitle(tag, $event)">
+                                    <button mat-icon-button
+                                            (click)="deleteTag(tag)"
+                                            matSuffix>
+                                        <mat-icon [svgIcon]="'delete'"></mat-icon>
+                                    </button>
+                                </mat-form-field>
+                            </div>
+                        </ng-container>
+
+                    </div>
+
+                    <div class="create-tag"
+                         *ngIf="shouldShowCreateTagButton(newTagInput.value)"
+                         (click)="createTag(newTagInput.value); newTagInput.value = ''"
+                         matRipple>
+                        <mat-icon [svgIcon]="'add'"></mat-icon>
+                        <div>Create "<b>{{newTagInput.value}}</b>"</div>
+                    </div>
+
+                </div>
+
+            </ng-template>
+
+        </div>
+
+    </div>
+
+    <!-- Priority and Due date -->
+    <div class="priority-and-due-date">
+
+        <!-- Priority -->
+        <div class="priority">
+            <div class="label">Priority</div>
+            <button [ngClass]="{'low': task.priority === 0, 'normal': task.priority === 1, 'high': task.priority === 2}"
+                    mat-button
+                    (click)="openPriorityPanel()"
+                    #priorityPanelOrigin>
+
+                <mat-icon *ngIf="task.priority === 0"
+                          [svgIcon]="'arrow_downward'"></mat-icon>
+                <mat-icon *ngIf="task.priority === 1"
+                          [svgIcon]="'remove'"></mat-icon>
+                <mat-icon *ngIf="task.priority === 2"
+                          [svgIcon]="'arrow_upward'"></mat-icon>
+
+                <span class="low"
+                      *ngIf="task.priority === 0">
+                    Low
+                </span>
+                <span class="normal"
+                      *ngIf="task.priority === 1">
+                    Normal
+                </span>
+                <span class="high"
+                      *ngIf="task.priority === 2">
+                    High
+                </span>
+
+            </button>
+        </div>
+
+        <!-- Priority panel -->
+        <ng-template #priorityPanel>
+
+            <div class="tasks-details-priority-panel">
+
+                <mat-radio-group [color]="'primary'"
+                                 [formControlName]="'priority'"
+                                 (change)="closePriorityPanel()">
+
+                    <mat-radio-button class="low"
+                                      [value]="0">
+                        <span>Low</span>
+                        <mat-icon [svgIcon]="'arrow_downward'"></mat-icon>
+                    </mat-radio-button>
+
+                    <mat-radio-button class="normal"
+                                      [value]="1">
+                        <span>Normal</span>
+                        <mat-icon [svgIcon]="'remove'"></mat-icon>
+                    </mat-radio-button>
+
+                    <mat-radio-button class="high"
+                                      [value]="2">
+                        <span>High</span>
+                        <mat-icon [svgIcon]="'arrow_upward'"></mat-icon>
+                    </mat-radio-button>
+
+                </mat-radio-group>
+
+            </div>
+
+        </ng-template>
+
+        <!-- Due date -->
+        <div class="due-date">
+            <div class="label">Due date</div>
+            <button mat-button
+                    [ngClass]="{'overdue': isOverdue(), 'due-set': task.dueDate}"
+                    (click)="openDueDatePanel()"
+                    #dueDatePanelOrigin>
+
+                <mat-icon [svgIcon]="'today'"></mat-icon>
+
+                <span *ngIf="task.dueDate">{{task.dueDate | date:'longDate'}}</span>
+                <span *ngIf="!task.dueDate">Not set</span>
+
+            </button>
+        </div>
+
+        <!-- Due date panel -->
+        <ng-template #dueDatePanel>
+
+            <div class="tasks-details-due-date-panel">
+
+                <mat-calendar [selected]="taskForm.get('dueDate').value"
+                              [startAt]="taskForm.get('dueDate').value"
+                              (selectedChange)="updateDueDate($event)"></mat-calendar>
+
+                <button mat-stroked-button
+                        *ngIf="taskForm.get('dueDate').value"
+                        (click)="removeDueDate()">
+                    <mat-icon [svgIcon]="'remove_circle'"></mat-icon>
+                    Remove due date
+                </button>
+
+            </div>
+
+        </ng-template>
+
+    </div>
+
+    <!-- Notes -->
+    <div class="notes">
+        <mat-form-field class="treo-mat-textarea treo-mat-no-subscript">
+            <mat-label>Notes</mat-label>
+            <textarea matInput
+                      treoAutogrow
+                      [formControlName]="'notes'"
+                      [spellcheck]="false"></textarea>
+        </mat-form-field>
+    </div>
+
+</form>

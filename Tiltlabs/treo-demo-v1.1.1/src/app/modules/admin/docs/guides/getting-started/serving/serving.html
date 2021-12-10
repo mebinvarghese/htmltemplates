@@ -1,0 +1,98 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="left">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">GUIDES</span>
+                <span class="separator">/</span>
+                <span class="path">GETTING STARTED</span>
+            </div>
+
+            <h1>Serving</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                After the installation process finishes, run the following command while still in your workspace directory:
+            </p>
+            <textarea treo-highlight
+                      lang="bash">
+                ng serve --open
+            </textarea>
+            <p>
+                The <code>ng serve</code> command launches the server, watches your files, and rebuilds the app as you make changes to those files.
+            </p>
+            <p>
+                The <code>--open</code> (or just <code>-o</code>) option automatically opens your browser to http://localhost:4200/.
+            </p>
+
+            <h2>Alternate commands</h2>
+            <textarea treo-highlight
+                      lang="bash">
+                npm start
+            </textarea>
+            <p class="mb-12">
+                Alias for <code>ng serve --open</code>.
+            </p>
+
+            <textarea treo-highlight
+                      lang="bash">
+                npm run start:mem
+            </textarea>
+            <p>
+                Custom command to help with heap out of memory issues. It manually sets the allocated memory for the Node.js process before running the
+                <code>ng serve --open</code> command.
+            </p>
+            <p>
+                If you are getting error messages that includes keywords like <strong>HEAP</strong>, <strong>JS stack tree</strong>, <strong>out of memory</strong> while trying to
+                run <code>ng serve --open</code> or <code>npm start</code> commands, try this one.
+            </p>
+            <treo-message appearance="outline"
+                          type="warning">
+                <span treoMessageTitle>
+                    This solution is just a temporary workaround!
+                </span>
+                Out of memory issues usually happen if you are using an older version of Node.js. Try updating to the current LTS version.
+            </treo-message>
+
+            <!-- Nav -->
+            <div class="flex items-center xs:flex-col xs:items-stretch w-full mt-16">
+
+                <!-- Prev -->
+                <a class="bg-card flex items-center justify-between flex-1 mr-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:mr-0 xs:mt-4 xs:order-2"
+                   [routerLink]="['../installation']">
+                    <mat-icon [svgIcon]="'arrow_back'"></mat-icon>
+                    <div>
+                        <div class="text-md text-secondary text-right">Previous</div>
+                        <div class="mt-1 text-lg font-medium">Installation</div>
+                    </div>
+                </a>
+
+                <!-- Next -->
+                <a class="bg-card flex items-center justify-between flex-1 ml-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:ml-0 xs:order-1"
+                   [routerLink]="['../../development/directory-structure']">
+                    <div>
+                        <div class="text-md text-secondary">Next</div>
+                        <div class="mt-1 text-lg font-medium">Directory Structure</div>
+                    </div>
+                    <mat-icon [svgIcon]="'arrow_forward'"></mat-icon>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

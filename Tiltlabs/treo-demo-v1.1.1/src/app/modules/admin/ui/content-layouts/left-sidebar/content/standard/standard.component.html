@@ -1,0 +1,99 @@
+<div class="content-layout"
+     [ngClass]="'left-sidebar-content-standard-' + scrollMode + '-scroll'">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="left">
+
+            <div class="breadcrumb">
+                <span class="path">CONTENT LAYOUTS</span>
+                <span class="separator">/</span>
+                <span class="path">LEFT SIDEBAR</span>
+                <span class="separator">/</span>
+                <span class="path">CONTENT</span>
+            </div>
+
+            <h1>Content left sidebar standard</h1>
+
+        </div>
+
+        <div class="right">
+
+            <!-- Drawer toggle -->
+            <button class="mr-4"
+                    mat-stroked-button
+                    (click)="matDrawer.toggle()">
+                <mat-icon class="icon-size-18"
+                          [svgIcon]="'menu'"></mat-icon>
+                <span class="ml-2 md:hidden xs:hidden">Menu</span>
+            </button>
+
+            <!-- Scroll mode menu -->
+            <button mat-flat-button
+                    [color]="'primary'"
+                    [matMenuTriggerFor]="settingsMenu">
+                <mat-icon class="icon-size-18"
+                          [svgIcon]="'unfold_more'"></mat-icon>
+                <span class="ml-2 md:hidden xs:hidden">Scroll mode</span>
+                <mat-icon class="icon-size-18 ml-3"
+                          [svgIcon]="'keyboard_arrow_down'"></mat-icon>
+            </button>
+            <mat-menu #settingsMenu>
+                <button mat-menu-item
+                        (click)="scrollMode = 'normal'">
+                    <span>Normal scroll</span>
+                    <mat-icon class="ml-6 mr-0 icon-size-18"
+                              *ngIf="scrollMode === 'normal'"
+                              [svgIcon]="'check'"></mat-icon>
+                </button>
+                <button mat-menu-item
+                        (click)="scrollMode = 'content'">
+                    <span>Content scroll</span>
+                    <mat-icon class="ml-6 mr-0 icon-size-18"
+                              *ngIf="scrollMode === 'content'"
+                              [svgIcon]="'check'"></mat-icon>
+                </button>
+                <button mat-menu-item
+                        (click)="scrollMode = 'inner'">
+                    <span>Inner scroll</span>
+                    <mat-icon class="ml-6 mr-0 icon-size-18"
+                              *ngIf="scrollMode === 'inner'"
+                              [svgIcon]="'check'"></mat-icon>
+                </button>
+            </mat-menu>
+
+        </div>
+
+    </div>
+
+    <mat-drawer-container>
+
+        <!-- Drawer -->
+        <mat-drawer [autoFocus]="false"
+                    [mode]="drawerMode"
+                    [opened]="drawerOpened"
+                    #matDrawer>
+
+            <!-- Demo sidebar content -->
+            <demo-sidebar-content></demo-sidebar-content>
+
+        </mat-drawer>
+
+        <mat-drawer-content>
+
+            <!-- Main -->
+            <div class="main">
+
+                <!-- Demo content -->
+                <demo-content></demo-content>
+
+            </div>
+
+        </mat-drawer-content>
+
+    </mat-drawer-container>
+
+</div>
+
+

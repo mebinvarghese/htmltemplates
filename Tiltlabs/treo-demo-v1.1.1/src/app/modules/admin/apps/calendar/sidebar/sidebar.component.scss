@@ -1,0 +1,229 @@
+@import 'treo';
+
+calendar-sidebar {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 100%;
+
+    > .title {
+        margin: 32px 32px 24px 32px;
+    }
+
+    .calendars {
+        padding: 0 32px;
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+
+            &:hover {
+
+                .mat-icon {
+                    display: flex !important;
+                }
+            }
+
+            .title {
+                flex: 1 1 auto;
+                font-size: 16px;
+                font-weight: 500;
+            }
+
+            .mat-icon {
+                display: none !important;
+                cursor: pointer;
+                @include treo-icon-size(20);
+            }
+        }
+
+        .calendar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            &:hover {
+
+                .edit {
+                    display: flex !important;
+                }
+            }
+
+            .toggle {
+                display: flex;
+                flex: 1 1 auto;
+                align-items: center;
+                cursor: pointer;
+
+                .visibility {
+                }
+
+                .title {
+                    margin-left: 8px;
+                }
+            }
+
+            .edit {
+                display: none !important;
+                margin-left: 4px;
+                cursor: pointer;
+                @include treo-icon-size(16);
+            }
+        }
+    }
+
+    .settings {
+        display: flex;
+        align-items: center;
+        height: 40px;
+        min-height: 40px;
+        max-height: 40px;
+        margin: auto 0 16px 0;
+        padding: 0 32px;
+        font-weight: 500;
+
+        .mat-icon {
+            margin-right: 8px;
+        }
+    }
+}
+
+// Edit panel
+.calendar-sidebar-calendar-edit-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 320px;
+    max-width: 320px;
+    border-radius: 8px;
+    padding: 32px 32px 32px 24px;
+    @include treo-elevation('2xl');
+
+    .title {
+        margin: 0 0 32px 0;
+    }
+
+    .row {
+        display: flex;
+        align-items: center;
+
+        .calendar-color-selector {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            width: 32px;
+            margin-right: 16px;
+
+            .mat-icon {
+                @include treo-icon-size(20);
+            }
+
+            .mat-select-value {
+                max-width: none;
+
+                mat-select-trigger {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 32px;
+                    height: 32px;
+                }
+            }
+
+            .mat-select-arrow-wrapper {
+                display: none !important;
+            }
+        }
+
+        .mat-form-field {
+            flex: 1 1 auto;
+        }
+    }
+
+    .actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: 32px;
+
+        .mat-flat-button {
+            margin-left: 8px;
+        }
+    }
+}
+
+// Color select panel
+.calendar-sidebar-calendar-edit-panel-color-select-panel {
+    overflow: hidden !important;
+    max-height: none !important;
+
+    .color-box-title {
+        max-width: 192px;
+        min-width: 192px;
+        margin: 0 auto;
+        padding: 20px 4px 0 4px;
+        font-weight: 500;
+    }
+
+    .color-box-container {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 192px;
+        margin: 16px auto 16px auto;
+
+        .mat-option {
+            display: flex;
+            width: 48px !important;
+            height: 48px !important;
+            padding: 0;
+            background: none !important;
+
+            .mat-option-text {
+                position: relative;
+                width: 48px !important;
+                height: 48px !important;
+
+                .mat-icon {
+                    position: absolute;
+                    top: 14px;
+                    left: 14px;
+                    margin: 0;
+                    @include treo-icon-size(20);
+                }
+
+                .color-box {
+                    display: flex;
+                    width: 40px;
+                    height: 40px;
+                    margin: 4px;
+                    border-radius: 50%;
+                }
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $background: map-get($theme, background);
+    $is-dark: map-get($theme, is-dark);
+
+    calendar-sidebar {
+        @if ($is-dark) {
+            background: treo-color('cool-gray', 900);
+        }
+    }
+
+    // Edit panel
+    .calendar-sidebar-calendar-edit-panel {
+        background: map-get($background, card);
+    }
+}

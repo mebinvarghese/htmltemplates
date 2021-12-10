@@ -1,0 +1,84 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="left">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">GUIDES</span>
+                <span class="separator">/</span>
+                <span class="path">CUSTOMIZATION</span>
+            </div>
+
+            <h1>Content Layouts</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                Like Theme layouts, Treo also provides examples for variety of different content layouts. These layouts are designed for the content of the app and they provide
+                consistency.
+            </p>
+            <p>
+                Unlike Theme layouts, <em>Content layouts</em> are <strong>NOT</strong> components, they are basically pre-made pages for you to reference and use
+                it as the shell for your pages.
+            </p>
+            <p>
+                All content layouts work using classes:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="html">
+                <div class="content-layout left-sidebar-fullheight-standard-normal-scroll">
+
+                    <!-- Page content goes here -->
+
+                </div>
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                The above example applies necessary styles to create a page with a <strong>Left Sidebar</strong> and a <strong>Header</strong> and it scrolls normally. There are
+                different scroll options for different content layouts such as <strong>Inner scroll</strong> and <strong>Content scroll</strong>.
+            </p>
+            <p>
+                All content layouts can be found within the Demo app, you can try them over there and choose one that fits your needs.
+            </p>
+
+            <!-- Nav -->
+            <div class="flex items-center xs:flex-col xs:items-stretch w-full mt-16">
+
+                <!-- Prev -->
+                <a class="bg-card flex items-center justify-between flex-1 mr-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:mr-0 xs:mt-4 xs:order-2"
+                   [routerLink]="['../theme-layouts']">
+                    <mat-icon [svgIcon]="'arrow_back'"></mat-icon>
+                    <div>
+                        <div class="text-md text-secondary text-right">Previous</div>
+                        <div class="mt-1 text-lg font-medium">Theme Layouts</div>
+                    </div>
+                </a>
+
+                <!-- Next -->
+                <a class="bg-card flex items-center justify-between flex-1 ml-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:ml-0 xs:order-1"
+                   [routerLink]="['../tailwindcss']">
+                    <div>
+                        <div class="text-md text-secondary">Next</div>
+                        <div class="mt-1 text-lg font-medium">TailwindCSS</div>
+                    </div>
+                    <mat-icon [svgIcon]="'arrow_forward'"></mat-icon>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,182 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">CORE FEATURES</span>
+                <span class="separator">/</span>
+                <span class="path">PIPES</span>
+            </div>
+
+            <h1>findByKey</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                <strong>treoFindByKey</strong> is a helper pipe that finds entries from an object using given key-source set.
+            </p>
+
+            <h2>Module</h2>
+            <textarea treo-highlight
+                      lang="typescript">
+                import { TreoFindByKeyPipeModule } from '@treo/pipe/find-by-key';
+            </textarea>
+
+            <h2>Usage</h2>
+            <textarea treo-highlight
+                      lang="html">
+                value | treoFindByKey:key:source
+            </textarea>
+            <p>
+                Consider this array of objects representing the <em>tags</em> and <em>tasks</em> data stored on the backend:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight lang="typescript">
+                const tags = [
+                    {
+                        id   : 'tag-00',
+                        title: 'Api',
+                        color: 'red'
+                    },
+                    {
+                        id   : 'tag-01',
+                        title: 'Frontend',
+                        color: 'blue'
+                    },
+                    {
+                        id   : 'tag-02',
+                        title: 'Bug',
+                        color: 'green'
+                    }
+                ];
+
+                const tasks = [
+                    {
+                        id   : 'task-00',
+                        title: 'Company internal application v2.0.0',
+                        tags : [
+                            'tag-00',
+                            'tag-01'
+                        ]
+                    },
+                    {
+                        id   : 'task-01',
+                        title: 'Create the landing/marketing page and host it on the beta channel',
+                        tags : [
+                            'tag-02'
+                        ]
+                    },
+                    {
+                        id   : 'task-01',
+                        title: 'Move dependency system to Yarn for easier package management',
+                        tags : [
+                            'tag-00',
+                            'tag-01',
+                            'tag-02'
+                        ]
+                    }
+                ]
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                Normally, you would <em>join</em> these two data together in the backend before sending it to the frontend so you can access tags of a task right from the task
+                itself:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight lang="typescript">
+                const tasksWithTags = [
+                    {
+                        id   : 'task-00',
+                        title: 'Company internal application v2.0.0',
+                        tags : [
+                            {
+                                id   : 'tag-00',
+                                title: 'Api',
+                                color: 'red'
+                            },
+                            {
+                                id   : 'tag-01',
+                                title: 'Frontend',
+                                color: 'blue'
+                            }
+                        ]
+                    },
+                    {
+                        id   : 'task-01',
+                        title: 'Create the landing/marketing page and host it on the beta channel',
+                        tags : [
+                            {
+                                id   : 'tag-02',
+                                title: 'Bug',
+                                color: 'green'
+                            }
+                        ]
+                    },
+                    {
+                        id   : 'task-01',
+                        title: 'Move dependency system to Yarn for easier package management',
+                        tags : [
+                            {
+                                id   : 'tag-00',
+                                title: 'Api',
+                                color: 'red'
+                            },
+                            {
+                                id   : 'tag-01',
+                                title: 'Frontend',
+                                color: 'blue'
+                            },
+                            {
+                                id   : 'tag-02',
+                                title: 'Bug',
+                                color: 'green'
+                            }
+                        ]
+                    }
+                ]
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                But, let's say you cannot <em>join</em> them. You have no access to the backend app or you cannot make any changes to it and you have to work with what you have. In
+                this case, you can use the <code>treoFindByKey</code> pipe to get the tags of a task without joining the two data using javascript:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="html">
+                <!-- Iterate through the tasks -->
+                <div class="task" *ngFor="let task of tasks">
+
+                    <!-- Iterate through the tags of the task but rather than returning the tag id,
+                         use that id to find the actual tag object from 'tags' so we can access the
+                         properties like title and color of the tag -->
+                    <div class="tag" *ngFor="let tag of (task.tags | treoFindByKey:'id':tags);">
+                        <span class="tag-title">{{'{'}}{{'{'}}tag.title{{'}'}}{{'}'}}</span>
+                    </div>
+
+                </div>
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                The above code will iterate through the tasks, and for each task, it will also iterate the task's tags.
+            </p>
+            <p>
+                <code>task.tags</code> array normally holds the <em>ids</em> of the assigned tags. But using <code>treoFindByKey</code> pipe, we can use those <em>ids</em> to
+                extract the actual tag object from the <em>tags</em> array.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>

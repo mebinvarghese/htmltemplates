@@ -1,0 +1,148 @@
+<div class="list-wrapper"
+     [ngClass]="{'mail-selected': selectedMail && selectedMail.id, 'no-mails': !mails || mails.length === 0}">
+
+    <ng-container *ngIf="mails && mails.length > 0; else noMails">
+
+        <!-- Mail list header -->
+        <div class="header">
+
+            <!-- Header left -->
+            <div class="left">
+
+                <!-- Sidebar toggle button -->
+                <button class="sidebar-toggle"
+                        mat-icon-button
+                        (click)="mailboxComponent.drawer.toggle()">
+                    <mat-icon [svgIcon]="'menu'"></mat-icon>
+                </button>
+
+                <!-- Category name -->
+                <div class="category">{{category.name}}</div>
+
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+
+                <!-- Pagination information -->
+                <div class="info">
+                    <span>{{pagination.startIndex + 1}}</span>
+                    <span class="separator">-</span>
+                    <span>{{pagination.endIndex + 1}}</span>
+                    <span class="separator">of</span>
+                    <span>{{pagination.totalResults}}</span>
+                </div>
+
+                <!-- Previous page button -->
+                <a class="previous-page"
+                   mat-icon-button
+                   [disabled]="pagination.currentPage === 1"
+                   [routerLink]="['../' + (pagination.currentPage > 1 ? pagination.currentPage - 1 : 1 )]">
+                    <mat-icon [svgIcon]="'arrow_back_ios'"></mat-icon>
+                </a>
+
+                <!-- Next page button-->
+                <a class="next-page"
+                   mat-icon-button
+                   [disabled]="pagination.currentPage === pagination.lastPage"
+                   [routerLink]="['../' + (pagination.currentPage < pagination.lastPage ? pagination.currentPage + 1 : pagination.lastPage )]">
+                    <mat-icon [svgIcon]="'arrow_forward_ios'"></mat-icon>
+                </a>
+
+            </div>
+
+            <!-- Loading bar -->
+            <mat-progress-bar class="loading-progress-bar"
+                              *ngIf="mailsLoading"
+                              [mode]="'indeterminate'"></mat-progress-bar>
+
+        </div>
+
+        <!-- Mail list -->
+        <div class="list"
+             #mailList>
+
+            <!-- Mail list item loop -->
+            <ng-container *ngFor="let mail of mails; let i = index; trackBy: trackByFn">
+
+                <!-- Mail list item -->
+                <a class="item"
+                   [ngClass]="{'selected': (selectedMail && selectedMail.id === mail.id), 'unread': mail.unread}"
+                   [routerLink]="[mail.id]"
+                   (click)="onMailSelected(mail)">
+
+                    <div class="item-content">
+
+                        <!-- Info -->
+                        <div class="info">
+
+                            <!-- Sender name -->
+                            <div class="name">
+                                {{mail.from.contact.split('<')[0].trim()}}
+                            </div>
+
+                            <!-- Important indicator -->
+                            <mat-icon class="important-indicator"
+                                      *ngIf="mail.important"
+                                      [svgIcon]="'label_important'"></mat-icon>
+
+                            <!-- Date -->
+                            <div class="date">
+                                {{mail.date | date:'LLL dd'}}
+                            </div>
+
+                        </div>
+
+                        <!-- Subject -->
+                        <div class="subject">
+
+                            <span>{{mail.subject}}</span>
+
+                            <!-- Indicators -->
+                            <div class="indicators"
+                                 *ngIf="(mail.attachments && mail.attachments.length > 0) || mail.starred">
+
+                                <!-- Attachments indicator -->
+                                <mat-icon class="attachments-indicator"
+                                          *ngIf="mail.attachments && mail.attachments.length > 0"
+                                          [svgIcon]="'attachment'"></mat-icon>
+
+                                <!-- Starred indicator -->
+                                <mat-icon class="starred-indicator"
+                                          *ngIf="mail.starred"
+                                          [svgIcon]="'star'"></mat-icon>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Excerpt -->
+                        <div class="excerpt">
+                            {{mail.content | slice:0:80}}
+                            <ng-container *ngIf="mail.content.length > 80">...</ng-container>
+                        </div>
+
+                    </div>
+
+                </a>
+
+            </ng-container>
+
+        </div>
+
+    </ng-container>
+
+    <!-- No mails template -->
+    <ng-template #noMails>
+
+        <div class="no-mails">
+            <mat-icon [svgIcon]="'iconsmind:mailbox_empty'"></mat-icon>
+            <h4>There are no e-mails</h4>
+        </div>
+
+    </ng-template>
+
+</div>
+
+<!-- Mail details -->
+<router-outlet *ngIf="mails && mails.length > 0"></router-outlet>

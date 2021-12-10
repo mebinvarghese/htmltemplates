@@ -1,0 +1,18 @@
+demo-sidebar-content {
+    display: block;
+    padding: 40px 0;
+
+    .extra-content:empty {
+
+        + h1 {
+            margin-top: 0;
+        }
+    }
+
+    treo-vertical-navigation {
+
+        .treo-vertical-navigation-wrapper {
+            border-right-width: 0;
+        }
+    }
+}

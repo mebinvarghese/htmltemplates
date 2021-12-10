@@ -1,0 +1,52 @@
+@import 'treo';
+
+core-features {
+
+    .content-layout {
+
+        .mat-drawer-container {
+
+            .mat-drawer {
+
+                treo-vertical-navigation {
+
+                    .treo-vertical-navigation-wrapper {
+                        border-right-width: 0;
+                    }
+                }
+            }
+
+            .mat-drawer-content {
+
+                > .main {
+                    padding: 0 !important;
+
+                    > router-outlet {
+
+                        + * {
+                            display: flex;
+                            flex: 1 1 auto;
+                            width: 100%;
+                            max-width: 100%;
+                            min-width: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+
+    core-features {
+
+    }
+}

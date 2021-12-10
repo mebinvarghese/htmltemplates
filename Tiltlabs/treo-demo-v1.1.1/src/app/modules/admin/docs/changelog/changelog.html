@@ -1,0 +1,41 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="left">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+            </div>
+
+            <h1>Changelog</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main rich-text max-w-5xl">
+
+        <ng-container *ngFor="let item of changelog">
+
+            <div class="bg-card rounded border p-8 mb-12">
+                <div class="flex items-baseline">
+                    <h2 class="my-3">{{item.version}}</h2>
+                    <div class="font-semibold text-md text-secondary ml-4">{{item.releaseDate}}</div>
+                </div>
+                <hr class="mt-6">
+                <div class="mt-8"
+                     *ngFor="let change of item.changes">
+                    <span class="inline-flex bg-default rounded px-3 py-1 text-secondary font-bold">{{change.type}}</span>
+                    <ul>
+                        <li *ngFor="let listItem of change.list">{{listItem}}</li>
+                    </ul>
+                </div>
+            </div>
+
+        </ng-container>
+
+    </div>
+
+</div>

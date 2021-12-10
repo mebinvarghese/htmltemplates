@@ -1,0 +1,106 @@
+<div class="row" style="padding:0px 5px;">
+							<div class="col" style="padding:0px 5px;">
+								<div ng-if="aiv_users.pass" style="margin:0px;" class="error balanced animated fadeInLeft h4 padding-left">
+									<i class="ion-checkmark"></i> {{aiv_users.pass}}
+								</div>
+								
+							</div>
+							<div class="col col-33 col-center text-right">
+								<span class="badge" ng-class="{'badge-assertive':!fid_status.online,'badge-balanced':fid_status.online}">FID {{fid_status.online?'ON':'OFF'}}</span>
+								<span ng-if="onlineOrder.enable && (terminalData.type=='BACK'||terminalData.type=='BOTH')" class="badge" ng-class="{'badge-assertive blink':!onlineOrder.enable,'badge-balanced':onlineOrder.enable}"> ONLINE ORDERS {{onlineOrder.enable?'ACCEPT':'OFF'}}</span>
+								<span ng-if="aiv_toggles.early_takeaway" class="badge badge-balanced">Early Takeaway</span>
+							</div>
+						</div>
+						<div class="row" style="padding:0px 5px;margin-top: 20px;margin-bottom: 20px;">
+							<div class="col col-50" style="padding:0px 5px;">
+								<div ng-hide="aiv_users.selected">
+									<div class="card">
+										<label class="item item-divider">
+											<div class="input-label">
+												Please select a user
+											</div>
+										</label>
+									</div>
+								</div>
+								<div ng-if="aiv_users.selected">
+									<div class="card" style="margin:10px;">
+									<label class="item item-input item-stacked-label bold-text large-text ">
+									<span class="input-label">Enter password</span>
+									<input id="pass" ng-model="qwerty_inputs.pass" type="password" placeholder="password" style="font-size=x-large;" ng-keypress="loginEnter($event,qwerty_inputs.pass)">
+									</label>
+									</div>
+									<button ng-disabled="loginInfo.user_login && qwerty_inputs.pass" style="margin-top: 20px;" class="button button-full button-positive button-large" ng-click="login(qwerty_inputs.pass);" ><i class="icon ion-log-in bold-text large-text " > Login</i> </button>
+									<button ng-disabled="!loginInfo.user_login && !qwerty_inputs.pass" style="margin-top: 20px;" class="button button-full button-calm button-large" ng-click="aiv_logout();" ><i class="icon ion-log-out bold-text large-text " > Logout</i> </button>
+								</div>
+								<div ng-show="aiv_users.err" class="error assertive animated fadeInLeft h4 padding-left">
+									<i class="ion-information-circled"></i> {{aiv_users.err}}
+								</div>
+							</div>
+							<div class="col" style="padding:0px 5px;">
+								<div class="col">
+					
+								<ng-keypad on-key-pressed='onKeyPressed'>
+								<ng-key class="aiv-key" style="background-color: #fff8f0;border: 1px solid #adadad; border-radius: 10px;font-size: 1.5em;" ng-repeat='key in ::aivkeys_salt track by $index' ng-key-data='key' ng-key-type='keypad.type'>{{::key | uppercase}}</ng-key>
+								</ng-keypad>
+				
+								<!--<ng-keypad on-key-pressed='onKeyPressed' style="font-size:1.1em;" class="bold-text tile-appear">
+									<ng-key style="background-color:{{::key.bk_color}}" class="aiv_qwerty" ng-repeat='key in ::aiv_qwerty track by $index' ng-key-data='key.value' ng-key-type='keypad.type'>{{::key.value}}</ng-key>
+								</ng-keypad-->					
+								</div>
+							</div>
+						</div>
+						
+						<!--<hr style="border: 1px solid #ddd;">-->
+						<!--<div ng-if="terminalData.type!='KITCHEN'" class="row">-->
+						<div ng-if="(terminalData.type!='KITCHEN' && terminalData.type != 'BACK') || (terminalData.type == 'BACK' && backTemplate.id != 'MPOS')" class="row responsive-sm product-gallery login-tiles" style="padding:0 5px;">
+							<div class="col col-25" ng-repeat="method in shipping_methods track by $index">
+								<button class="button button-large button-block item bold-text" ng-class="(selected_shipping.id==method.id&&startup.action=='SHIPPING')?'button-assertive':'button-balanced'" ng-click="startAction('SHIPPING',method);">{{method.title}}</button>
+							</div>
+							<div class="col col-25">
+								<button class="button button-large button-block button-royal item item-text-wrap bold-text" ng-click="startAction('PRINT_LAST_ORDER');">Print Last Order</button>
+							</div>
+							<div class="col col-25">
+								<button class="button button-large button-block item item-text-wrap bold-text" ng-class="startup.action=='ADD2ORDER'?'button-assertive':'button-calm'" ng-click="startAction('ADD2ORDER');">ADD TO AN ORDER</button>
+							</div>
+							<div class="col col-25">
+								<button class="button button-large button-block item item-text-wrap bold-text" ng-class="startup.action=='LOOK_ORDER'?'button-assertive':'button-royal'" ng-click="startAction('LOOK_ORDER');">Look Thru orders/reprint</button>
+							</div>
+							<div class="col col-25">
+								<button class="button button-large button-block item item-text-wrap bold-text" ng-class="startup.action=='PAYOFF'?'button-assertive':'button-positive'" ng-click="startAction('PAYOFF');">Pay off an order</button>
+							</div>
+							<div class="col col-25">
+								<button ng-disabled="!loginInfo.role||loginInfo.role=='user'" class="button button-large button-block button-royal item item-text-wrap bold-text" ng-click="openCashdrawer();">Open Cashdrawer</button>
+							</div>
+							<div class="col col-25" ng-if="aiv_info.enable_table=='TRUE'">
+							<button class="button button-large button-block item item-text-wrap bold-text" ng-class="startup.action=='TABLEVIEW'?'button-assertive':'button-innovative'" ng-click="startAction('TABLEVIEW');">TABLE VIEW</button>
+						</div>
+							<div class="col col-25" ng-if="justEat.orders">
+								<button class="button button-large button-block item item-text-wrap bold-text" ng-class="startup.action=='JUSTEAT'?'button-assertive':'button-impulsive'" ng-click="startAction('JUSTEAT');">JUST EAT</button>
+							</div>
+							<div class="col col-25">
+								<button class="button button-large button-block item item-text-wrap bold-text" ng-class="startup.action=='CUSTOMERS'?'button-assertive':'button-positive'" ng-click="startAction('CUSTOMERS');">Customers</button>
+							</div>
+							<div class="col col-25">
+								<button ng-disabled="!loginInfo.role||loginInfo.role=='user'" class="button button-large button-block item item-text-wrap bold-text" ng-class="startup.action=='REPORTS'?'button-assertive':'button-innovative'" ng-click="startAction('REPORTS');">Reports</button>
+							</div>
+							<div class="col col-25">
+								<button ng-disabled="!loginInfo.role||loginInfo.role=='user'" class="button button-large button-block item item-text-wrap bold-text" ng-class="startup.action=='SETTINGS'?'button-assertive':'button-positive'" ng-click="startAction('SETTINGS');">Settings</button>
+							</div>
+						</div>
+						<div ng-if="terminalData.type == 'BACK' && backTemplate.id == 'MPOS'" class="row">
+							<div class="col">
+								<button class="button button-large button-block button-royal item item-text-wrap bold-text" style="line-height: 20px;" ng-click="startAction('PRINT_LAST_ORDER');">Print Last Order</button>
+							</div>
+						</div>
+						<!-- <div  ng-if="aiv_users.selected" class="row">
+							<div class="col">
+					
+								<ng-keypad on-key-pressed='onKeyPressed'>
+								<ng-key class="aiv-key" style="background-color: #fff8f0;border: 1px solid #adadad; border-radius: 10px;font-size: 1.5em;" ng-repeat='key in ::aivkeys_salt track by $index' ng-key-data='key' ng-key-type='keypad.type'>{{::key | uppercase}}</ng-key>
+								</ng-keypad>
+				
+								<!--<ng-keypad on-key-pressed='onKeyPressed' style="font-size:1.1em;" class="bold-text tile-appear">
+									<ng-key style="background-color:{{::key.bk_color}}" class="aiv_qwerty" ng-repeat='key in ::aiv_qwerty track by $index' ng-key-data='key.value' ng-key-type='keypad.type'>{{::key.value}}</ng-key>
+								</ng-keypad-->					
+						<!--</div>
+						</div> --> 

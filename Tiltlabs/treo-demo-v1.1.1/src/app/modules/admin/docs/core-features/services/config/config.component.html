@@ -1,0 +1,140 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">CORE FEATURES</span>
+                <span class="separator">/</span>
+                <span class="path">SERVICES</span>
+            </div>
+
+            <h1>Config</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                <strong>TreoConfigService</strong> is a singleton service to store and access an application wide configuration object. It can be used to store any kind of data and
+                can be accessed from anywhere within your application.
+            </p>
+
+            <h2>Module</h2>
+            <textarea treo-highlight
+                      lang="typescript">
+                import { TreoConfigModule } from '@treo/services/config';
+            </textarea>
+
+            <h2>Default configuration</h2>
+            <p>
+                By default, the application wide configuration is stored in <code>src/app/core/config/app.config.ts</code> file and it includes the <strong>layout style</strong> as
+                well as the <strong>color theme</strong> configurations:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="typescript">
+                import { Layout } from 'app/layout/layout.types';
+
+                // Theme type
+                export type Theme = 'auto' | 'dark' | 'light';
+
+                /**
+                 * AppConfig interface. Update this interface to strictly type your config
+                 * object.
+                */
+                export interface AppConfig
+                {
+                    layout: Layout;
+                    theme: Theme;
+                }
+
+                /**
+                 * Default configuration for the entire application. This object is used by
+                 * 'ConfigService' to set the default configuration.
+                 *
+                *  If you need to store global configuration for your app, you can use this
+                 * object to set the defaults. To access, update and reset the config, use
+                 * 'ConfigService'.
+                */
+                export const appConfig: AppConfig = {
+                    layout: 'classy',
+                    theme : 'light'
+                };
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                The default configuration is supplied to the <strong>TreoConfigService</strong> using the <code>TreoConfigModule.forRoot()</code> in <strong>AppModule</strong>:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="typescript">
+                import { appConfig } from 'app/core/config/app.config';
+
+                ...
+
+                imports: [
+                    TreoConfigModule.forRoot(appConfig)
+                ...
+            </textarea>
+            <!-- @formatter:on -->
+
+            <h2>Methods</h2>
+            <p>
+                To set a configuration use <code>config</code> setter on <strong>TreoConfigService</strong>. The setter will intelligently merge the configuration by replacing only
+                the given options if they exist while preserving others. If the supplied option does not exist on the configuration, it will be added:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight lang="typescript">
+                import { TreoConfigService } from '@treo/services/config';
+
+                /**
+                 * Constructor
+                 *
+                 * @param {TreoConfigService} _treoConfigService
+                 */
+                constructor(private _treoConfigService: TreoConfigService)
+                {
+                    this._treoConfigService.config = {layout: 'classy'};
+                }
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                To get the configuration use <code>config$</code> getter on <strong>TreoConfigService</strong> which returns an <code>Observable</code> of the configuration object:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight lang="typescript">
+                import { TreoConfigService } from '@treo/services/config';
+                import { AppConfig } from 'app/core/config/app.config';
+
+                config: AppConfig;
+
+                /**
+                 * Constructor
+                 *
+                 * @param {TreoConfigService} _treoConfigService
+                 */
+                constructor(private _treoConfigService: TreoConfigService)
+                {
+                    this._treoConfigService.config$
+                        .pipe(takeUntil(this._unsubscribeAll))
+                        .subscribe((config: AppConfig) => {
+                            this.config = config;
+                        }
+                });
+            </textarea>
+            <!-- @formatter:on -->
+
+        </div>
+
+    </div>
+
+</div>

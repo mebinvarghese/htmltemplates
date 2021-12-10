@@ -1,0 +1,93 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">CORE FEATURES</span>
+                <span class="separator">/</span>
+                <span class="path">SERVICES</span>
+            </div>
+
+            <h1>Media Watcher</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                <strong>TreoMediaWatcherService</strong> is a singleton service to watch media changes. It automatically registers the breakpoints from TailwindCSS configuration, so
+                you can use the service without needing to configure it first.
+            </p>
+
+            <h2>Module</h2>
+            <textarea treo-highlight
+                      lang="typescript">
+                import { TreoMediaWatcherModule } from '@treo/services/media-watcher';
+            </textarea>
+
+            <h2>Methods</h2>
+            <p>
+                To watch changes on registered breakpoints, you can use the <strong>onMediaChange$</strong> getter:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight lang="typescript">
+                import { TreoMediaWatcherService } from '@treo/services/config';
+
+                /**
+                 * Constructor
+                 *
+                 * @param {TreoMediaWatcherService} _treoMediaWatcherService
+                 */
+                constructor(private _treoMediaWatcherService: TreoMediaWatcherService)
+                {
+                    // Subscribe to media changes
+                    this._treoMediaWatcherService.onMediaChange$
+                        .pipe(takeUntil(this._unsubscribeAll))
+                        .subscribe(({matchingAliases}) => {
+
+                            // Check if the breakpoint is 'md'
+                            this.isScreenSmall = matchingAliases.includes('md');
+                        });
+                }
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                You can also listen for custom media queries using <code>onMediaQueryChange$(query: string)</code> method:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight lang="typescript">
+                import { TreoMediaWatcherService } from '@treo/services/config';
+
+                /**
+                 * Constructor
+                 *
+                 * @param {TreoMediaWatcherService} _treoMediaWatcherService
+                 */
+                constructor(private _treoMediaWatcherService: TreoMediaWatcherService)
+                {
+                    // Subscribe to media changes
+                    this._treoMediaWatcherService.onMediaQueryChange$('(min-width: 1440px)')
+                        .pipe(takeUntil(this._unsubscribeAll))
+                        .subscribe((state) => {
+
+                            // Calculate the drawer mode
+                            this.drawerMode = state.matches ? 'side' : 'over';
+                        });
+                }
+            </textarea>
+            <!-- @formatter:on -->
+
+        </div>
+
+    </div>
+
+</div>

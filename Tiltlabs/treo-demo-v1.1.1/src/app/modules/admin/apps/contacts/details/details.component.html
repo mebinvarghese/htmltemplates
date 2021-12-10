@@ -1,0 +1,519 @@
+<form [formGroup]="contactForm"
+      [ngClass]="{'edit-mode': editMode}">
+
+    <!-- Actions -->
+    <div class="actions">
+
+        <!-- Edit button -->
+        <button mat-icon-button
+                *ngIf="!editMode"
+                [matMenuTriggerFor]="actionsMenu">
+            <mat-icon [svgIcon]="'more_vert'"></mat-icon>
+        </button>
+        <mat-menu #actionsMenu="matMenu">
+            <button mat-menu-item
+                    *ngIf="!editMode"
+                    (click)="toggleEditMode(true)">
+                <mat-icon [svgIcon]="'edit'"></mat-icon>
+                <span>Edit contact</span>
+            </button>
+        </mat-menu>
+
+        <!-- Cancel button -->
+        <button class="cancel-button"
+                mat-icon-button
+                *ngIf="editMode"
+                [matTooltip]="'Cancel'"
+                (click)="toggleEditMode(false)">
+            <mat-icon [svgIcon]="'cancel'"></mat-icon>
+        </button>
+
+        <!-- Save button -->
+        <button mat-icon-button
+                *ngIf="editMode"
+                [disabled]="contactForm.invalid"
+                [matTooltip]="'Save'"
+                (click)="updateContact()">
+            <mat-icon [svgIcon]="'save'"></mat-icon>
+        </button>
+
+        <!-- Delete button -->
+        <button mat-icon-button
+                *ngIf="editMode"
+                [matTooltip]="'Delete'"
+                (click)="deleteContact()">
+            <mat-icon [svgIcon]="'delete'"></mat-icon>
+        </button>
+
+        <!-- Close button -->
+        <button mat-icon-button
+                *ngIf="!editMode"
+                [matTooltip]="'Close'"
+                [routerLink]="['../']">
+            <mat-icon [svgIcon]="'close'"></mat-icon>
+        </button>
+
+    </div>
+
+    <!-- Avatar and Name -->
+    <div class="avatar-and-name">
+
+        <div class="avatar">
+
+            <div class="upload"
+                 *ngIf="editMode">
+                <input id="avatar-file-input"
+                       type="file"
+                       [multiple]="false"
+                       [accept]="'image/jpeg, image/png'"
+                       (change)="uploadAvatar(avatarFileInput.files)"
+                       #avatarFileInput>
+                <label for="avatar-file-input"
+                       matRipple>
+                    <mat-icon [svgIcon]="'photo_camera'"></mat-icon>
+                </label>
+            </div>
+
+            <div class="remove"
+                 *ngIf="editMode">
+                <button mat-icon-button
+                        (click)="removeAvatar()">
+                    <mat-icon [svgIcon]="'delete'"></mat-icon>
+                </button>
+            </div>
+
+            <img *ngIf="contact.avatar"
+                 [src]="contact.avatar"
+                 #avatar>
+
+            <div class="no-avatar"
+                 *ngIf="!contact.avatar">
+                {{contact.name.charAt(0)}}
+            </div>
+
+        </div>
+
+        <!-- View -->
+        <div class="view"
+             *ngIf="contact.name && !editMode">
+            <div class="name">{{contact.name}}</div>
+        </div>
+
+        <!-- Edit -->
+        <div class="edit"
+             *ngIf="editMode">
+
+            <mat-form-field class="name edit treo-mat-no-subscript">
+                <input matInput
+                       [formControlName]="'name'"
+                       [placeholder]="'Name'"
+                       [spellcheck]="false">
+            </mat-form-field>
+
+        </div>
+
+    </div>
+
+    <!-- Tags -->
+    <div class="tags"
+         *ngIf="contact.tags.length || editMode">
+
+        <div class="tag"
+             *ngFor="let tag of (contact.tags | treoFindByKey:'id':tags); trackBy: trackByFn">
+            <span class="tag-title">{{tag.title}}</span>
+        </div>
+
+        <!-- Edit -->
+        <ng-container *ngIf="editMode">
+
+            <div class="edit-tags"
+                 (click)="openTagsPanel()"
+                 #tagsPanelOrigin>
+
+                <ng-container *ngIf="contact.tags.length">
+                    <mat-icon class="edit-icon"
+                              [svgIcon]="'edit'"></mat-icon>
+                    <span>Edit Tags</span>
+                </ng-container>
+
+                <ng-container *ngIf="!contact.tags.length">
+                    <mat-icon class="add-icon"
+                              [svgIcon]="'add'"></mat-icon>
+                    <span>Add Tag</span>
+                </ng-container>
+
+                <!-- Tags panel -->
+                <ng-template #tagsPanel>
+
+                    <div class="contacts-details-tags-panel">
+
+                        <div class="tags-panel-header">
+
+                            <div class="new-tag">
+                                <mat-icon [svgIcon]="'search'"></mat-icon>
+                                <input type="text"
+                                       placeholder="Enter tag name"
+                                       (input)="filterTags($event)"
+                                       (keydown)="filterTagsInputKeyDown($event)"
+                                       [maxLength]="50"
+                                       #newTagInput>
+                            </div>
+
+                            <button class="toggle-edit-mode"
+                                    mat-icon-button
+                                    (click)="toggleTagsEditMode()">
+
+                                <mat-icon *ngIf="!tagsEditMode"
+                                          [svgIcon]="'edit'"></mat-icon>
+
+                                <mat-icon *ngIf="tagsEditMode"
+                                          [svgIcon]="'check'"></mat-icon>
+
+                            </button>
+
+                        </div>
+
+                        <div class="available-tags"
+                             [ngClass]="{'editing': tagsEditMode}">
+
+                            <!-- Tags -->
+                            <ng-container *ngIf="!tagsEditMode">
+                                <mat-checkbox *ngFor="let tag of filteredTags; trackBy: trackByFn"
+                                              [color]="'primary'"
+                                              [checked]="contact.tags.includes(tag.id)"
+                                              (change)="toggleContactTag(tag, $event)">
+                                    {{tag.title}}
+                                </mat-checkbox>
+                            </ng-container>
+
+                            <!-- Tags editing -->
+                            <ng-container *ngIf="tagsEditMode">
+                                <div class="tag-edit"
+                                     *ngFor="let tag of filteredTags; trackBy: trackByFn">
+                                    <mat-form-field class="treo-mat-dense treo-mat-no-subscript">
+                                        <input matInput
+                                               [value]="tag.title"
+                                               (input)="updateTagTitle(tag, $event)">
+                                        <button mat-icon-button
+                                                (click)="deleteTag(tag)"
+                                                matSuffix>
+                                            <mat-icon [svgIcon]="'delete'"></mat-icon>
+                                        </button>
+                                    </mat-form-field>
+                                </div>
+                            </ng-container>
+
+                        </div>
+
+                        <div class="create-tag"
+                             *ngIf="shouldShowCreateTagButton(newTagInput.value)"
+                             (click)="createTag(newTagInput.value); newTagInput.value = ''"
+                             matRipple>
+                            <mat-icon [svgIcon]="'add'"></mat-icon>
+                            <div>Create "<b>{{newTagInput.value}}</b>"</div>
+                        </div>
+
+                    </div>
+
+                </ng-template>
+
+            </div>
+
+        </ng-container>
+
+    </div>
+
+    <!-- Job -->
+    <div class="job"
+         *ngIf="contact.job.title || contact.job.company || editMode"
+         [formGroupName]="'job'">
+
+        <mat-icon class="icon"
+                  [svgIcon]="'work'"></mat-icon>
+
+        <!-- View -->
+        <div class="view"
+             *ngIf="!editMode">
+            <div class="title"
+                 *ngIf="contact.job.title">
+                {{contact.job.title}}
+                <ng-container *ngIf="contact.job.company">,&nbsp;</ng-container>
+            </div>
+            <div class="company"
+                 *ngIf="contact.job.company">
+                {{contact.job.company}}
+            </div>
+        </div>
+
+        <!-- Edit -->
+        <div class="edit"
+             *ngIf="editMode">
+
+            <mat-form-field class="treo-mat-no-subscript">
+                <input matInput
+                       [formControlName]="'title'"
+                       [placeholder]="'Job title'">
+            </mat-form-field>
+
+            <mat-form-field class="treo-mat-no-subscript">
+                <input matInput
+                       [formControlName]="'company'"
+                       [placeholder]="'Company'">
+            </mat-form-field>
+
+        </div>
+
+    </div>
+
+    <!-- Emails -->
+    <div class="emails"
+         *ngIf="contact.emails.length || editMode">
+
+        <mat-icon class="icon"
+                  [svgIcon]="'email'"></mat-icon>
+
+        <!-- View -->
+        <div class="view"
+             *ngIf="!editMode">
+
+            <div class="email"
+                 *ngFor="let email of contact.emails; let i = index; trackBy: trackByFn">
+                <div class="address">
+                    <a class="link"
+                       [href]="'mailto:' + email.email">
+                        {{email.email}}
+                    </a>
+                </div>
+                <div class="label"
+                     *ngIf="email.label">
+                    <span class="separator">&bull;</span>
+                    <span>{{email.label}}</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Edit -->
+        <div class="edit"
+             *ngIf="editMode">
+
+            <div class="email"
+                 *ngFor="let email of contactForm.get('emails')['controls']; let i = index; let first = first; let last = last; trackBy: trackByFn">
+
+                <mat-form-field class="treo-mat-no-subscript">
+                    <input matInput
+                           [formControl]="email.get('email')"
+                           [placeholder]="'Email address'"
+                           [spellcheck]="false">
+                </mat-form-field>
+
+                <mat-form-field class="treo-mat-no-subscript">
+                    <input matInput
+                           [formControl]="email.get('label')"
+                           [placeholder]="'Label'">
+                </mat-form-field>
+
+                <div class="actions">
+
+                    <button class="remove-email-field"
+                            *ngIf="!(first && last)"
+                            mat-icon-button
+                            (click)="removeEmailField(i)"
+                            matTooltip="Remove">
+                        <mat-icon [svgIcon]="'cancel'"></mat-icon>
+                    </button>
+
+                    <button class="add-email-field"
+                            *ngIf="last"
+                            mat-icon-button
+                            (click)="addEmailField()"
+                            matTooltip="Add">
+                        <mat-icon [svgIcon]="'add_circle'"></mat-icon>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Phone numbers -->
+    <div class="phone-numbers"
+         *ngIf="contact.phoneNumbers.length || editMode"
+         [ngClass]="{'editing': editMode}"
+         [formArrayName]="'phoneNumbers'">
+
+        <mat-icon class="icon"
+                  [svgIcon]="'phone'"></mat-icon>
+
+        <!-- View -->
+        <div class="view"
+             *ngIf="!editMode">
+
+            <div class="phone-number"
+                 *ngFor="let phoneNumber of contact.phoneNumbers; let i = index; trackBy: trackByFn">
+                <div class="flag"
+                     [matTooltip]="getCountryByIso(phoneNumber.country).name"
+                     [style.backgroundPosition]="getCountryByIso(phoneNumber.country).flagImagePos"></div>
+                <div class="code">{{getCountryByIso(phoneNumber.country).code}}</div>
+                <div class="number">{{phoneNumber.number}}</div>
+                <div class="label"
+                     *ngIf="phoneNumber.label">
+                    <span class="separator">&bull;</span>
+                    <span>{{phoneNumber.label}}</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Edit -->
+        <div class="edit"
+             *ngIf="editMode">
+
+            <div class="phone-number"
+                 *ngFor="let phoneNumber of contactForm.get('phoneNumbers')['controls']; let i = index; let first = first; let last = last; trackBy: trackByFn">
+
+                <mat-form-field class="treo-mat-no-subscript">
+                    <input matInput
+                           [formControl]="phoneNumber.get('number')"
+                           [placeholder]="'Phone'">
+                    <mat-select [panelClass]="'contacts-details-country-code-selector-panel'"
+                                [formControl]="phoneNumber.get('country')"
+                                matPrefix>
+                        <mat-select-trigger>
+                            <span class="flag"
+                                  [style.backgroundPosition]="getCountryByIso(phoneNumber.get('country').value).flagImagePos"></span>
+                        </mat-select-trigger>
+                        <mat-option *ngFor="let country of countries; trackBy: trackByFn"
+                                    [value]="country.iso">
+                            <span class="flag"
+                                  [style.backgroundPosition]="country.flagImagePos"></span>
+                            <span class="country">{{country.name}}</span>
+                            <span class="code">{{country.code}}</span>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="treo-mat-no-subscript">
+                    <input matInput
+                           [formControl]="phoneNumber.get('label')"
+                           [placeholder]="'Label'">
+                </mat-form-field>
+
+                <div class="actions">
+
+                    <button class="remove-phone-number-field"
+                            *ngIf="!(first && last)"
+                            mat-icon-button
+                            (click)="removePhoneNumberField(i)"
+                            matTooltip="Remove">
+                        <mat-icon [svgIcon]="'cancel'"></mat-icon>
+                    </button>
+
+                    <button class="add-phone-number-field"
+                            *ngIf="last"
+                            mat-icon-button
+                            (click)="addPhoneNumberField()"
+                            matTooltip="Add">
+                        <mat-icon [svgIcon]="'add_circle'"></mat-icon>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Address -->
+    <div class="address"
+         *ngIf="contact.address || editMode">
+
+        <mat-icon class="icon"
+                  [svgIcon]="'room'"></mat-icon>
+
+        <!-- View -->
+        <div class="view"
+             *ngIf="!editMode">
+            {{contact.address}}
+        </div>
+
+        <!-- Edit -->
+        <div class="edit"
+             *ngIf="editMode">
+            <mat-form-field class="treo-mat-no-subscript">
+                <input matInput
+                       [formControlName]="'address'"
+                       [placeholder]="'Address'"
+                       [spellcheck]="false">
+            </mat-form-field>
+        </div>
+
+    </div>
+
+    <!-- Birthday -->
+    <div class="birthday"
+         *ngIf="contact.birthday || editMode">
+
+        <mat-icon class="icon"
+                  [svgIcon]="'cake'"></mat-icon>
+
+        <!-- View -->
+        <div class="view"
+             *ngIf="!editMode">
+            {{contact.birthday | date:'longDate'}}
+        </div>
+
+        <!-- Edit -->
+        <div class="edit"
+             *ngIf="editMode">
+
+            <mat-form-field class="treo-mat-no-subscript">
+                <input matInput
+                       [matDatepicker]="birthdayDatepicker"
+                       [formControlName]="'birthday'"
+                       [placeholder]="'Birthday'">
+                <mat-datepicker-toggle matSuffix
+                                       [for]="birthdayDatepicker">
+                </mat-datepicker-toggle>
+                <mat-datepicker #birthdayDatepicker></mat-datepicker>
+            </mat-form-field>
+
+        </div>
+
+    </div>
+
+    <!-- Notes -->
+    <div class="notes"
+         *ngIf="contact.notes || editMode">
+
+        <mat-icon class="icon"
+                  [svgIcon]="'notes'"></mat-icon>
+
+        <!-- View -->
+        <div class="view"
+             *ngIf="!editMode">
+            <div [innerHTML]="contact.notes"></div>
+        </div>
+
+        <!-- Edit -->
+        <div class="edit"
+             *ngIf="editMode">
+
+            <mat-form-field class="treo-mat-textarea treo-mat-no-subscript">
+                <textarea matInput
+                          treoAutogrow
+                          [rows]="5"
+                          [formControlName]="'notes'"
+                          [placeholder]="'Notes'"
+                          [spellcheck]="false"></textarea>
+            </mat-form-field>
+
+        </div>
+
+    </div>
+
+</form>

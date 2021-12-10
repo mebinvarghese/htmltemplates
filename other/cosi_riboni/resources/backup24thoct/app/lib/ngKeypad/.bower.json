@@ -1,0 +1,37 @@
+{
+  "name": "ngKeypad",
+  "authors": [
+    "alvarowolfx <alvarowolfx@gmail.com>"
+  ],
+  "description": "A customizable keypad made with Angular.js",
+  "main": [
+    "./dist/ng-keypad.min.js",
+    "./dist/ng-keypad.css"
+  ],
+  "keywords": [
+    "angular",
+    "component",
+    "numpad",
+    "keypad",
+    "mobile"
+  ],
+  "license": "MIT",
+  "homepage": "github.com/alvarowolfx/ng-keypad",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "f1983f5e06",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "f1983f5e06d3213326c8b457a35ff1eb8e1ec59d"
+  },
+  "_source": "https://github.com/alvarowolfx/ng-keypad.git",
+  "_target": "*",
+  "_originalSource": "ngKeypad",
+  "_direct": true
+}

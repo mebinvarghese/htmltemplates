@@ -1,0 +1,36 @@
+@import 'treo';
+
+coming-soon {
+
+    .content-layout {
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $foreground: map-get($theme, foreground);
+
+    coming-soon {
+
+        .content-layout {
+
+            treo-card {
+
+                .form-container {
+
+                    .form {
+
+                        .form-footer {
+                            color: map-get($foreground, secondary-text);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

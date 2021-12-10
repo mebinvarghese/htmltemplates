@@ -1,0 +1,86 @@
+@import 'treo';
+
+cards {
+
+    .main {
+
+        @include treo-breakpoint('xs') {
+            padding: 16px !important;
+        }
+
+        .filters {
+            margin-bottom: 64px;
+
+            @include treo-breakpoint('xs') {
+                margin-bottom: 24px;
+            }
+
+            .mat-button-toggle-group {
+                flex-wrap: wrap;
+                border: none;
+
+                .mat-button-toggle {
+                    border: none;
+                    margin: 4px;
+                    border-radius: 4px;
+
+                    .mat-button-toggle-label-content {
+                        padding: 0 16px;
+
+                        .filter-title {
+                            margin-right: 6px;
+                        }
+
+                        .filter-number {
+                            font-size: 12px;
+                            font-weight: 700;
+                        }
+                    }
+                }
+            }
+        }
+
+        .content {
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin: 0 -16px;
+            max-width: 1600px;
+
+            treo-card {
+                margin: 16px;
+            }
+        }
+
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $foreground: map-get($theme, foreground);
+
+    cards {
+
+        .main {
+
+            .filters {
+
+                .mat-button-toggle-group {
+
+                    .mat-button-toggle {
+
+                        .mat-button-toggle-label-content {
+
+                            .filter-number {
+                                color: map-get($foreground, secondary-text);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

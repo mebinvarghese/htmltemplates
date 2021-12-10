@@ -1,0 +1,222 @@
+@import 'treo';
+
+profile {
+    display: flex;
+
+    .content-layout {
+
+        .header {
+            display: flex;
+            flex-direction: column;
+            padding: 0 !important;
+            border-bottom: none !important;
+            @include treo-elevation();
+
+            .cover {
+
+                img {
+                    height: 160px;
+                    object-fit: cover;
+
+                    @include treo-breakpoint('gt-md') {
+                        height: 320px;
+                    }
+                }
+            }
+
+            .info {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                max-width: 1024px;
+                width: 100%;
+                margin: 0 auto;
+                padding: 0 32px;
+
+                @include treo-breakpoint('gt-md') {
+                    flex-direction: row;
+                    height: 72px;
+                    max-height: 72px;
+                    min-height: 72px;
+                }
+
+                .avatar {
+                    margin-top: -104px;
+                    padding: 4px;
+                    border-radius: 100%;
+
+                    @include treo-breakpoint('gt-md') {
+                        margin-top: -88px;
+                    }
+
+                    img {
+                        width: 128px;
+                        height: 128px;
+                        border-radius: 100%;
+                    }
+                }
+
+                .separator {
+                    display: none;
+                    border-right-width: 2px;
+                    border-right-style: solid;
+                    height: 32px;
+                    margin: 0 32px;
+
+                    @include treo-breakpoint('gt-md') {
+                        display: flex;
+                    }
+                }
+
+                .person {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin: 16px 0 0 0;
+
+                    @include treo-breakpoint('gt-md') {
+                        align-items: flex-start;
+                        margin: 0 0 0 32px;
+                    }
+
+                    .name {
+                        font-weight: 700;
+                        font-size: 16px;
+                        line-height: 1;
+                    }
+                }
+
+                .stats {
+                    display: flex;
+                    align-items: center;
+                    margin: 24px 0 0 0;
+
+                    @include treo-breakpoint('gt-md') {
+                        margin: 0;
+                    }
+
+                    .stat {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        margin-right: 24px;
+
+                        &:last-child {
+                            margin-right: 0;
+                        }
+
+                        .number {
+                            font-weight: 700;
+                        }
+
+                        .label {
+                            font-size: 12px;
+                            font-weight: 500;
+                        }
+                    }
+                }
+
+                .menu {
+                    display: flex;
+                    align-items: center;
+                    margin: 32px 0 16px 0;
+
+                    @include treo-breakpoint('gt-md') {
+                        margin: 0 0 0 auto;
+                    }
+
+                    a {
+                        margin-right: 24px;
+
+                        &:last-child {
+                            margin-right: 0;
+                        }
+
+                        &.active {
+                            font-weight: 500;
+                        }
+                    }
+                }
+            }
+        }
+
+        .main {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 1024px;
+            margin: 0 auto;
+            padding: 32px !important;
+
+            .column {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+
+                &:first-child {
+                    display: none;
+                    margin-right: 32px;
+
+                    @include treo-breakpoint('gt-md') {
+                        display: flex;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    profile {
+
+        .header {
+
+            .info {
+                background: map-get($background, card);
+
+                .avatar {
+                    background: map-get($background, card);
+                }
+
+                .person {
+
+                    .location {
+                        color: map-get($foreground, secondary-text);
+                    }
+                }
+
+                .stats {
+
+                    .stat {
+
+                        .label {
+                            color: map-get($foreground, secondary-text);
+                        }
+                    }
+                }
+
+                .menu {
+
+                    a {
+                        color: map-get($foreground, secondary-text);
+
+                        &.active {
+                            color: map-get($foreground, text);
+                        }
+                    }
+                }
+            }
+        }
+
+        .main {
+
+        }
+    }
+}

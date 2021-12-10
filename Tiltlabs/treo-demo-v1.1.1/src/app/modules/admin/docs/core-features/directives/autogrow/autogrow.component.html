@@ -1,0 +1,85 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">CORE FEATURES</span>
+                <span class="separator">/</span>
+                <span class="path">DIRECTIVES</span>
+            </div>
+
+            <h1>Autogrow</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                <strong>treoAutogrow</strong> is a <code>&lt;textarea&gt;</code> directive to make them automatically grow depending on their content. It's an alternative for
+                Angular Material's <strong>cdkTextareaAutosize</strong> directive with a more native and lightweight approach.
+            </p>
+            <p>
+                <strong>Exported as: </strong><code>treoAutogrow</code>
+            </p>
+
+            <h2>Module</h2>
+            <textarea treo-highlight
+                      lang="typescript">
+                import { TreoAutogrowModule } from '@treo/directives/autogrow';
+            </textarea>
+
+            <h2>Usage</h2>
+            <p>
+                Here's the basic usage of the <code>treoAutogrow</code>:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="html">
+                &lt;textarea treoAutogrow
+                          [treoAutogrowVerticalPadding]="12"&gt;
+                    Content of the textarea
+                &lt;/textarea&gt;
+            </textarea>
+            <!-- @formatter:on -->
+
+            <h2>Properties</h2>
+            <div class="bg-card py-3 px-6 rounded shadow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>treoAutogrowVerticalPadding: number</div>
+                            </td>
+                            <td>
+                                Padding of the textarea. Must be inline with textarea's padding style.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">8</code>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

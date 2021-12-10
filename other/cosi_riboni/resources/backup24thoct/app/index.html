@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html ng-app="aiv-pos">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+	 <link rel="shortcut icon" href="../../favicon.ico">
+    <title>{{aiv_info.name+" "+aiv_info.APP_VER+" - "+current_terminal}}</title>
+		
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="lib/ngKeypad/dist/ng-keypad.css">
+	<link href="lib/jquery-ui/themes/cupertino/jquery-ui.min.css" rel="stylesheet">
+	<link href="lib/keyboard/dist/css/keyboard.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:500&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+    <link href="css/style.css" rel="stylesheet">
+     <link href="css/style_new.css" rel="stylesheet">
+	<script>
+		const { ipcRenderer } = require('electron')
+	</script>
+  </head>
+  <body animation="slide-left-right-ios7" ng-controller="MainCtrl as main">
+    <!--
+      The views will be rendered in the <ion-nav-view> directive below
+      Templates are in the /templates folder (but you could also
+      have templates inline in this html file if you'd like).
+    -->
+    <ion-nav-view>
+		<ion-content scroll="false">
+			<div class="aiv-start">
+				<div class="aiv-spinner">
+					<ion-spinner icon="lines"></ion-spinner>
+				</div>
+			</div>
+		</ion-content>
+	</ion-nav-view>
+	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+	<script src="js/jquery.js"></script>
+	<script src="lib/jquery-ui/jquery-ui.min.js"></script>
+	<script src="lib/keyboard/dist/js/jquery.keyboard.js"></script>
+	<script src="lib/keyboard/dist/js/jquery.keyboard.extension-typing.min.js"></script>
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+	<script src="lib/ionic-platform-web-client/dist/ionic.io.bundle.min.js"></script>
+    <script src="lib/angular-messages/angular-messages.min.js"></script>
+    <script src="lib/ion-image-lazy-load/ionic-image-lazy-load.js"></script>
+	<script src="js/pouchdb.min.js"></script>
+	<script src="js/offline.min.js"></script>
+	<script src="lib/angularUtils-pagination/dirPagination.js"></script>
+	<script src="js/easyprint.js"></script>
+	<script src="lib/ionicSelect/ionicSelect.js"></script>
+	<script type="text/javascript" src="lib/ngKeypad/dist/ng-keypad.js"></script>
+	<script src="lib/ng-virtual-keyboard/dist/ng-virtual-keyboard.js"></script>
+	<script src="lib/pouchdb-quick-search/dist/pouchdb.quick-search.min.js"></script>
+	<script src="lib/pouchdb-upsert/dist/pouchdb.upsert.min.js"></script>
+	<script src="js/pouchdb.find.js"></script>
+	<script src="lib/wordpress-hash-node-master/bundle.js"></script>
+	<script src="lib/ionic-datepicker/dist/ionic-datepicker.bundle.min.js"></script>
+	<script src="lib/ionic-timepicker/dist/ionic-timepicker.bundle.min.js"></script>
+	<script src="lib/jspdf/dist/jspdf.min.js"></script>
+	<script src="lib/jspdf-autotable/dist/jspdf.plugin.autotable.js"></script>
+	<script src="lib/moment/min/moment.min.js"></script>
+	<script src="lib/moment/min/locales.min.js"></script>
+	<script src="lib/humanize-duration/humanize-duration.js"></script>
+	<script src="lib/angular-timer/dist/angular-timer.min.js"></script>
+	<script src="lib/mutex-promise/index.js"></script>
+
+
+	<script type="text/javascript" src="lib/qrcode/lib/qrcode.min.js"></script>
+	<script type="text/javascript" src="lib/angular-qr/angular-qr.min.js"></script>
+
+	<!-- Required scripts for QZTray-->
+	<script type="text/javascript" src="js/dependencies/rsvp-3.1.0.min.js"></script>
+	<script type="text/javascript" src="js/dependencies/sha-256.min.js"></script>
+	<script type="text/javascript" src="js/qz-tray.js"></script>
+	<script src="js/jsrsasign-latest-all-min.js"></script>
+	<script type="text/javascript" src="js/sign-message.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <!-- Cordova is bootstrapped by ionic-platform-web-client, uncomment this if you remove ionic-platform-web-client... -->
+	<!-- <script src="cordova.js"></script> -->
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+	<!--<script src="js/bundle.js"></script>-->
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+	<script src="js/directives.js"></script>
+
+    <!-- common services -->
+    <script src="js/common/common-services.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+    
+	
+	<script>if (window.module) module = window.module;</script>
+  </body>
+</html>

@@ -1,0 +1,424 @@
+@import 'treo';
+
+tasks-list {
+    display: flex;
+    flex: 1 1 auto;
+
+    .mat-drawer-container {
+
+        .mat-drawer {
+            width: 496px !important;
+            min-width: 496px !important;
+            max-width: 496px !important;
+
+            @include treo-breakpoint('xs') {
+                width: 100% !important;
+                min-width: 100% !important;
+                max-width: 100% !important;
+            }
+        }
+
+        .mat-drawer-content {
+
+            .main {
+                padding: 0 !important;
+                min-height: 100%;
+
+                .header {
+                    display: flex;
+                    flex: 0 1 auto;
+                    align-items: center;
+                    padding: 40px 32px;
+
+                    @include treo-breakpoint('xs') {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+
+                    .title {
+
+                        h1 {
+                            margin: 0;
+                            line-height: 1;
+                        }
+                    }
+
+                    .remaining-tasks-count {
+                        margin-left: 2px;
+                        font-weight: 500;
+                    }
+
+                    .main-actions {
+                        margin-left: auto;
+
+                        @include treo-breakpoint('xs') {
+                            margin-left: 0;
+                        }
+
+                        .add-task {
+                            margin-right: 16px;
+
+                            @include treo-breakpoint('xs') {
+                                margin-right: 12px;
+                            }
+                        }
+
+                        .add-task,
+                        .add-section {
+                            padding: 0 20px 0 16px;
+
+                            @include treo-breakpoint('xs') {
+                                margin-top: 24px;
+                            }
+
+                            .mat-icon {
+                                margin-right: 8px;
+                                @include treo-icon-size(20);
+                            }
+                        }
+
+                        .add-section {
+                            @include treo-breakpoint('xs') {
+                                margin-top: 12px;
+                            }
+                        }
+                    }
+                }
+
+                .tasks-list {
+
+                    &.cdk-drop-list-dragging {
+
+                        .task {
+                            transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+
+                            &.cdk-drag-placeholder {
+                                z-index: 10;
+                            }
+
+                            &:hover {
+
+                                .task-content {
+
+                                    .drag-handle {
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .task {
+                        position: relative;
+                        width: 100%;
+                        user-select: none;
+
+                        &.cdk-drag-disabled {
+
+                            .task-content {
+
+                                .drag-handle {
+                                    display: none;
+                                }
+                            }
+                        }
+
+                        @include treo-breakpoint('gt-sm') {
+
+                            &:hover {
+
+                                .task-content {
+
+                                    .drag-handle {
+                                        visibility: visible;
+                                        pointer-events: auto;
+                                        opacity: 1;
+                                    }
+                                }
+                            }
+                        }
+
+                        &.type-section {
+                            height: 56px;
+                            min-height: 56px;
+                            max-height: 56px;
+                            font-size: 16px;
+                            font-weight: 600;
+                            border-top-width: 2px;
+
+                            .task-content {
+                                padding: 0 32px 0 40px;
+                            }
+                        }
+
+                        &.type-task {
+                            height: 64px;
+                            min-height: 64px;
+                            max-height: 64px;
+
+                            .task-content {
+                                margin-left: 40px;
+                                border-top-width: 1px;
+                            }
+                        }
+
+                        .task-content {
+                            display: flex;
+                            align-items: center;
+                            height: 100%;
+                            padding-right: 28px;
+
+                            .drag-handle {
+                                position: absolute;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                top: 0;
+                                bottom: 0;
+                                left: 0;
+                                width: 32px;
+                                visibility: hidden;
+                                pointer-events: none;
+                                opacity: 0;
+                                cursor: grab;
+
+                                @include treo-breakpoint('lt-md') {
+                                    visibility: visible;
+                                    pointer-events: auto;
+                                    opacity: 1;
+                                }
+
+                                .mat-icon {
+                                    @include treo-icon-size(18);
+                                    margin-left: 8px;
+                                }
+                            }
+
+                            .complete-task {
+                                margin: 0 8px 0 -8px;
+                                line-height: 1;
+                            }
+
+                            a {
+                                display: flex;
+                                flex: 1 1 auto;
+                                align-items: center;
+                                min-width: 0;
+                                height: 100%;
+
+                                .title {
+                                    flex: 1 1 auto;
+                                    margin-right: 8px;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    line-height: normal;
+
+                                    .placeholder {
+                                        user-select: none;
+                                    }
+                                }
+
+                                .priority {
+                                    width: 16px;
+                                    height: 16px;
+                                    margin-right: 12px;
+
+                                    .low,
+                                    .high {
+                                        @include treo-icon-size(16);
+                                    }
+                                }
+
+                                .due-date {
+                                    font-size: 12px;
+                                    white-space: nowrap;
+                                }
+                            }
+                        }
+                    }
+
+                    .no-tasks {
+                        display: flex;
+                        flex: 1 1 auto;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+
+                        .mat-icon {
+                            @include treo-icon-size(96);
+                        }
+
+                        h4 {
+                            margin-top: 16px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.cdk-drag-preview {
+
+    &.task {
+        display: none !important;
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+    $is-dark: map-get($theme, is-dark);
+
+    tasks-list {
+
+        .mat-drawer-container {
+            @if (not $is-dark) {
+                background: map-get($background, card);
+            }
+
+            .mat-drawer-content {
+
+                .main {
+
+                    .header {
+
+                        .remaining-tasks-count {
+                            color: map-get($foreground, secondary-text);
+                        }
+                    }
+
+                    .tasks-list {
+
+                        &.cdk-drop-list-dragging {
+
+                            .task {
+
+                                &:hover {
+
+                                    &.type-task {
+
+                                        .task-content {
+                                            background: none;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .task {
+
+                            &.completed {
+
+                                a {
+
+                                    .title {
+                                        color: map-get($foreground, disabled-text);
+                                    }
+                                }
+                            }
+
+                            &.type-section {
+                                @if ($is-dark) {
+                                    background: rgba(0, 0, 0, 0.05);
+                                } @else {
+                                    background: treo-color('cool-gray', 100);
+                                }
+                            }
+
+                            &.selected {
+
+                                .task-content {
+                                    box-shadow: inset -4px 0 0 0 map-get($primary, default);
+                                }
+                            }
+
+                            .task-content {
+
+                                .drag-handle {
+
+                                    .mat-icon {
+                                        color: map-get($foreground, hint-text);
+                                    }
+                                }
+
+                                a {
+
+                                    .title {
+
+                                        .placeholder {
+                                            color: map-get($foreground, hint-text);
+                                        }
+                                    }
+
+                                    .priority {
+
+                                        .low {
+                                            @if ($is-dark) {
+                                                color: treo-color('green', 400);
+                                            } @else {
+                                                color: treo-color('green', 600);
+                                            }
+                                        }
+
+                                        .high {
+                                            @if ($is-dark) {
+                                                color: treo-color('red', 400);
+                                            } @else {
+                                                color: treo-color('red', 600);
+                                            }
+                                        }
+                                    }
+
+                                    .due-date {
+                                        color: map-get($foreground, secondary-text);
+                                    }
+                                }
+                            }
+                        }
+
+                        .no-tasks {
+                            @if (not $is-dark) {
+                                background: treo-color('cool-gray', 100);
+                            }
+
+                            .mat-icon {
+                                color: map-get($foreground, secondary-text);
+                            }
+
+                            h4 {
+                                color: map-get($foreground, secondary-text);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .mat-drawer {
+
+                @if ($is-dark) {
+                    background: map-get($background, background);
+                }
+            }
+        }
+    }
+
+    .tasks-list-search-results-panel {
+
+        .mat-option {
+
+            .result {
+
+                .result-notes {
+                    color: map-get($foreground, secondary-text);
+                }
+            }
+        }
+    }
+}

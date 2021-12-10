@@ -1,0 +1,133 @@
+<ion-view>
+	<ion-header-bar class="bar-subheader item-input-inset">
+	  <label class = "item item-input item-select aiv-select" style="margin-right:10px;">
+		<select ng-model="option_select" ng-init="option_select=order_status[0]" ng-options="status for status in order_status" ng-change="option_select=='All'?searchText='':searchText=option_select"></select>
+	  </label>
+	  <label class="item-input-wrapper">
+		<i class="icon ion-ios-search placeholder-icon"></i>
+		<input type="search" placeholder="Search order" ng-model="searchText" ng-focus="toggleOrderDetails(shownDetails);" ng-virtual-keyboard="kb_config">
+	  </label>
+	  <button class="button button-stable button-clear" ng-click="searchText='';option_select=order_status[0];">Cancel</button>      
+	</ion-header-bar>
+	<ion-content class="has-header padding aiv-pos-back" style="padding:0px;">
+		<ion-refresher on-refresh="getAllOrders('WEB',true);"></ion-refresher>
+		<div ng-if="hf_loyalty.enabled" data-barcode-scanner="searchLoyaltyCustomer" data-ng-model="loyalty_card_id"></div>
+		<input ng-if="hf_loyalty.enabled" id="aiv-loyalty-input" ng-change="loyalty_card.manual_search=false;searchLoyaltyCustomer(loyalty_card_id)" type="hidden" ng-model="loyalty_card_id"/>
+		<label class="item item-divider row">
+			<div style="margin-left:1%;"></div>
+			<div class="col col-25">Order</div>
+			<div class="col text-center col-20">Date</div>
+			<div class="col text-center col-10">Total</div>
+			<div class="col text-center col-20">Status</div>
+			<div class="col text-center col-25"></div>
+		</label>
+		<ion-list >
+			<div dir-paginate="order in allOrders | orderBy:'data.created_at':true | filter:searchText|itemsPerPage:8 track by order._id">
+				<ion-item class="item-stable row item-text-wrap"
+						ng-click="toggleOrderDetails(order)"
+						ng-class="{active: isDetailsShown(order)}" style="font-size:17px;font-weight:400;">
+					<div style="margin-left:1%;" class="col-center"><i class="icon positive" ng-class="isDetailsShown(order) ? 'ion-minus' : 'ion-plus'"></i></div>
+					<div class="col col-25 col-center" ng-show="order.data.billing_address.first_name">#{{order.data.order_meta.daily_order_no}} by {{order.data.billing_address.first_name}} {{order.data.billing_address.last_name}}
+						<span style="font-size: 0.8em;color: rgba(0,0,0,0.7)" ng-show="order.data.id"><br>Ref no:{{order.data.id}}</span>
+					</div>
+					<div class="col col-25 col-center" ng-hide="order.data.billing_address.first_name">#{{order.data.order_meta.daily_order_no}} by Walk-in-Customer
+						<span style="font-size: 0.8em;color: rgba(0,0,0,0.7)" ng-show="order.data.id"><br>Ref no:{{order.data.id}}</span>
+					</div>
+					<div class="col col-20 text-center col-center">{{order.data.created_at | date:'MMM d, y h:mm a'}}</div>
+					<div class="col col-10 text-center col-center">{{order.data.total | currency:"£ ":2}}</div>
+					<div class="col col-20 text-center col-center text-aiv-{{order.data.status}}">{{order.data.status}}</div>
+					<div class="col col-25 text-center col-center">
+						<button ng-hide="order.data.status=='pending'||order.data.status=='processing'" class="button button-balanced icon ion-printer bar-button" title="Print receipt" ng-click="printReceipt(order.data);$event.stopPropagation();"></button>
+						<button ng-show="order.data.status=='pending'||order.data.status=='processing'" class="button button-assertive icon ion-ios-download bar-button" title="Load Order" ng-click="loadOrder(order);$event.stopPropagation();"></button>
+						<button ng-show="order.data.status=='completed'||order.data.status=='cancelled'" ng-disabled="loginInfo.role!='shop_manager'" class="button button-assertive button-outline icon ion-close bar-button" title="Remove order" ng-click="removeOrder(order);$event.stopPropagation();"></button>
+						<button ng-show="order.data.status=='on-hold'" ng-disabled="payDisabled" class="button button-positive icon ion-android-checkmark-circle bar-button" title="Mark as Complete" ng-click="updatePaidStatus(order,false);$event.stopPropagation();"></button>
+					</div>
+				</ion-item>
+				<ion-item class="item-accordion" ng-show="isDetailsShown(order)">
+					<div class="card" style="margin-bottom:0px;">
+						<label style="font-weight:500;background-color:#f5f5f5;padding: 5px;font-size: 20px;" class="item text-center">
+							<span ng-class="order.data.payment_details.paid?'balanced':'assertive'">{{order.data.payment_details.paid?'PAID':'UNPAID'}} </span>
+							| {{order.data.payment_details.method_id=='cod'?(order.data.shipping_lines[0].method_id=='local_delivery'?'Cash on Delivery':'Cash on Collection'):order.data.payment_details.method_title}} | 
+							<i style="font-size: 30px;" class="icon assertive" ng-class="order.data.shipping_methods?(order.data.shipping_lines[0].method_id=='local_delivery'?'ion-android-bicycle':'ion-bag'):'ion-home'"></i>
+						</label>
+						<label class="item item-divider row">
+							<div class="col col-33">Billing Details</div>
+							<div class="col col-33">Delivery Details</div>
+						</label>
+						<label class="item row">
+							<div class="col col-33">
+								<p>{{order.data.billing_address.first_name}} {{order.data.billing_address.last_name}}</p>
+								<p>{{order.data.billing_address.address_1}}</p>
+								<p ng-show="order.data.billing_address.address_2">{{order.data.billing_address.address_2}}</p> 
+								<p ng-show="order.data.billing_address.city">{{order.data.billing_address.city}}</p>
+								<p>{{order.data.billing_address.postcode}}</p>
+								<p ng-show="order.data.billing_address.phone">{{order.data.billing_address.phone}}</p>
+								<p ng-show="order.data.billing_address.email">{{order.data.billing_address.email}}</p>
+							</div>
+							<div class="col col-33">
+								<p>{{order.data.shipping_address.first_name}} {{order.data.shipping_address.last_name}}</p>
+								<p>{{order.data.shipping_address.address_1}}</p>
+								<p ng-show="order.data.shipping_address.address_2">{{order.data.shipping_address.address_2}}</p> 
+								<p ng-show="order.data.shipping_address.city">{{order.data.shipping_address.city}}</p>
+								<p>{{order.data.shipping_address.postcode}}</p>
+								<p ng-show="order.data.shipping_address.state">{{order.data.shipping_address.state}}</p>
+							</div>
+							<div class="col col-33">
+								<div class="item-text-wrap">Note : {{order.data.note}}</div>
+							</div>
+						</label>
+					</div>
+					<div class="card" style="margin-top:0px;">
+						<label class="item item-divider row">
+							<div class="col col-67">Order Items</div>
+							<div class="col">Qty</div>
+							<div class="col">Price</div>
+							<div class="col">Total</div>
+						</label>
+						<ion-list >
+							<ion-item class="item item-text-wrap pos-cart" ng-repeat="product in order.data.line_items" track by="$index">
+								<div class="row responsive-sm">
+									<div class="col col-67 col-center">{{product.name}}
+										<!--<p><span ng-repeat="(key, value) in ::product.attributestoshow track by $index">{{::key | split:'###':0 | split:'_':0}},</span></p>-->
+										<p ng-repeat="attr in product.meta">{{attr.key | split:'###':0 | split:'_':0}} - {{attr.value | split:'###':0}}</p>
+									</div>
+									<div class="col col-center">{{product.quantity}}</div>
+									<div class="col col-center " >{{product.subtotal/product.quantity | currency:"£":2}}</div>
+									<div class="col col-center ">{{product.subtotal | currency:"£":2}}</div>
+								</div>
+							</ion-item>	
+						</ion-list>
+						<label class="item item-divider">
+							<div class="row" ng-show="order.data.total_discount!=0">
+								<div class="col col-80"></div>
+								<div class="col col-10">Discount : </div>
+								<div class="col col-10">{{order.data.total_discount | currency:"£ ":2}}</div>
+							</div>
+							<div class="row" ng-show="order.data.total_tax!=0">
+								<div class="col col-80"></div>
+								<div class="col col-10">VAT : </div>
+								<div class="col col-10">{{order.data.total_tax | currency:"£ ":2}}</div>
+							</div>
+							<div class="row" ng-show="order.data.total_shipping!=0">
+								<div class="col col-80"></div>
+								<div class="col col-10">Delivery : </div>
+								<div class="col col-10">{{order.data.total_shipping | currency:"£ ":2}}</div>
+							</div>
+							<div class="row">
+								<div class="col col-80"></div>
+								<div class="col col-10">Total 	 : </div>
+								<div class="col col-10">{{order.data.total | currency:"£ ":2}}</div>
+							</div>
+						</label>
+					</div>
+				</ion-item>
+			</div>
+		</ion-list>
+		<dir-pagination-controls max-size="10" direction-links="true" boundary-links="true" ></dir-pagination-controls>
+		<div class="button-bar" style="position:absolute;bottom:0px;">
+			<a class="button button-positive" ng-click="getAllOrders('WEB')" ng-class="{'active': showOnlineOrders=='WEB'}">All Orders</a>
+			<a class="button button-positive" ng-click="getAllOrders('COLLECTION')" ng-class="{'active': showOnlineOrders=='COLLECTION'}">Collection</a>
+			<a class="button button-positive" ng-click="getAllOrders('DELIVERY')" ng-class="{'active': showOnlineOrders=='DELIVERY'}">Delivery</a>
+		</div>
+	</ion-content>
+</ion-view>

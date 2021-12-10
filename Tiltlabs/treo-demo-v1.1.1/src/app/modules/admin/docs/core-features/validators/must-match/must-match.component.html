@@ -1,0 +1,104 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">CORE FEATURES</span>
+                <span class="separator">/</span>
+                <span class="path">VALIDATORS</span>
+            </div>
+
+            <h1>mustMatch</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                The <code>mustMatch</code> validator can be used to check if two different form fields has the same value. For example, a <strong>Confirm password</strong> should
+                have the same value with the <strong>Password</strong> field. To validate that, the <code>mustMatch</code> validator can be used.
+            </p>
+
+            <h3>Usage</h3>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="typescript">
+                TreoValidators.mustMatch(controlPath, matchingControlPath)
+            </textarea>
+            <!-- @formatter:on -->
+
+            <h3>Parameters</h3>
+            <div class="bg-card py-3 px-6 mb-4 rounded shadow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>controlPath: string</div>
+                            </td>
+                            <td>
+                                A dot-delimited string values that define the path to the control.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>matchingControlPath: string</div>
+                            </td>
+                            <td>
+                                A dot-delimited string values that define the path to the matching control.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>
+                Because the <code>mustMatch</code> validator requires parameters, it must be used within the <code>validators</code> option of the form builder:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="typescript">
+                import { TreoValidators } from '@treo/validators';
+
+                // Create the reset password form
+                this.resetPasswordForm = this._formBuilder.group(
+                    {
+                        password       : ['', Validators.required],
+                        passwordConfirm: ['', Validators.required]
+                    },
+                    {
+                        validators: TreoValidators.mustMatch('password', 'passwordConfirm')
+                    }
+                );
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                To show an error message on the field, the <code>mat-error</code> element can be used within the <code>mat-form-field</code>:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="html">
+                <mat-error *ngIf="resetPasswordForm.get('passwordConfirm').hasError('mustMatch')">
+                    Passwords must match
+                </mat-error>
+            </textarea>
+            <!-- @formatter:on -->
+
+        </div>
+
+    </div>
+
+</div>

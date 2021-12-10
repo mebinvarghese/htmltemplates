@@ -1,0 +1,1071 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">CORE FEATURES</span>
+                <span class="separator">/</span>
+                <span class="path">COMPONENTS</span>
+            </div>
+
+            <h1>Message</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                <strong>treo-message</strong> is a customizable component for displaying all kinds of messages across your app. They can be controlled from your components as well
+                as from the <code>TreoMessageService</code>.
+            </p>
+            <p>
+                <strong>Exported as: </strong><code>treoMessage</code>
+            </p>
+
+            <h2>Module</h2>
+            <textarea treo-highlight
+                      lang="typescript">
+                import { TreoMessageModule } from '@treo/components/message';
+            </textarea>
+
+            <h2>Properties</h2>
+            <div class="bg-card py-3 px-6 rounded shadow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>name: string</div>
+                            </td>
+                            <td>
+                                A unique name for the message box to access it from <code>TreoMessageService</code>.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">undefined</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>appearance: TreoMessageAppearance</div>
+                            </td>
+                            <td>
+                                Appearance of the message box.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">'soft'</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>dismissed: null | boolean</div>
+                            </td>
+                            <td>
+                                Whether the message box dismissed. <code>null</code> will disable the <em>dismiss</em> feature.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">null</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>showIcon: boolean</div>
+                            </td>
+                            <td>
+                                Whether the icon is shown.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">true</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>type: TreoMessageType</div>
+                            </td>
+                            <td>
+                                The type of the message box.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">'primary'</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Output()</div>
+                                <div>afterDismissed: true</div>
+                            </td>
+                            <td>
+                                An event emitted after the message box dismissed.
+                            </td>
+                            <td>
+                                -
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Output()</div>
+                                <div>afterShown: true</div>
+                            </td>
+                            <td>
+                                An event emitted after the message box shown.
+                            </td>
+                            <td>
+                                -
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>Type aliases</h2>
+            <textarea treo-highlight
+                      lang="typescript">
+                export type TreoMessageAppearance = 'border' | 'fill' | 'outline' | 'soft';
+            </textarea>
+            <textarea treo-highlight
+                      lang="typescript">
+                export type TreoMessageType = 'primary' | 'accent' | 'warn' | 'basic' | 'info' | 'success' | 'warning' | 'error';
+            </textarea>
+
+            <h2>Appearance</h2>
+            <p>
+                Message component comes with 3 different built-in appearances to choose from:
+            </p>
+
+            <div class="example-viewer">
+
+                <!-- Soft -->
+                <div class="title">
+                    <h6>Soft (default)</h6>
+                </div>
+
+                <mat-tab-group [animationDuration]="'0ms'">
+
+                    <mat-tab label="Preview" class="bg-gray-200">
+
+                        <ng-template matTabContent>
+
+                            <!-- Primary -->
+                            <treo-message [type]="'primary'">
+                                <span treoMessageTitle>Primary message</span>
+                                Thank you for joining our newsletter
+                            </treo-message>
+
+                            <!-- Accent -->
+                            <treo-message [type]="'accent'">
+                                <span treoMessageTitle>Accent message</span>
+                                Your changes has been saved
+                            </treo-message>
+
+                            <!-- Warn -->
+                            <treo-message [type]="'warn'">
+                                <span treoMessageTitle>Warn message</span>
+                                Fill all required fields to proceed next step
+                            </treo-message>
+
+                            <!-- Basic -->
+                            <treo-message [type]="'basic'">
+                                <span treoMessageTitle>Basic message</span>
+                                You have 3 new notifications
+                            </treo-message>
+
+                            <!-- Info -->
+                            <treo-message [type]="'info'">
+                                <span treoMessageTitle>Info message</span>
+                                This is a message with an 'info' level severity
+                            </treo-message>
+
+                            <!-- Success -->
+                            <treo-message [type]="'success'">
+                                <span treoMessageTitle>Success message</span>
+                                This is a message with a 'success' level severity
+                            </treo-message>
+
+                            <!-- Warning -->
+                            <treo-message [type]="'warning'">
+                                <span treoMessageTitle>Warning message</span>
+                                This is a message with a 'warning' level severity
+                            </treo-message>
+
+                            <!-- Error -->
+                            <treo-message [type]="'error'">
+                                <span treoMessageTitle>Error message</span>
+                                This is a message with an 'error' level severity
+                            </treo-message>
+
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <!-- Primary -->
+                            <treo-message [type]="'primary'">
+                                <span treoMessageTitle>Primary message</span>
+                                Thank you for joining our newsletter
+                            </treo-message>
+
+                            <!-- Accent -->
+                            <treo-message [type]="'accent'">
+                                <span treoMessageTitle>Accent message</span>
+                                Your changes has been saved
+                            </treo-message>
+
+                            <!-- Warn -->
+                            <treo-message [type]="'warn'">
+                                <span treoMessageTitle>Warn message</span>
+                                Fill all required fields to proceed next step
+                            </treo-message>
+
+                            <!-- Basic -->
+                            <treo-message [type]="'basic'">
+                                <span treoMessageTitle>Basic message</span>
+                                You have 3 new notifications
+                            </treo-message>
+
+                            <!-- Info -->
+                            <treo-message [type]="'info'">
+                                <span treoMessageTitle>Info message</span>
+                                This is a message with an 'info' level severity
+                            </treo-message>
+
+                            <!-- Success -->
+                            <treo-message [type]="'success'">
+                                <span treoMessageTitle>Success message</span>
+                                This is a message with a 'success' level severity
+                            </treo-message>
+
+                            <!-- Warning -->
+                            <treo-message [type]="'warning'">
+                                <span treoMessageTitle>Warning message</span>
+                                This is a message with a 'warning' level severity
+                            </treo-message>
+
+                            <!-- Error -->
+                            <treo-message [type]="'error'">
+                                <span treoMessageTitle>Error message</span>
+                                This is a message with an 'error' level severity
+                            </treo-message>
+
+                        </textarea>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+
+            <div class="example-viewer">
+
+                <!-- Outline -->
+                <div class="title">
+                    <h6>Outline</h6>
+                </div>
+
+                <mat-tab-group [animationDuration]="'0ms'">
+
+                    <mat-tab label="Preview">
+
+                        <ng-template matTabContent>
+
+                            <!-- Primary -->
+                            <treo-message [type]="'primary'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Primary message</span>
+                                Thank you for joining our newsletter
+                            </treo-message>
+
+                            <!-- Accent -->
+                            <treo-message [type]="'accent'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Accent message</span>
+                                Your changes has been saved
+                            </treo-message>
+
+                            <!-- Warn -->
+                            <treo-message [type]="'warn'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Warn message</span>
+                                Fill all required fields to proceed next step
+                            </treo-message>
+
+                            <!-- Basic -->
+                            <treo-message [type]="'basic'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Basic message</span>
+                                You have 3 new notifications
+                            </treo-message>
+
+                            <!-- Info -->
+                            <treo-message [type]="'info'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Info message</span>
+                                This is a message with an 'info' level severity
+                            </treo-message>
+
+                            <!-- Success -->
+                            <treo-message [type]="'success'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Success message</span>
+                                This is a message with a 'success' level severity
+                            </treo-message>
+
+                            <!-- Warning -->
+                            <treo-message [type]="'warning'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Warning message</span>
+                                This is a message with a 'warning' level severity
+                            </treo-message>
+
+                            <!-- Error -->
+                            <treo-message [type]="'error'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Error message</span>
+                                This is a message with an 'error' level severity
+                            </treo-message>
+
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <!-- Primary -->
+                            <treo-message [type]="'primary'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Primary message</span>
+                                Thank you for joining our newsletter
+                            </treo-message>
+
+                            <!-- Accent -->
+                            <treo-message [type]="'accent'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Accent message</span>
+                                Your changes has been saved
+                            </treo-message>
+
+                            <!-- Warn -->
+                            <treo-message [type]="'warn'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Warn message</span>
+                                Fill all required fields to proceed next step
+                            </treo-message>
+
+                            <!-- Basic -->
+                            <treo-message [type]="'basic'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Basic message</span>
+                                You have 3 new notifications
+                            </treo-message>
+
+                            <!-- Info -->
+                            <treo-message [type]="'info'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Info message</span>
+                                This is a message with an 'info' level severity
+                            </treo-message>
+
+                            <!-- Success -->
+                            <treo-message [type]="'success'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Success message</span>
+                                This is a message with a 'success' level severity
+                            </treo-message>
+
+                            <!-- Warning -->
+                            <treo-message [type]="'warning'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Warning message</span>
+                                This is a message with a 'warning' level severity
+                            </treo-message>
+
+                            <!-- Error -->
+                            <treo-message [type]="'error'"
+                                          [appearance]="'outline'">
+                                <span treoMessageTitle>Error message</span>
+                                This is a message with an 'error' level severity
+                            </treo-message>
+
+                        </textarea>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+
+            <div class="example-viewer">
+
+                <!-- Fill -->
+                <div class="title">
+                    <h6>Fill</h6>
+                </div>
+
+                <mat-tab-group [animationDuration]="'0ms'">
+
+                    <mat-tab label="Preview">
+
+                        <ng-template matTabContent>
+
+                            <!-- Primary -->
+                            <treo-message [type]="'primary'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Primary message</span>
+                                Thank you for joining our newsletter
+                            </treo-message>
+
+                            <!-- Accent -->
+                            <treo-message [type]="'accent'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Accent message</span>
+                                Your changes has been saved
+                            </treo-message>
+
+                            <!-- Warn -->
+                            <treo-message [type]="'warn'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Warn message</span>
+                                Fill all required fields to proceed next step
+                            </treo-message>
+
+                            <!-- Basic -->
+                            <treo-message [type]="'basic'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Basic message</span>
+                                You have 3 new notifications
+                            </treo-message>
+
+                            <!-- Info -->
+                            <treo-message [type]="'info'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Info message</span>
+                                This is a message with an 'info' level severity
+                            </treo-message>
+
+                            <!-- Success -->
+                            <treo-message [type]="'success'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Success message</span>
+                                This is a message with a 'success' level severity
+                            </treo-message>
+
+                            <!-- Warning -->
+                            <treo-message [type]="'warning'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Warning message</span>
+                                This is a message with a 'warning' level severity
+                            </treo-message>
+
+                            <!-- Error -->
+                            <treo-message [type]="'error'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Error message</span>
+                                This is a message with an 'error' level severity
+                            </treo-message>
+
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <!-- Primary -->
+                            <treo-message [type]="'primary'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Primary message</span>
+                                Thank you for joining our newsletter
+                            </treo-message>
+
+                            <!-- Accent -->
+                            <treo-message [type]="'accent'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Accent message</span>
+                                Your changes has been saved
+                            </treo-message>
+
+                            <!-- Warn -->
+                            <treo-message [type]="'warn'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Warn message</span>
+                                Fill all required fields to proceed next step
+                            </treo-message>
+
+                            <!-- Basic -->
+                            <treo-message [type]="'basic'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Basic message</span>
+                                You have 3 new notifications
+                            </treo-message>
+
+                            <!-- Info -->
+                            <treo-message [type]="'info'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Info message</span>
+                                This is a message with an 'info' level severity
+                            </treo-message>
+
+                            <!-- Success -->
+                            <treo-message [type]="'success'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Success message</span>
+                                This is a message with a 'success' level severity
+                            </treo-message>
+
+                            <!-- Warning -->
+                            <treo-message [type]="'warning'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Warning message</span>
+                                This is a message with a 'warning' level severity
+                            </treo-message>
+
+                            <!-- Error -->
+                            <treo-message [type]="'error'"
+                                          [appearance]="'fill'">
+                                <span treoMessageTitle>Error message</span>
+                                This is a message with an 'error' level severity
+                            </treo-message>
+
+                        </textarea>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+
+            <div class="example-viewer">
+
+                <!-- Border -->
+                <div class="title">
+                    <h6>Border</h6>
+                </div>
+
+                <mat-tab-group [animationDuration]="'0ms'">
+
+                    <mat-tab label="Preview">
+
+                        <ng-template matTabContent>
+
+                            <!-- Primary -->
+                            <treo-message [type]="'primary'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Primary message</span>
+                                Thank you for joining our newsletter
+                            </treo-message>
+
+                            <!-- Accent -->
+                            <treo-message [type]="'accent'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Accent message</span>
+                                Your changes has been saved
+                            </treo-message>
+
+                            <!-- Warn -->
+                            <treo-message [type]="'warn'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Warn message</span>
+                                Fill all required fields to proceed next step
+                            </treo-message>
+
+                            <!-- Basic -->
+                            <treo-message [type]="'basic'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Basic message</span>
+                                You have 3 new notifications
+                            </treo-message>
+
+                            <!-- Info -->
+                            <treo-message [type]="'info'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Info message</span>
+                                This is a message with an 'info' level severity
+                            </treo-message>
+
+                            <!-- Success -->
+                            <treo-message [type]="'success'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Success message</span>
+                                This is a message with a 'success' level severity
+                            </treo-message>
+
+                            <!-- Warning -->
+                            <treo-message [type]="'warning'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Warning message</span>
+                                This is a message with a 'warning' level severity
+                            </treo-message>
+
+                            <!-- Error -->
+                            <treo-message [type]="'error'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Error message</span>
+                                This is a message with an 'error' level severity
+                            </treo-message>
+
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <!-- Primary -->
+                            <treo-message [type]="'primary'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Primary message</span>
+                                Thank you for joining our newsletter
+                            </treo-message>
+
+                            <!-- Accent -->
+                            <treo-message [type]="'accent'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Accent message</span>
+                                Your changes has been saved
+                            </treo-message>
+
+                            <!-- Warn -->
+                            <treo-message [type]="'warn'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Warn message</span>
+                                Fill all required fields to proceed next step
+                            </treo-message>
+
+                            <!-- Basic -->
+                            <treo-message [type]="'basic'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Basic message</span>
+                                You have 3 new notifications
+                            </treo-message>
+
+                            <!-- Info -->
+                            <treo-message [type]="'info'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Info message</span>
+                                This is a message with an 'info' level severity
+                            </treo-message>
+
+                            <!-- Success -->
+                            <treo-message [type]="'success'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Success message</span>
+                                This is a message with a 'success' level severity
+                            </treo-message>
+
+                            <!-- Warning -->
+                            <treo-message [type]="'warning'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Warning message</span>
+                                This is a message with a 'warning' level severity
+                            </treo-message>
+
+                            <!-- Error -->
+                            <treo-message [type]="'error'"
+                                          [appearance]="'border'">
+                                <span treoMessageTitle>Error message</span>
+                                This is a message with an 'error' level severity
+                            </treo-message>
+
+                        </textarea>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+
+            <h2>Title and message</h2>
+            <p>
+                All message boxes have <strong>title</strong> and <strong>message</strong> content that can be customized.
+            </p>
+
+            <div class="example-viewer">
+
+                <div class="title">
+                    <h6>Example</h6>
+                </div>
+
+                <mat-tab-group [animationDuration]="'0ms'">
+
+                    <mat-tab label="Preview">
+
+                        <ng-template matTabContent>
+
+                            <treo-message [appearance]="'outline'"
+                                          [type]="'info'">
+                                <span treoMessageTitle>Message title</span>
+                                This is the message content
+                            </treo-message>
+
+                            <treo-message [appearance]="'outline'"
+                                          [type]="'info'">
+                                <span treoMessageTitle>Message title without any content</span>
+                            </treo-message>
+
+                            <treo-message [appearance]="'outline'"
+                                          [type]="'info'">
+                                Simple message without a title
+                            </treo-message>
+
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <treo-message [appearance]="'outline'"
+                                          [type]="'info'">
+                                <span treoMessageTitle>Message title</span>
+                                This is the message content
+                            </treo-message>
+
+                            <treo-message [appearance]="'outline'"
+                                          [type]="'info'">
+                                <span treoMessageTitle>Message title without any content</span>
+                            </treo-message>
+
+                            <treo-message [appearance]="'outline'"
+                                          [type]="'info'">
+                                Simple message without a title
+                            </treo-message>
+
+                        </textarea>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+
+            <h2>Icons</h2>
+            <p>
+                The <strong>info</strong>, <strong>success</strong>, <strong>warning</strong> and <strong>error</strong> type message boxes have default icons and they are visible
+                by default. If you wish to hide those icons, use the <code>[showIcon]="false"</code> input.
+            </p>
+
+            <div class="example-viewer">
+
+                <div class="title">
+                    <h6>Example</h6>
+                </div>
+
+                <mat-tab-group [animationDuration]="'0ms'">
+
+                    <mat-tab label="Preview">
+
+                        <ng-template matTabContent>
+
+                            <treo-message [appearance]="'outline'"
+                                          [type]="'success'"
+                                          [showIcon]="false">
+                                Success message with no icon
+                            </treo-message>
+
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <treo-message [appearance]="'outline'"
+                                          [type]="'success'"
+                                          [showIcon]="false">
+                                Success message with no icon
+                            </treo-message>
+
+                        </textarea>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+
+            <h2>Custom icons</h2>
+            <p>
+                All message boxes come with custom icon support. To use a custom icon, simply use <code>treoMessageIcon</code> attribute on an element you wish to use as the icon.
+                If there is a default icon for the message box, custom icon will override it.
+            </p>
+
+            <div class="example-viewer">
+
+                <div class="title">
+                    <h6>Example</h6>
+                </div>
+
+                <mat-tab-group [animationDuration]="'0ms'">
+
+                    <mat-tab label="Preview">
+
+                        <ng-template matTabContent>
+
+                            <treo-message [appearance]="'outline'"
+                                          [type]="'info'">
+                                <mat-icon treoMessageIcon
+                                          [svgIcon]="'notifications'"></mat-icon>
+                                Info message with a custom icon
+                            </treo-message>
+
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <treo-message [appearance]="'outline'"
+                                          [type]="'info'">
+                                <mat-icon treoMessageIcon
+                                          [svgIcon]="'notifications'"></mat-icon>
+                                Info message with a custom icon
+                            </treo-message>
+
+                        </textarea>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+
+            <h2>Dismissible messages</h2>
+            <p>
+                Dismissible messages can be removed from the view by clicking their <strong>dismiss (x)</strong> button. In order to get the dismiss button visible, the
+                <code>[dismissed]</code> input must be explicitly set either to <code>true</code> or <code>false</code>. Setting the <code>[dismissed]</code> input to
+                <code>null</code> or simply removing it from the element will remove the <strong>dismiss</strong> button.
+            </p>
+
+            <div class="example-viewer">
+
+                <div class="title">
+                    <h6>Example</h6>
+                    <button mat-button
+                            [color]="'primary'"
+                            (click)="show('messageBox1'); show('messageBox2')">
+                        Reset
+                    </button>
+                </div>
+
+                <mat-tab-group [animationDuration]="'0ms'">
+
+                    <mat-tab label="Preview">
+
+                        <ng-template matTabContent>
+
+                            <treo-message [appearance]="'outline'"
+                                          [dismissed]="false"
+                                          [name]="'messageBox1'"
+                                          [type]="'success'">
+                                Your subscription model is successfully upgraded to the <b>Lifetime Pro</b>.
+                            </treo-message>
+
+                            <treo-message [appearance]="'outline'"
+                                          [dismissed]="false"
+                                          [name]="'messageBox2'"
+                                          [type]="'info'">
+                                This one has a lot of text so you can see how the text is going to be displayed. Also this is a dismissible message box which can be dismissed by
+                                clicking the <b>dismiss</b> button.
+                            </treo-message>
+
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <treo-message [appearance]="'outline'"
+                                          [dismissed]="false"
+                                          [name]="'messageBox1'"
+                                          [type]="'success'">
+                                Your subscription model is successfully upgraded to the <b>Lifetime Pro</b>.
+                            </treo-message>
+
+                            <treo-message [appearance]="'outline'"
+                                          [dismissed]="false"
+                                          [name]="'messageBox2'"
+                                          [type]="'info'">
+                                This one has a lot of text so you can see how the text is going to be displayed. Also this is a dismissible message box which can be dismissed
+                                by clicking the <b>dismiss</b> button.
+                            </treo-message>
+
+                        </textarea>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+
+            <h2>Dismissible messages controlled from the service</h2>
+            <p>
+                Messages can be shown and dismissed via <code>TreoMessageService</code>.
+            </p>
+
+            <div class="example-viewer">
+
+                <div class="title">
+                    <h6>Example</h6>
+                </div>
+
+                <mat-tab-group [animationDuration]="'0ms'">
+
+                    <mat-tab label="Preview">
+
+                        <ng-template matTabContent>
+
+                            <button class="mr-3"
+                                    mat-flat-button
+                                    [color]="'primary'"
+                                    (click)="show('messageBox3'); show('messageBox4')">
+                                Show message boxes
+                            </button>
+
+                            <button mat-flat-button
+                                    [color]="'primary'"
+                                    (click)="dismiss('messageBox3'); dismiss('messageBox4')">
+                                Dismiss message boxes
+                            </button>
+
+                            <treo-message [appearance]="'outline'"
+                                          [dismissed]="false"
+                                          [name]="'messageBox3'"
+                                          [type]="'success'">
+                                Your subscription model is successfully upgraded to the <b>Lifetime Pro</b>.
+                            </treo-message>
+
+                            <treo-message [appearance]="'outline'"
+                                          [dismissed]="false"
+                                          [name]="'messageBox4'"
+                                          [type]="'info'">
+                                This one has a lot of text so you can see how the text is going to be displayed. Also this is a dismissible message box which can be dismissed by
+                                clicking the <b>close</b> button.
+                            </treo-message>
+
+                        </ng-template>
+
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <button class="mr-3"
+                                    mat-flat-button
+                                    [color]="'primary'"
+                                    (click)="show('messageBox3'); show('messageBox4')">
+                                Show message boxes
+                            </button>
+
+                            <button mat-flat-button
+                                    [color]="'primary'"
+                                    (click)="dismiss('messageBox3'); dismiss('messageBox4')">
+                                Dismiss message boxes
+                            </button>
+
+                            <treo-message [appearance]="'outline'"
+                                          [dismissed]="false"
+                                          [name]="'messageBox3'"
+                                          [type]="'success'">
+                                Your subscription model is successfully upgraded to the <b>Lifetime Pro</b>.
+                            </treo-message>
+
+                            <treo-message [appearance]="'outline'"
+                                          [dismissed]="false"
+                                          [name]="'messageBox4'"
+                                          [type]="'info'">
+                                This one has a lot of text so you can see how the text is going to be displayed. Also this is a dismissible message box which can be dismissed
+                                by clicking the <b>close</b> button.
+                            </treo-message>
+
+                        </textarea>
+
+                    </mat-tab>
+
+                    <mat-tab label="Typescript">
+
+                        <!-- @formatter:off -->
+                        <textarea treo-highlight
+                                  [lang]="'typescript'">
+
+                            /**
+                             * Constructor
+                             *
+                             * @param {TreoMessageService} _treoMessageService
+                             */
+                            constructor( private _treoMessageService: TreoMessageService ) {}
+
+                            /**
+                             * Dismiss a message box via the service
+                             *
+                             * @param name
+                             */
+                            dismiss(name): void
+                            {
+                                this._treoMessageService.dismiss(name);
+                            }
+
+                            /**
+                             * Show a message box via the service
+                             *
+                             * @param name
+                             */
+                            show(name): void
+                            {
+                                this._treoMessageService.show(name);
+                            }
+
+                        </textarea>
+                        <!-- @formatter:on -->
+
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

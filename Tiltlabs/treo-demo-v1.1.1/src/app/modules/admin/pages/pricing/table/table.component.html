@@ -1,0 +1,462 @@
+<div class="content-layout fullwidth-basic-normal-scroll">
+
+    <!-- Background - Inline SVG for easy customizations -->
+    <svg class="background"
+         viewBox="0 0 1531 891"
+         preserveAspectRatio="xMidYMax slice"
+         xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 182c144.327 47.973 534.462 219.712 440.509 369.87C346.555 702.028 79.877 662.846 0 638V182z"></path>
+        <path d="M1405 848c-424.366 158.009-437-164-437-272s102-425 563-576v769c-21.333 29.333-63.333 55.667-126 79z"></path>
+        <path d="M1531 162c-122.914-17.284-377.96 33.191-543.433 206.414C822.095 541.636 797.342 648.75 835.842 731.622c38.5 82.871 198.243 134.841 400.555 92.053C1438.71 780.886 1492.752 775.894 1531 768V162z"></path>
+    </svg>
+
+    <!-- Main -->
+    <div class="main">
+
+        <!-- Header -->
+        <div class="header">
+
+            <h1>Simple pricing that scales with your business</h1>
+            <h5>Whether you are an individual or a Fortune 500 enterprise, there is a plan that's right for you</h5>
+
+            <div class="recurring-selector"
+                 [ngClass]="{'annual-billing' : annualBilling}">
+                <span (click)="annualBilling = false">Monthly</span>
+                <mat-slide-toggle [(ngModel)]="annualBilling"
+                                  [color]="'primary'"></mat-slide-toggle>
+                <span (click)="annualBilling = true">Annual</span>
+            </div>
+
+        </div>
+
+        <!-- Cards -->
+        <div class="cards">
+
+            <mat-button-toggle-group class="tiers-selector"
+                                     [name]="'tiers'"
+                                     [(ngModel)]="selectedTier">
+                <mat-button-toggle [value]="'personal'">Personal</mat-button-toggle>
+                <mat-button-toggle [value]="'premium'">Premium</mat-button-toggle>
+                <mat-button-toggle [value]="'enterprise'">Enterprise</mat-button-toggle>
+            </mat-button-toggle-group>
+
+            <!-- Card -->
+            <treo-card>
+
+                <div class="price-table"
+                     [ngClass]="selectedTier">
+
+                    <div class="head">
+
+                        <div class="row">
+
+                            <div class="col"></div>
+
+                            <div class="col">
+                                <div class="title">Personal</div>
+                                <div class="price">
+                                    <span class="currency">USD</span>
+                                    <span class="amount">
+                                        <ng-container *ngIf="annualBilling">$6</ng-container>
+                                        <ng-container *ngIf="!annualBilling">$9</ng-container>
+                                    </span>
+                                    <span class="per">/ mo</span>
+                                </div>
+                                <div class="price-details">
+                                    <ng-container *ngIf="annualBilling">
+                                        <span>billed annually</span>
+                                        <span>or <b>$9.00</b> billed monthly</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="!annualBilling">
+                                        <span>billed monthly</span>
+                                        <span>or <b>$6.00</b> billed annually</span>
+                                    </ng-container>
+                                </div>
+                                <button class="cta-button"
+                                        mat-stroked-button
+                                        [color]="'primary'">
+                                    Buy Personal
+                                </button>
+                            </div>
+
+                            <div class="col">
+                                <div class="tag">POPULAR</div>
+                                <div class="title">Premium</div>
+                                <div class="price">
+                                    <span class="currency">USD</span>
+                                    <span class="amount">
+                                        <ng-container *ngIf="annualBilling">$12</ng-container>
+                                        <ng-container *ngIf="!annualBilling">$15</ng-container>
+                                    </span>
+                                    <span class="per">/ mo</span>
+                                </div>
+                                <div class="price-details">
+                                    <ng-container *ngIf="annualBilling">
+                                        <span>billed annually</span>
+                                        <span>or <b>$15.00</b> billed monthly</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="!annualBilling">
+                                        <span>billed monthly</span>
+                                        <span>or <b>$12.00</b> billed annually</span>
+                                    </ng-container>
+                                </div>
+                                <button class="cta-button"
+                                        mat-flat-button
+                                        [color]="'primary'">
+                                    Buy Premium
+                                </button>
+                            </div>
+
+                            <div class="col">
+                                <div class="title">Enterprise</div>
+                                <div class="price">
+                                    <span class="currency">USD</span>
+                                    <span class="amount">
+                                        <ng-container *ngIf="annualBilling">$49</ng-container>
+                                        <ng-container *ngIf="!annualBilling">$69</ng-container>
+                                    </span>
+                                    <span class="per">/ mo</span>
+                                </div>
+                                <div class="price-details">
+                                    <ng-container *ngIf="annualBilling">
+                                        <span>billed annually</span>
+                                        <span>or <b>$69.00</b> billed monthly</span>
+                                    </ng-container>
+                                    <ng-container *ngIf="!annualBilling">
+                                        <span>billed monthly</span>
+                                        <span>or <b>$49.00</b> billed annually</span>
+                                    </ng-container>
+                                </div>
+                                <button class="cta-button"
+                                        mat-stroked-button
+                                        [color]="'primary'">
+                                    Buy Enterprise
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="body">
+
+                        <div class="row section">
+                            <div class="col">FEATURES</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">Unlimited projects</div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'check'"></mat-icon>
+                            </div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'check'"></mat-icon>
+                            </div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'check'"></mat-icon>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">Unlimited storage</div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'check'"></mat-icon>
+                            </div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'check'"></mat-icon>
+                            </div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'check'"></mat-icon>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">Custom domain support</div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'remove'"></mat-icon>
+                            </div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'check'"></mat-icon>
+                            </div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'check'"></mat-icon>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">Dedicated hardware</div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'remove'"></mat-icon>
+                            </div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'remove'"></mat-icon>
+                            </div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'check'"></mat-icon>
+                            </div>
+                        </div>
+
+                        <div class="row section">
+                            <div class="col">PAYMENTS</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">Fraud analysis</div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'check'"></mat-icon>
+                            </div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'check'"></mat-icon>
+                            </div>
+                            <div class="col">
+                                <mat-icon [svgIcon]="'check'"></mat-icon>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">Rates for in-house payment systems</div>
+                            <div class="col">2.9% + 30&cent;</div>
+                            <div class="col">2.6% + 30&cent;</div>
+                            <div class="col">2.4% + 30&cent;</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">Rates for other payment systems</div>
+                            <div class="col">4.9% + 30&cent;</div>
+                            <div class="col">4.6% + 30&cent;</div>
+                            <div class="col">4.4% + 30&cent;</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">Additional fees using other payment systems</div>
+                            <div class="col">2%</div>
+                            <div class="col">1%</div>
+                            <div class="col">0.5%</div>
+                        </div>
+
+                    </div>
+
+                    <div class="foot">
+
+                        <div class="row">
+
+                            <div class="col"></div>
+
+                            <div class="col">
+                                <button class="cta-button"
+                                        mat-stroked-button
+                                        [color]="'primary'">
+                                    Buy Personal
+                                </button>
+                            </div>
+
+                            <div class="col">
+                                <button class="cta-button"
+                                        mat-flat-button
+                                        [color]="'primary'">
+                                    Buy Premium
+                                </button>
+                            </div>
+
+                            <div class="col">
+                                <button class="cta-button"
+                                        mat-stroked-button
+                                        [color]="'primary'">
+                                    Buy Enterprise
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </treo-card>
+
+        </div>
+
+        <!-- Features -->
+        <div class="features-section">
+
+            <div class="title-container">
+                <div class="title">Core Features</div>
+                <div class="subtitle">List of features that are included into all plans</div>
+            </div>
+
+            <div class="grid-container">
+
+                <!-- Feature -->
+                <div class="feature">
+
+                    <div class="title-container">
+                        <mat-icon [svgIcon]="'edit'"></mat-icon>
+                        <div>Create and Edit Projects</div>
+                    </div>
+
+                    <div class="description">
+                        Create and edit projects, upload images via drag drop, add categories, add custom fields and more.
+                    </div>
+
+                </div>
+
+                <!-- Feature -->
+                <div class="feature">
+
+                    <div class="title-container">
+                        <mat-icon [svgIcon]="'filter_list'"></mat-icon>
+                        <div>Search and Filter</div>
+                    </div>
+
+                    <div class="description">
+                        Search and filter within the projects, categories and custom fields. Save search and filter details for easy access.
+                    </div>
+
+                </div>
+
+                <!-- Feature -->
+                <div class="feature">
+
+                    <div class="title-container">
+                        <mat-icon [svgIcon]="'update'"></mat-icon>
+                        <div>Real Time Updates</div>
+                    </div>
+
+                    <div class="description">
+                        Real time updates that doesn’t require page reload. Lean back and watch the changes happen in real time.
+                    </div>
+
+                </div>
+
+                <!-- Feature -->
+                <div class="feature">
+
+                    <div class="title-container">
+                        <mat-icon [svgIcon]="'label'"></mat-icon>
+                        <div>Meta Information</div>
+                    </div>
+
+                    <div class="description">
+                        Add and remove meta information to custom fields to differentiate them in reports and analytics results.
+                    </div>
+
+                </div>
+
+                <!-- Feature -->
+                <div class="feature">
+
+                    <div class="title-container">
+                        <mat-icon [svgIcon]="'pageview'"></mat-icon>
+                        <div>Pre-rendered Results</div>
+                    </div>
+
+                    <div class="description">
+                        Pre-render results to make reports and analytics more accessible by screen readers and other accesibility tools.
+                    </div>
+
+                </div>
+
+                <!-- Feature -->
+                <div class="feature">
+
+                    <div class="title-container">
+                        <mat-icon [svgIcon]="'bar_chart'"></mat-icon>
+                        <div>Simple Analytics</div>
+                    </div>
+
+                    <div class="description">
+                        Simple analytics with no unnecessary data flow or weight. More readable results with less data consumption.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Frequently asked questions -->
+        <div class="faqs-section">
+
+            <div class="title-container">
+                <div class="title">Frequently Asked Questions</div>
+                <div class="subtitle">
+                    Here are the most frequently asked questions you may check before getting started
+                </div>
+            </div>
+
+            <div class="grid-container">
+
+                <!-- Column -->
+                <div class="column">
+
+                    <div class="question">
+                        What is the duration of the free trial?
+                    </div>
+                    <div class="answer">
+                        <p>
+                            Our app is free to try for 14 days, if you want more, you can provide
+                            payment details which will extend your trial to 30 days providing you
+                            an extra 16 more days to try our app.
+                        </p>
+                    </div>
+
+                    <div class="question">
+                        What is the storage is for?
+                    </div>
+                    <div class="answer">
+                        <p>
+                            Since we provide an extremely detailed reporting and analytics
+                            tool, they require quite a bit storage space. For average use, you
+                            don’t have to worry about running out of space since the
+                            Personal package limits the projects you can have.
+                        </p>
+                        <p>
+                            For some reason if you run out of space, contact us and we will
+                            see what can be done about it and make sure you are not
+                            generating unnecessary reports and/or analytics data.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Column -->
+                <div class="column">
+
+                    <div class="question">
+                        What happens if I’m not satisfied?
+                    </div>
+                    <div class="answer">
+                        <p>
+                            If you are still in your free trial period, you can cancel your
+                            account at anytime with a single click of a button. If you already
+                            paid for your first month, we also offer 30-day money-back
+                            guarantee with no questions asked.
+                        </p>
+                        <p>
+                            After first month, you can still cancel your account at any time
+                            but we will calculate the amount that corresponds to days you
+                            have been using our app for that month and refund only the
+                            remaining amount.
+                        </p>
+                    </div>
+
+                    <div class="question">
+                        Are there discounts for non-profits or educational use?
+                    </div>
+                    <div class="answer">
+                        <p>
+                            Yes, our Personal and Premium packages are free for non-profits and
+                            educational use. E-mail your details to us after starting your Free
+                            Trial and we will upgrade your account if you qualify.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

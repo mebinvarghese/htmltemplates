@@ -1,0 +1,16 @@
+<h1 class="title">Mailbox</h1>
+
+<button class="compose-button"
+        mat-flat-button
+        [color]="'primary'"
+        (click)="openComposeDialog()">
+    <mat-icon [svgIcon]="'add'"></mat-icon>
+    <span>Compose</span>
+</button>
+
+<div class="navigation">
+    <treo-vertical-navigation [navigation]="menuData"
+                             [inner]="true"
+                             [mode]="'side'"
+                             [opened]="true"></treo-vertical-navigation>
+</div>

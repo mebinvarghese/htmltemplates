@@ -1,0 +1,73 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">CORE FEATURES</span>
+                <span class="separator">/</span>
+                <span class="path">DIRECTIVES</span>
+            </div>
+
+            <h1>ScrollReset</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                <strong>treoScrollReset</strong> is a helper directive to reset the given element's scroll position to the top on route changes.
+            </p>
+            <p>
+                This directive is especially useful in situations like having a <code>router-outlet</code> inside a scrollable area such as
+                <code>mat-drawer-content</code>, <code>mat-sidenav-content</code> or a custom scrollable element.
+            </p>
+            <p>
+                <strong>Exported as: </strong><code>treoScrollReset</code>
+            </p>
+
+            <h2>Module</h2>
+            <textarea treo-highlight
+                      lang="typescript">
+                import { TreoScrollResetModule } from '@treo/directives/scroll-reset';
+            </textarea>
+
+            <h2>Usage</h2>
+            <p>
+                Here are some of the basic usages of the <code>treoScrollReset</code>:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="html">
+                <mat-drawer-content treoScrollReset>
+                    <router-outlet></router-outlet>
+                </mat-drawer-content>
+            </textarea>
+            <!-- @formatter:on -->
+
+            <!-- @formatter:off -->
+            <textarea class="mt-8"
+                      treo-highlight
+                      lang="html">
+                <div class="mail">
+                    <div class="threads"
+                         treoScrollReset>
+                        <router-outlet></router-outlet>
+                    </div>
+                </div>
+            </textarea>
+            <!-- @formatter:on -->
+
+        </div>
+
+    </div>
+
+</div>

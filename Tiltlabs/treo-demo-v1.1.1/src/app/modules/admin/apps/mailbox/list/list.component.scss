@@ -1,0 +1,369 @@
+@import 'treo';
+
+mailbox-list {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    width: 100%;
+
+    .list-wrapper {
+        position: relative;
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: column;
+        width: 360px;
+        min-width: 360px;
+        max-width: 360px;
+        border-right-width: 1px;
+        z-index: 5;
+
+        @include treo-breakpoint('lt-lg') {
+            width: 100%;
+            max-width: none;
+            min-width: 0;
+
+            &.mail-selected {
+
+                + router-outlet {
+
+                    + mailbox-details {
+                        display: flex;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                    }
+                }
+
+                > .header {
+
+                    // Safari bug: Progress bar animation brakes the z-index on
+                    // .list-wrapper, so we hide it if the mail is selected to
+                    // prevent the issue
+                    .loading-progress-bar {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        &.no-mails {
+            width: 100%;
+            min-width: 100%;
+            max-width: none;
+            border-right-width: 0;
+        }
+
+        > .header {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom-width: 1px;
+            min-height: 64px;
+            height: 64px;
+            padding: 0 16px;
+
+            .left {
+                display: flex;
+                align-items: center;
+
+                .sidebar-toggle {
+                    margin-right: 8px;
+
+                    .mat-icon {
+                        @include treo-icon-size(24);
+                    }
+                }
+
+                .category {
+                    font-weight: 600;
+                    text-transform: uppercase;
+                }
+            }
+
+            .pagination {
+                display: flex;
+                align-items: center;
+
+                .info {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 16px;
+                    font-size: 13px;
+                    font-weight: 500;
+
+                    .separator {
+                        margin: 0 4px;
+                    }
+                }
+
+                .previous-page,
+                .next-page {
+                    width: 32px;
+                    min-width: 32px;
+                    height: 32px;
+                    min-height: 32px;
+                    line-height: 32px !important;
+
+                    .mat-icon {
+                        @include treo-icon-size(16);
+                    }
+                }
+
+            }
+
+            .loading-progress-bar {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                left: 0;
+                height: 2px;
+            }
+        }
+
+        .list {
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+
+            .item {
+                position: relative;
+                display: flex;
+                border-top-width: 1px;
+
+                &:first-child {
+                    border-top-width: 0 !important;
+                }
+
+                .item-content {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: flex-start;
+                    width: 100%;
+                    padding: 24px 16px 24px 20px;
+                    border-left-width: 4px;
+
+                    .info {
+                        display: flex;
+                        align-items: center;
+                        width: 100%;
+                        line-height: normal;
+
+                        .name {
+                            margin-right: 8px;
+                            font-weight: 600;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                        }
+
+                        .important-indicator {
+                            margin-right: 12px;
+                            @include treo-icon-size(16);
+                        }
+
+                        .date {
+                            margin-left: auto;
+                            font-size: 13px;
+                            white-space: nowrap;
+                            text-align: right;
+                        }
+                    }
+
+                    .subject {
+                        display: flex;
+                        align-items: center;
+                        width: 100%;
+                        margin-top: 4px;
+
+                        span {
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            line-height: 16px;
+
+                            + .indicators {
+                                margin-left: auto;
+                                padding-left: 8px;
+                            }
+                        }
+
+                        .indicators {
+                            display: flex;
+
+                            .attachments-indicator {
+                                display: flex;
+                                justify-content: center;
+                                @include treo-icon-size(16);
+
+                                + .starred-indicator {
+                                    margin-left: 8px;
+                                }
+                            }
+
+                            .starred-indicator {
+                                display: flex;
+                                justify-content: center;
+                                @include treo-icon-size(16);
+                            }
+                        }
+                    }
+
+                    .excerpt {
+                        margin-top: 8px;
+                        line-height: 1.4;
+                        overflow: hidden;
+                    }
+                }
+            }
+        }
+
+        .no-mails {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .mat-icon {
+                @include treo-icon-size(96);
+            }
+
+            h4 {
+                margin-top: 16px;
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+    $is-dark: map-get($theme, is-dark);
+
+    mailbox-list {
+        @if (not $is-dark) {
+            background: map-get($background, card);
+        }
+
+        .list-wrapper {
+
+            > .header {
+                @if (not $is-dark) {
+                    background: treo-color('cool-gray', 50);
+                }
+
+                .pagination {
+
+                    .info {
+
+                        .separator {
+                            color: map-get($foreground, secondary-text);
+                        }
+                    }
+                }
+            }
+
+            .list {
+
+                .item {
+
+                    &:hover:not(.selected) {
+
+                        .item-content {
+                            @if ($is-dark) {
+                                background: rgba(0, 0, 0, 0.05);
+                            } @else {
+                                background: treo-color('cool-gray', 100);
+                            }
+                        }
+                    }
+
+                    &.selected {
+
+                        .item-content {
+                            @if ($is-dark) {
+                                background: rgba(0, 0, 0, 0.05);
+                            } @else {
+                                background: map-get($primary, 100);
+                            }
+                        }
+                    }
+
+                    &.unread {
+
+                        .item-content {
+                            border-left-color: map-get($primary, default);
+                        }
+                    }
+
+                    .item-content {
+                        border-left-color: transparent;
+
+                        .avatar {
+
+                            &:before {
+                                box-shadow: inset 0 0 0 1px map-get($foreground, divider);
+                            }
+                        }
+
+                        .info {
+
+                            .important-indicator {
+                                @if ($is-dark) {
+                                    color: treo-color('red', 600);
+                                } @else {
+                                    color: treo-color('red', 500);
+                                }
+                            }
+
+                            .date {
+                                color: map-get($foreground, hint-text);
+                            }
+                        }
+
+                        .subject {
+
+                            .indicators {
+
+                                .starred-indicator {
+
+                                    @if ($is-dark) {
+                                        color: treo-color('orange', 400);
+                                    } @else {
+                                        color: treo-color('orange', 500);
+                                    }
+                                }
+                            }
+                        }
+
+                        .excerpt {
+                            color: map-get($foreground, secondary-text);
+                        }
+                    }
+                }
+            }
+
+            .no-mails {
+                @if (not $is-dark) {
+                    background: treo-color('cool-gray', 100);
+                }
+
+                .mat-icon {
+                    color: map-get($foreground, secondary-text);
+                }
+
+                h4 {
+                    color: map-get($foreground, secondary-text);
+                }
+            }
+        }
+    }
+}

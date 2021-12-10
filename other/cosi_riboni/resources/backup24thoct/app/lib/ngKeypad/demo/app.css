@@ -1,0 +1,23 @@
+
+.container {
+    width: 320px;
+}
+
+.col-md-6{
+    margin: 0 auto;
+    width: 33.33%;
+    float: left;
+}
+
+::-webkit-input-placeholder {
+    color: #ccc;
+}
+:-moz-placeholder {
+    color: #ccc;
+}
+::-moz-placeholder {
+    color: #ccc;
+}
+:-ms-input-placeholder {
+    color: #ccc;
+}

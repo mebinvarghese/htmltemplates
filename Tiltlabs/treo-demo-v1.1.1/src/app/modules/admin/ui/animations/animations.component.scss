@@ -1,0 +1,78 @@
+@import 'treo';
+
+animations {
+
+    .mat-form-field {
+        width: 100%;
+        margin-top: 32px;
+    }
+
+    mat-tab-group {
+
+        .mat-tab-header {
+            border-top: 1px solid;
+        }
+
+        .mat-tab-body-wrapper {
+
+            .mat-tab-body {
+
+                &:first-child {
+
+                    .mat-tab-body-content {
+                        display: flex;
+                        justify-content: center;
+                        min-height: 200px;
+                    }
+                }
+
+                .animated-box {
+                    width: 120px;
+                    height: 120px;
+                    overflow: hidden;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    user-select: none;
+
+                    .animated-box-content {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex: 1 0 auto;
+                        height: 100%;
+                        text-align: center;
+                        font-size: 12px;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+
+    animations {
+
+        .info {
+            background: treo-color('cool-gray', 400);
+            color: map-get($foreground, secondary-text);
+        }
+
+        .animated-box {
+            background: map-get($primary, default);
+            @include treo-elevation('md');
+
+            .animated-box-content {
+                color: map-get($primary, default-contrast);
+            }
+        }
+    }
+}

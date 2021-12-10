@@ -1,0 +1,88 @@
+@import 'treo';
+
+crypto {
+    position: relative;
+
+    .buy-sell-toggle {
+        border-left: none !important;
+        border-right: none !important;
+        border-radius: 0;
+
+        .mat-button-toggle {
+
+            + .mat-button-toggle {
+                border-left: none !important;
+            }
+        }
+
+        .mat-button-toggle-button {
+
+            .mat-button-toggle-label-content {
+                line-height: 48px;
+                font-size: 13px;
+                font-weight: 500;
+            }
+        }
+    }
+
+    .btc-chart-timespan-toggle {
+        border: none !important;
+        border-radius: 0;
+
+        .mat-button-toggle {
+            border-radius: 4px;
+
+            + .mat-button-toggle {
+                border-left: none !important;
+                margin-left: 8px;
+            }
+        }
+
+        .mat-button-toggle-button {
+
+            .mat-button-toggle-label-content {
+                line-height: 32px;
+                font-size: 13px;
+                font-weight: 500;
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme() {
+
+    $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+
+    crypto {
+
+        .buy-sell-toggle {
+
+            .mat-button-toggle {
+                color: map-get($foreground, secondary-text);
+                background: transparent;
+
+                &.mat-button-toggle-checked {
+                    color: map-get($primary, default);
+                    box-shadow: inset 0 -2px 0 map-get($primary, default);
+                }
+            }
+        }
+
+        .btc-chart-timespan-toggle {
+
+            .mat-button-toggle {
+                color: map-get($foreground, secondary-text);
+                background: transparent;
+
+                &.mat-button-toggle-checked {
+                    color: map-get($primary, default-contrast);
+                    background-color: map-get($primary, default);
+                }
+            }
+        }
+    }
+}

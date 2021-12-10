@@ -1,0 +1,92 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="left">
+
+            <div class="breadcrumb">
+                <span class="path">GUIDES</span>
+                <span class="separator">/</span>
+                <span class="path">CUSTOMIZATION</span>
+            </div>
+
+            <h1>Splash Screen</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                The <strong>splash screen</strong> is the screen that shows up when your app is loading. It's <strong>NOT</strong> just a cosmetic screen or something that you can
+                make <em>faster</em>, it simply shows up while Angular loads and hides immediately after it finishes loading.
+            </p>
+
+            <h2>How it works?</h2>
+            <p>
+                When you first arrive your app via its website address, the <strong>index.html</strong> loads first. It has all the required scripts injected in it by the
+                AngularCLI, so as soon as it loads, it also starts loading the required script files.
+            </p>
+            <p>
+                After those required script files loaded, Angular starts the Bootstrapping progress and loads the first component (usually the <em>AppComponent</em>). Then
+                <em>AppComponent</em> takes over and loads other modules and components and your app starts running.
+            </p>
+            <p>
+                While all of these happening, you will see nothing on the screen simply because the <strong>index.html</strong> file has nothing in it except the script injections
+                and the entry point for your <em>AppComponent</em>. That's where the <strong>splash screen</strong> comes into play and hides the <em>white screen of loading</em>.
+            </p>
+
+            <h2>Customizing the screen</h2>
+            <p>
+                All splash screen related content stays in the <code>index.html</code> file, there are some inline styles as well as the <code>treo-splash-screen</code> dummy
+                element which holds everything related to the splash screen. This element is not an actual Angular component, it's just a simple wrapper to hold everything you may
+                want to show on the splash screen.
+            </p>
+            <p>
+                You can change the inline styles to modify the look of the splash screen and put anything you want into the <code>treo-splash-screen</code> element to show on the
+                page.
+            </p>
+            <treo-message appearance="outline"
+                          type="info">
+                Please note, you cannot run Angular components in here. Basically, by the time you can run Angular components, you won't be needing the
+                <strong>splash screen</strong> because everything would already be loaded!
+            </treo-message>
+            <p>
+                If you don't want to show the splash screen and you are happy with the <em>white screen of loading</em>, then you can simply remove the
+                <code>treo-splash-screen</code> dummy element from the <strong>index.html</strong> file.
+            </p>
+
+            <!-- Nav -->
+            <div class="flex items-center xs:flex-col xs:items-stretch w-full mt-16">
+
+                <!-- Prev -->
+                <a class="bg-card flex items-center justify-between flex-1 mr-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:mr-0 xs:mt-4 xs:order-2"
+                   [routerLink]="['../theming']">
+                    <mat-icon [svgIcon]="'arrow_back'"></mat-icon>
+                    <div>
+                        <div class="text-md text-secondary text-right">Previous</div>
+                        <div class="mt-1 text-lg font-medium">Theming</div>
+                    </div>
+                </a>
+
+                <!-- Next -->
+                <a class="bg-card flex items-center justify-between flex-1 ml-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:ml-0 xs:order-1"
+                   [routerLink]="['../../authentication/jwt']">
+                    <div>
+                        <div class="text-md text-secondary">Next</div>
+                        <div class="mt-1 text-lg font-medium">JWT</div>
+                    </div>
+                    <mat-icon [svgIcon]="'arrow_forward'"></mat-icon>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,27 @@
+<div class="content-layout left-sidebar-fullheight-basic-inner-scroll">
+
+    <mat-drawer-container>
+
+        <mat-drawer [mode]="drawerMode"
+                    [opened]="drawerOpened"
+                    #drawer>
+
+            <!-- Mailbox sidebar -->
+            <mailbox-sidebar></mailbox-sidebar>
+
+        </mat-drawer>
+
+        <mat-drawer-content>
+
+            <!-- Main -->
+            <div class="main">
+
+                <router-outlet></router-outlet>
+
+            </div>
+
+        </mat-drawer-content>
+
+    </mat-drawer-container>
+
+</div>

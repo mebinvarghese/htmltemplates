@@ -1,0 +1,155 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">CORE FEATURES</span>
+                <span class="separator">/</span>
+                <span class="path">COMPONENTS</span>
+            </div>
+
+            <h1>Date Range</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                <strong>treo-date-range</strong> is a date-time range selector component. It can be programmed to provide date or date-time ranges. It has full
+                <strong>ngModel</strong> and <strong>reactive form</strong> support and built to works with <strong>moment.js</strong>.
+            </p>
+            <p>
+                <strong>Exported as: </strong><code>treoDateRange</code>
+            </p>
+
+            <h2>Module</h2>
+            <textarea treo-highlight
+                      lang="typescript">
+                import { TreoDateRangeModule } from '@treo/components/date-range';
+            </textarea>
+
+            <h2>Usage</h2>
+            <p>
+                Here's the basic usage of the <code>treo-date-range</code>:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="html">
+                <treo-date-range [formControlName]="'range'"
+                                 [dateFormat]="settings.dateFormat"
+                                 [timeRange]="!eventForm.get('allDay').value"
+                                 [timeFormat]="settings.timeFormat"></treo-date-range>
+            </textarea>
+            <!-- @formatter:on -->
+
+            <h2>Properties</h2>
+            <div class="bg-card py-3 px-6 rounded shadow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>dateFormat: string</div>
+                            </td>
+                            <td>
+                                Moment.js date format string to format output date.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">'DD/MM/YYYY'</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>timeFormat: string</div>
+                            </td>
+                            <td>
+                                <strong>12</strong> for 12-hour, <strong>24</strong> for 24-hour format.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">'12'</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>timeRange: boolean</div>
+                            </td>
+                            <td>
+                                Whether to enable time range.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">true</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>range: any</div>
+                            </td>
+                            <td>
+                                Date range input <code>{{'{'}} start: string, end: string {{'}'}}</code>. If you are using <strong>ngModel</strong> or <strong>Reactive
+                                forms</strong>, you shouldn't use this input!
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">true</code>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>Range</h2>
+            <p>
+                The input of the range must be in the following format. The <strong>start</strong> and <strong>end</strong> date strings must be moment compatible strings as they
+                will be immediately parsed with MomentJS.
+
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="typescript">
+                // Input format
+                {
+                    start: string,
+                    end  : string
+                }
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                The outputted range object will be in the following format. The <strong>date</strong> and <strong>time</strong> fields will be formatted based on the
+                <em>dateFormat</em> and <em>timeFormat</em> inputs.
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="typescript">
+                // Output format
+                {
+                    startDate: string,
+                    startTime: null | string,
+                    endDate  : string,
+                    endTime  : null | string
+                }
+            </textarea>
+            <!-- @formatter:on -->
+
+        </div>
+
+    </div>
+
+</div>

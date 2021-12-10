@@ -1,0 +1,42 @@
+.page-item.active .page-link,
+blockquote {
+  border-color: #009688;
+}
+
+@media (min-width: 992px) {
+  .site-nav ul li:first-child a,
+  .book .inner,
+  .bb-bigbook {
+    border-color: #009688;
+  }
+}
+
+.cover,
+.section-block .title::before,
+.profile::before,
+.profile .card-body,
+.timeline-item::before,
+.loader,
+.page-item.active .page-link,
+.progress-bar {
+  background-color: #009688;
+}
+
+.btn-floating {
+  background-color: #b6fff8;
+  color: #000 !important;
+}
+
+a:hover,
+a:focus,
+.info-list li span,
+.page-link,
+.single .post-content > a,
+.single .post-content > p a {
+    color: #009688;
+}
+
+.single .post-content > a:hover,
+.single .post-content > p a:hover {
+    color: currentColor;
+}

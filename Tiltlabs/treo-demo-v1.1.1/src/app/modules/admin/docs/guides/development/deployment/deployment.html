@@ -1,0 +1,96 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="left">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">GUIDES</span>
+                <span class="separator">/</span>
+                <span class="path">DEVELOPMENT</span>
+            </div>
+
+            <h1>Deployment</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                To deploy your application, you have to compile it, and then host the JavaScript, CSS, and HTML on a web server. Built Angular applications are very portable and
+                can live in any environment or served by any technology, such as Node, Java, .NET, PHP, and many others.
+            </p>
+            <p>
+                To build your application for production, run the following command:
+            </p>
+            <textarea treo-highlight
+                      lang="bash">
+                ng build --prod
+            </textarea>
+
+            <h2>Alternate commands</h2>
+            <textarea treo-highlight
+                      lang="bash">
+                npm run build:prod
+            </textarea>
+            <p class="mb-12">
+                Alias for <code>ng build --prod</code>.
+            </p>
+
+            <textarea treo-highlight
+                      lang="bash">
+                npm run build:prod:mem
+            </textarea>
+            <p>
+                Custom command to help with heap out of memory issues. It manually sets the allocated memory for the Node.js process before running the
+                <code>ng build --prod</code> command.
+            </p>
+            <p>
+                If you are getting error messages that includes keywords like <strong>HEAP</strong>, <strong>JS stack tree</strong>, <strong>out of memory</strong> while trying to
+                run <code>ng build --prod</code> or <code>npm run build:prod</code> commands, try this one.
+            </p>
+            <treo-message appearance="outline"
+                          type="warning">
+                <span treoMessageTitle>
+                    This solution is just a temporary workaround!
+                </span>
+                Out of memory issues usually happen if you are using an older version of Node.js. Try updating to the current LTS version.
+            </treo-message>
+
+            <!-- Nav -->
+            <div class="flex items-center xs:flex-col xs:items-stretch w-full mt-16">
+
+                <!-- Prev -->
+                <a class="bg-card flex items-center justify-between flex-1 mr-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:mr-0 xs:mt-4 xs:order-2"
+                   [routerLink]="['../starter-kit']">
+                    <mat-icon [svgIcon]="'arrow_back'"></mat-icon>
+                    <div>
+                        <div class="text-md text-secondary text-right">Previous</div>
+                        <div class="mt-1 text-lg font-medium">Starter Kit</div>
+                    </div>
+                </a>
+
+                <!-- Next -->
+                <a class="bg-card flex items-center justify-between flex-1 ml-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:ml-0 xs:order-1"
+                   [routerLink]="['../updating']">
+                    <div>
+                        <div class="text-md text-secondary">Next</div>
+                        <div class="mt-1 text-lg font-medium">Updating</div>
+                    </div>
+                    <mat-icon [svgIcon]="'arrow_forward'"></mat-icon>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

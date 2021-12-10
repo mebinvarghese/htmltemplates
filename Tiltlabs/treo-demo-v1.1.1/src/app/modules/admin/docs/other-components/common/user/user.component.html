@@ -1,0 +1,175 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">OTHER COMPONENTS</span>
+                <span class="separator">/</span>
+                <span class="path">COMMON</span>
+            </div>
+
+            <h1>User</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                This component can be used for showing information and actions related to the currently logged in user.
+            </p>
+
+            <h2>Usage</h2>
+            <p>
+                Here's the basic usage of the component:
+            </p>
+            <textarea treo-highlight
+                      lang="html">
+                <user [user]="data.user"></user>
+            </textarea>
+
+            <h2>Properties</h2>
+            <div class="bg-card py-3 px-6 rounded shadow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>showAvatar: boolean</div>
+                            </td>
+                            <td>
+                                Whether to show avatar of the user. If set to <code>false</code>, a generic icon will be shown.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">true</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>user: User</div>
+                            </td>
+                            <td>
+                                The user data.
+                            </td>
+                            <td>
+                                -
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>User</h2>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="typescript">
+                export interface User
+                {
+                    id: string;
+                    name: string;
+                    email: string;
+                    avatar?: string;
+                    status?: string;
+                }
+            </textarea>
+            <!-- @formatter:on -->
+            <div class="bg-card py-3 px-6 mt-2 rounded shadow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>id</div>
+                            </td>
+                            <td>
+                                Unique id of the user.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>name</div>
+                            </td>
+                            <td>
+                                Name of the user.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>email</div>
+                            </td>
+                            <td>
+                                Email of the user.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>avatar</div>
+                            </td>
+                            <td>
+                                Avatar of the user.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>status</div>
+                            </td>
+                            <td>
+                                Status of the user.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>User Service</h2>
+            <p>
+                The <code>UserService</code> can be used to control the user data outside of the <strong>User</strong> component.
+            </p>
+
+            <h3>Methods</h3>
+            <p>
+                Here's the list of all available methods from <code>UserService</code>:
+            </p>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    user$: Observable&lt;User[]&gt;
+                </div>
+                <div class="p-6">
+                    Getter for user.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    update(user: User): Observable&lt;User&gt;
+                </div>
+                <div class="p-6">
+                    Update the user on the server.
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

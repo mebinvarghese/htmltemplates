@@ -1,0 +1,366 @@
+<div class="content-layout left-sidebar-fullheight-basic-inner-scroll"
+     cdkScrollable>
+
+    <mat-drawer-container>
+
+        <!-- Drawer -->
+        <mat-drawer [autoFocus]="false"
+                    [mode]="drawerMode"
+                    [opened]="drawerOpened"
+                    #drawer>
+
+            <calendar-sidebar (calendarUpdated)="onCalendarUpdated($event)"></calendar-sidebar>
+
+        </mat-drawer>
+
+        <mat-drawer-content>
+
+            <!-- Main -->
+            <div class="main">
+
+                <div class="header">
+
+                    <button class="drawer-toggle"
+                            mat-icon-button
+                            (click)="toggleDrawer()">
+                        <mat-icon [svgIcon]="'menu'"></mat-icon>
+                    </button>
+
+                    <h4 class="title">
+                        {{viewTitle}}
+                    </h4>
+
+                    <button class="previous"
+                            mat-icon-button
+                            (click)="previous()">
+                        <mat-icon [svgIcon]="'chevron_left'"></mat-icon>
+                    </button>
+
+                    <button class="next"
+                            mat-icon-button
+                            (click)="next()">
+                        <mat-icon [svgIcon]="'chevron_right'"></mat-icon>
+                    </button>
+
+                    <button class="today lt-md:hidden"
+                            mat-icon-button
+                            (click)="today()">
+                        <mat-icon [svgIcon]="'today'"></mat-icon>
+                    </button>
+
+                    <mat-form-field class="lt-md:hidden treo-mat-dense treo-mat-no-subscript view-changer">
+                        <mat-select (selectionChange)="changeView(viewChanger.value)"
+                                    [value]="view"
+                                    #viewChanger="matSelect">
+                            <mat-option [value]="'dayGridMonth'">Month</mat-option>
+                            <mat-option [value]="'timeGridWeek'">Week</mat-option>
+                            <mat-option [value]="'timeGridDay'">Day</mat-option>
+                            <mat-option [value]="'listYear'">Schedule</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <button class="actions-menu hidden lt-md:inline-flex"
+                            [matMenuTriggerFor]="actionsMenu"
+                            mat-icon-button>
+                        <mat-icon [svgIcon]="'more_vert'"></mat-icon>
+
+                        <mat-menu #actionsMenu="matMenu">
+                            <button mat-menu-item
+                                    (click)="today()">
+                                <mat-icon [svgIcon]="'today'"></mat-icon>
+                                <span>Go to today</span>
+                            </button>
+                            <button [matMenuTriggerFor]="actionsViewsMenu"
+                                    mat-menu-item>
+                                <mat-icon [svgIcon]="'tune'"></mat-icon>
+                                <span>View</span>
+                            </button>
+                        </mat-menu>
+
+                        <mat-menu #actionsViewsMenu="matMenu">
+                            <button mat-menu-item
+                                    [disabled]="view === 'dayGridMonth'"
+                                    (click)="changeView('dayGridMonth')">
+                                <mat-icon [svgIcon]="'view_comfy'"></mat-icon>
+                                <span>Month</span>
+                            </button>
+                            <button mat-menu-item
+                                    [disabled]="view === 'timeGridWeek'"
+                                    (click)="changeView('timeGridWeek')">
+                                <mat-icon [svgIcon]="'view_week'"></mat-icon>
+                                <span>Week</span>
+                            </button>
+                            <button mat-menu-item
+                                    [disabled]="view === 'timeGridDay'"
+                                    (click)="changeView('timeGridDay')">
+                                <mat-icon [svgIcon]="'view_day'"></mat-icon>
+                                <span>Day</span>
+                            </button>
+                            <button mat-menu-item
+                                    [disabled]="view === 'listYear'"
+                                    (click)="changeView('listYear')">
+                                <mat-icon [svgIcon]="'view_agenda'"></mat-icon>
+                                <span>Schedule</span>
+                            </button>
+                        </mat-menu>
+                    </button>
+
+                </div>
+
+                <div class="calendar">
+
+                    <!-- FullCalendar -->
+                    <full-calendar [defaultView]="view"
+                                   [events]="events"
+                                   [firstDay]="settings.startWeekOn"
+                                   [handleWindowResize]="false"
+                                   [header]="false"
+                                   [height]="'parent'"
+                                   [plugins]="calendarPlugins"
+                                   [views]="views"
+                                   (dateClick)="onDateClick($event)"
+                                   (eventClick)="onEventClick($event)"
+                                   (eventRender)="onEventRender($event)"
+                                   #fullCalendar></full-calendar>
+
+                </div>
+
+                <!-- Event panel -->
+                <ng-template #eventPanel>
+
+                    <!-- Preview mode -->
+                    <ng-container *ngIf="panelMode === 'view'">
+
+                        <div class="row header">
+
+                            <mat-icon [svgIcon]="'info'"></mat-icon>
+
+                            <div class="row-content">
+
+                                <div class="info">
+                                    <h3 class="title">{{event.title || '(No title)'}}</h3>
+                                    <div class="date">{{event.start | date:'EEEE, MMMM d'}}</div>
+                                    <div class="recurrence">{{recurrenceStatus}}</div>
+                                </div>
+
+                                <div class="actions">
+
+                                    <!-- Non-recurring event -->
+                                    <ng-container *ngIf="!event.recurrence">
+
+                                        <!-- Edit -->
+                                        <button mat-icon-button
+                                                (click)="changeEventPanelMode('edit', 'single')">
+                                            <mat-icon [svgIcon]="'edit'"></mat-icon>
+                                        </button>
+
+                                        <!-- Delete -->
+                                        <button mat-icon-button
+                                                (click)="deleteEvent(event)">
+                                            <mat-icon [svgIcon]="'delete'"></mat-icon>
+                                        </button>
+
+                                    </ng-container>
+
+                                    <!-- Recurring event -->
+                                    <ng-container *ngIf="event.recurrence">
+
+                                        <!-- Edit -->
+                                        <button mat-icon-button
+                                                [matMenuTriggerFor]="editMenu">
+                                            <mat-icon [svgIcon]="'edit'"></mat-icon>
+                                        </button>
+
+                                        <mat-menu #editMenu="matMenu">
+                                            <button mat-menu-item
+                                                    (click)="changeEventPanelMode('edit', 'single')">
+                                                This event
+                                            </button>
+                                            <button mat-menu-item
+                                                    *ngIf="!event.isFirstInstance"
+                                                    (click)="changeEventPanelMode('edit', 'future')">
+                                                This and following events
+                                            </button>
+                                            <button mat-menu-item
+                                                    (click)="changeEventPanelMode('edit', 'all')">
+                                                All events
+                                            </button>
+                                        </mat-menu>
+
+                                        <!-- Delete -->
+                                        <button mat-icon-button
+                                                [matMenuTriggerFor]="deleteMenu">
+                                            <mat-icon [svgIcon]="'delete'"></mat-icon>
+                                        </button>
+
+                                        <mat-menu #deleteMenu="matMenu">
+                                            <button mat-menu-item
+                                                    (click)="deleteEvent(event, 'single')">
+                                                This event
+                                            </button>
+                                            <button mat-menu-item
+                                                    *ngIf="!event.isFirstInstance"
+                                                    (click)="deleteEvent(event, 'future')">
+                                                This and following events
+                                            </button>
+                                            <button mat-menu-item
+                                                    (click)="deleteEvent(event, 'all')">
+                                                All events
+                                            </button>
+                                        </mat-menu>
+
+                                    </ng-container>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row description"
+                             *ngIf="event.description">
+                            <mat-icon [svgIcon]="'notes'"></mat-icon>
+                            <div class="row-content">{{event.description}}</div>
+                        </div>
+
+                        <div class="row calendar">
+                            <mat-icon [svgIcon]="'today'"></mat-icon>
+                            <div class="row-content">
+                                <div class="color"
+                                     [ngClass]="getCalendar(event.calendarId).color"></div>
+                                <div class="title">{{getCalendar(event.calendarId).title}}</div>
+                            </div>
+                        </div>
+
+                    </ng-container>
+
+                    <!-- Add / Edit mode -->
+                    <ng-container *ngIf="panelMode === 'add' || panelMode === 'edit'">
+
+                        <form [formGroup]="eventForm">
+
+                            <!-- Title -->
+                            <div class="row title">
+
+                                <mat-icon [svgIcon]="'edit'"></mat-icon>
+
+                                <mat-form-field class="field treo-mat-no-subscript">
+                                    <input matInput
+                                           [formControlName]="'title'"
+                                           [placeholder]="'Event title'">
+                                </mat-form-field>
+
+                            </div>
+
+                            <!-- Dates -->
+                            <div class="row dates">
+
+                                <mat-icon [svgIcon]="'date_range'"></mat-icon>
+
+                                <div class="field">
+
+                                    <treo-date-range [formControlName]="'range'"
+                                                    [dateFormat]="settings.dateFormat"
+                                                    [timeRange]="!eventForm.get('allDay').value"
+                                                    [timeFormat]="settings.timeFormat"></treo-date-range>
+
+                                    <mat-checkbox [color]="'primary'"
+                                                  [formControlName]="'allDay'">
+                                        All day
+                                    </mat-checkbox>
+
+                                </div>
+
+                            </div>
+
+                            <!-- Recurrence -->
+                            <div class="row recurrence"
+                                 *ngIf="!event.recurrence || eventEditMode !== 'single'">
+
+                                <mat-icon class="mirror"
+                                          [svgIcon]="'cached'"></mat-icon>
+
+                                <div class="field"
+                                     (click)="openRecurrenceDialog()">
+                                    <div class="status">
+                                        {{recurrenceStatus || 'Does not repeat'}}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Calendar -->
+                            <div class="row calendar">
+
+                                <mat-icon [svgIcon]="'event'"></mat-icon>
+
+                                <mat-form-field class="field treo-mat-no-subscript">
+                                    <mat-select [formControlName]="'calendarId'"
+                                                [panelClass]="'calendar-event-panel-calendar-selector'"
+                                                (change)="$event.stopImmediatePropagation()">
+                                        <mat-select-trigger>
+                                            <span class="calendar-color"
+                                                  [ngClass]="getCalendar(eventForm.get('calendarId').value)?.color"></span>
+                                            <span class="calendar-title">{{getCalendar(eventForm.get('calendarId').value)?.title}}</span>
+                                        </mat-select-trigger>
+                                        <mat-option *ngFor="let calendar of calendars"
+                                                    [value]="calendar.id">
+                                            <span class="calendar-color"
+                                                  [ngClass]="calendar.color"></span>
+                                            <span class="calendar-title">{{calendar.title}}</span>
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                            </div>
+
+                            <!-- Description -->
+                            <div class="row description">
+
+                                <mat-icon [svgIcon]="'notes'"></mat-icon>
+
+                                <mat-form-field class="field treo-mat-textarea treo-mat-no-subscript">
+                                    <textarea matInput
+                                              cdkTextareaAutosize
+                                              [cdkAutosizeMinRows]="1"
+                                              [formControlName]="'description'"
+                                              [placeholder]="'Event description'">
+                                    </textarea>
+                                </mat-form-field>
+
+                            </div>
+
+                            <!-- Actions -->
+                            <button class="add"
+                                    *ngIf="panelMode === 'add'"
+                                    mat-flat-button
+                                    type="button"
+                                    [color]="'primary'"
+                                    (click)="addEvent()">
+                                Add
+                            </button>
+
+                            <button class="save"
+                                    *ngIf="panelMode === 'edit'"
+                                    mat-flat-button
+                                    type="button"
+                                    [color]="'primary'"
+                                    (click)="updateEvent()">
+                                Save
+                            </button>
+
+                        </form>
+
+                    </ng-container>
+
+                </ng-template>
+
+            </div>
+
+        </mat-drawer-content>
+
+    </mat-drawer-container>
+
+</div>
+
+

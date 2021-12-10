@@ -1,0 +1,39 @@
+@import 'treo';
+
+mailbox {
+
+    .mat-drawer-container {
+
+        .mat-drawer-content {
+            display: flex;
+            overflow: hidden;
+
+            .main {
+                display: flex;
+                flex: 1 1 auto;
+                padding: 0 !important;
+                width: 100%;
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $is-dark: map-get($theme, is-dark);
+
+    mailbox {
+
+        .mat-drawer-container {
+
+            .mat-drawer {
+                @if ($is-dark) {
+                    background: treo-color('cool-gray', 900);
+                }
+            }
+        }
+    }
+}

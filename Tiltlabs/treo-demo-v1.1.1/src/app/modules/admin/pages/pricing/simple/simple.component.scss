@@ -1,0 +1,479 @@
+@import 'treo';
+
+pricing-simple {
+    display: flex;
+
+    .content-layout {
+        position: relative;
+        padding: 32px;
+        align-items: center;
+        overflow: hidden;
+
+        @include treo-breakpoint('xs') {
+            padding: 16px;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 891px;
+
+            path {
+                opacity: 0.1;
+            }
+        }
+
+        .main {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 !important;
+
+            .header {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                margin: 64px 0 80px 0;
+
+                @include treo-breakpoint('xs') {
+                    margin: 48px 0 56px 0;
+                }
+
+                h1 {
+                    font-size: 48px;
+                    max-width: 600px;
+                    text-align: center;
+                    margin: 0;
+                }
+
+                h5 {
+                    max-width: 480px;
+                    margin: 16px 0 0 0;
+                    text-align: center;
+                }
+
+                .recurring-selector {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-top: 64px;
+
+                    @include treo-breakpoint('xs') {
+                        margin-top: 48px;
+                    }
+
+                    > span {
+                        font-weight: 600;
+                        cursor: pointer;
+                        user-select: none;
+                    }
+
+                    mat-slide-toggle {
+                        margin: 0 16px;
+                    }
+                }
+            }
+
+            .cards {
+                display: flex;
+                width: 100%;
+
+                @include treo-breakpoint('lt-lg') {
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                treo-card {
+                    flex-direction: column;
+                    flex: 1 0 auto;
+                    align-items: center;
+                    justify-content: flex-start;
+                    padding: 64px;
+                    z-index: 1;
+                    overflow: visible;
+
+                    &:nth-child(1),
+                    &:nth-child(3) {
+                        margin: 64px 0;
+                        padding: 48px 64px;
+                        max-width: 378px;
+                    }
+
+                    &:nth-child(1) {
+                        border-radius: 8px 0 0 8px;
+                    }
+
+                    &:nth-child(2) {
+                        padding: 112px 64px;
+                        z-index: 5;
+                        @include treo-elevation('xl');
+                    }
+
+                    &:nth-child(3) {
+                        border-radius: 0 8px 8px 0;
+                    }
+
+                    @include treo-breakpoint('lt-lg') {
+                        width: 100% !important;
+                        max-width: 384px !important;
+                        padding: 64px 48px !important;
+                        margin: 0 0 32px 0 !important;
+                        border-radius: 8px !important;
+                    }
+
+                    .tag {
+                        position: absolute;
+                        top: -16px;
+                        left: calc(50% - 80px);
+                        width: 160px;
+                        height: 32px;
+                        line-height: 32px;
+                        font-weight: 500;
+                        text-align: center;
+                        border-radius: 16px;
+                    }
+
+                    .title {
+                        margin-bottom: 12px;
+                        font-size: 20px;
+                        font-weight: 700;
+                    }
+
+                    .price {
+                        display: flex;
+                        align-items: baseline;
+                        white-space: nowrap;
+                        margin-bottom: 4px;
+
+                        .amount {
+                            font-size: 42px;
+                            font-weight: 600;
+                        }
+
+                        .per {
+                            font-size: 24px;
+                            font-weight: 400;
+                            line-height: 1.25;
+                            margin-left: 6px;
+                        }
+                    }
+
+                    .price-details {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    }
+
+                    .features {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        margin: 40px 0;
+
+                        .feature {
+                            display: flex;
+                            align-items: center;
+                            margin-top: 8px;
+
+                            &:first-child {
+                                margin-top: 0;
+                            }
+
+                            .mat-icon {
+                                margin-right: 8px;
+                                @include treo-icon-size(20);
+                            }
+                        }
+                    }
+
+                    .cta-button {
+                        min-width: 180px;
+                        width: 100%;
+                    }
+                }
+            }
+
+            .features-section {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 96px;
+                max-width: 1200px;
+
+                @include treo-breakpoint('xs') {
+                    margin-top: 72px;
+                }
+
+                .title-container {
+                    max-width: 480px;
+
+                    .title {
+                        font-size: 32px;
+                        font-weight: 700;
+                        line-height: 1.25;
+                        text-align: center;
+                    }
+
+                    .subtitle {
+                        margin-top: 8px;
+                        font-size: 16px;
+                        text-align: center;
+                    }
+                }
+
+                .grid-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: flex-start;
+                    justify-content: center;
+
+                    .feature {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        max-width: 384px;
+                        padding: 64px 40px 0 40px;
+                        text-align: center;
+
+                        @include treo-breakpoint('xs') {
+                            padding: 64px 0 0 0;
+                        }
+
+                        .title-container {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            margin-bottom: 8px;
+
+                            .mat-icon {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                border-radius: 6px;
+                                margin-bottom: 24px;
+                                width: 48px !important;
+                                height: 48px !important;
+
+                                svg {
+                                    @include treo-icon-size(24);
+                                }
+                            }
+
+                            div {
+                                font-size: 16px;
+                                font-weight: 600;
+                            }
+                        }
+
+                        .description {
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+
+            .faqs-section {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                max-width: 1200px;
+                width: 100%;
+                margin: 152px 0 32px 0;
+
+                @include treo-breakpoint('xs') {
+                    margin: 128px 0 32px 0;
+                }
+
+                .title-container {
+                    max-width: 480px;
+
+                    .title {
+                        font-size: 32px;
+                        font-weight: 700;
+                        line-height: 1.25;
+                        text-align: center;
+                    }
+
+                    .subtitle {
+                        margin-top: 8px;
+                        font-size: 16px;
+                        text-align: center;
+                    }
+                }
+
+                .grid-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    align-items: flex-start;
+                    justify-content: space-around;
+                    width: 100%;
+                    margin-top: 32px;
+
+                    @include treo-breakpoint('xs') {
+                        max-width: 384px;
+                    }
+
+                    .column {
+                        display: flex;
+                        flex-direction: column;
+                        margin-top: 48px;
+                        max-width: 480px;
+
+                        .question {
+                            margin: 48px 0 8px 0;
+                            font-size: 16px;
+                            font-weight: 600;
+
+                            &:first-of-type {
+                                margin-top: 0;
+                            }
+                        }
+
+                        .answer {
+                            font-size: 16px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $is-dark: map-get($theme, is-dark);
+
+    pricing-simple {
+
+        .background {
+
+            path {
+                @if ($is-dark) {
+                    fill: treo-color('cool-gray', 800);
+                } @else {
+                    fill: treo-color('blue', 300);
+                }
+            }
+        }
+
+        .main {
+
+            .header {
+
+                h5 {
+                    color: map-get($foreground, secondary-text);
+                }
+            }
+
+            .recurring-selector {
+
+                &.annual-billing {
+
+                    span {
+
+                        &:first-child {
+                            opacity: 0.5;
+                        }
+                    }
+                }
+
+                &:not(.annual-billing) {
+
+                    span {
+
+                        &:last-child {
+                            opacity: 0.5;
+                        }
+                    }
+                }
+            }
+
+            .cards {
+
+                treo-card {
+
+                    .tag {
+                        background: map-get($accent, default);
+                        color: map-get($accent, default-contrast)
+                    }
+
+                    .subtitle {
+                        color: map-get($foreground, secondary-text);
+                    }
+
+                    .price {
+
+                        .per {
+                            color: map-get($foreground, secondary-text);
+                        }
+                    }
+
+                    .price-details {
+                        color: map-get($foreground, secondary-text);
+                    }
+                }
+            }
+
+            .features-section {
+
+                .title-container {
+
+                    .subtitle {
+                        color: map-get($foreground, secondary-text);
+                    }
+                }
+
+                .grid-container {
+
+                    .feature {
+
+                        .title-container {
+
+                            .mat-icon {
+                                background: map-get($primary, default);
+                                color: map-get($primary, default-contrast);
+                            }
+                        }
+
+                        .description {
+                            color: map-get($foreground, secondary-text);
+                        }
+                    }
+                }
+            }
+
+            .faqs-section {
+
+                .title-container {
+
+                    .subtitle {
+                        color: map-get($foreground, secondary-text);
+                    }
+                }
+
+                .grid-container {
+
+                    .column {
+
+                        .answer {
+                            color: map-get($foreground, secondary-text);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

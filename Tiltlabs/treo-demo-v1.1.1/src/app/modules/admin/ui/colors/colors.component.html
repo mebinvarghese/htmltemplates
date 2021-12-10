@@ -1,0 +1,314 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">UI ELEMENTS</span>
+            </div>
+            <h1>Colors</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                Treo provides set of ready to use colors for convenience. These colors based on Google's Material Design specs. and each color comes with a set of class names
+                that can be added to an element to change its <b>text</b> and <b>background</b> colors separately as well as both of them at the same time.
+            </p>
+
+            <h2>Usage</h2>
+
+            <h4>Base classes</h4>
+            <p>Each color class has 3 different variants;</p>
+            <ul>
+                <li>
+                    <p><code>.COLORNAME</code></p>
+                    <p>Adds the specified color as the background and its contrasting color as the text color.</p>
+                </li>
+                <li>
+                    <p><code>.bg-COLORNAME</code></p>
+                    <p>Adds the specified color as the background color.</p>
+                </li>
+                <li>
+                    <p><code>.text-COLORNAME</code></p>
+                    <p>Adds the specified color as the text color.</p>
+                </li>
+            </ul>
+
+            <div class="example-viewer">
+
+                <div class="title">
+                    <h6>Example</h6>
+                </div>
+
+                <mat-tab-group [animationDuration]="'0ms'">
+
+                    <mat-tab label="Preview">
+
+                        <div class="colors">
+
+                            <div class="primary">
+                                Primary background & contrasting color
+                            </div>
+
+                            <div class="bg-primary">
+                                Primary background
+                            </div>
+
+                            <div class="text-primary">
+                                Primary color
+                            </div>
+
+                        </div>
+
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <div class="primary">
+                                Primary background & its contrasting color
+                            </div>
+
+                            <div class="bg-primary">
+                                Primary background
+                            </div>
+
+                            <div class="text-primary">
+                                Primary color
+                            </div>
+
+                        </textarea>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+
+            <h4>Hue levels</h4>
+            <p>
+                There are different <b>hue</b> values available for all colors except the <code>White</code> and <code>Black</code> palettes which have same color for all hue
+                values. To access the certain hue value of the color, simply add the value at the end of the class name:
+            </p>
+            <ul>
+                <li><code>.COLORNAME-HUE</code></li>
+                <li><code>.bg-COLORNAME-HUE</code></li>
+                <li><code>.text-COLORNAME-HUE</code></li>
+            </ul>
+            <div class="example-viewer">
+
+                <div class="title">
+                    <h6>Example</h6>
+                </div>
+
+                <mat-tab-group [animationDuration]="'0ms'">
+
+                    <mat-tab label="Preview">
+
+                        <div class="colors">
+
+                            <div class="teal-600">
+                                Teal (600) background & contrasting color
+                            </div>
+
+                            <div class="bg-teal-400">
+                                Teal (400) background
+                            </div>
+
+                            <div class="text-teal-300">
+                                Teal (300) color
+                            </div>
+
+                        </div>
+
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <div class="teal-600">
+                                Teal (600) background & contrasting color
+                            </div>
+
+                            <div class="bg-teal-400">
+                                Teal (400) background
+                            </div>
+
+                            <div class="text-teal-300">
+                                Teal (300) color
+                            </div>
+
+                        </textarea>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+
+            <h4>Emphasize helpers</h4>
+            <p>
+                Following class names also available to have different emphasize levels on the texts:
+            </p>
+            <ul>
+                <li><code>.text-secondary</code></li>
+                <li><code>.text-hint</code> or <code>.text-disabled</code></li>
+                <li><code>.text-fade</code> or <code>.divider</code></li>
+            </ul>
+            <div class="example-viewer">
+
+                <div class="title">
+                    <h6>Example</h6>
+                </div>
+
+                <mat-tab-group [animationDuration]="'0ms'">
+
+                    <mat-tab label="Preview">
+
+                        <div class="colors">
+
+                            <div class="blue-600">
+                                <span>
+                                    Primary text color
+                                </span>
+                            </div>
+
+                            <div class="blue-600">
+                                <span class="text-secondary">
+                                    Secondary text color
+                                </span>
+                            </div>
+
+                            <div class="blue-600">
+                                <span class="text-hint text-disabled">
+                                    Hint / Disabled text color
+                                </span>
+                            </div>
+
+                            <div class="blue-600">
+                                <span class="divider">
+                                    Divider color
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <div class="blue-600">
+                                <span>
+                                    Primary text color
+                                </span>
+                            </div>
+
+                            <div class="blue-600">
+                                <span class="text-secondary">
+                                    Secondary text color
+                                </span>
+                            </div>
+
+                            <div class="blue-600">
+                                <span class="text-hint text-disabled">
+                                    Hint / Disabled text color
+                                </span>
+                            </div>
+
+                            <div class="blue-600">
+                                <span class="divider">
+                                    Divider color
+                                </span>
+                            </div>
+
+                        </textarea>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+
+            </div>
+
+            <h2>Primary, Accent, Warn, White & Black</h2>
+            <p>
+                <code>Primary</code>, <code>Accent</code> and <code>Warn</code> palettes will use the colors from the chosen color palette making it easier to access theme colors
+                and to have better consistency throughout the application. They will change depending on the color theme of your app.
+            </p>
+            <p>
+                <code>White</code> and <code>Black</code> palettes are fixed and cannot be modified.
+            </p>
+            <div class="palettes">
+
+                <div class="palette">
+
+                    <div class="colors">
+
+                        <div class="color"
+                             *ngFor="let palette of themePalettes"
+                             [ngClass]="palette"
+                             matRipple>
+                            <span class="hue">
+                                <span class="hue-value">{{palette}}</span>
+                            </span>
+                            <span class="divider"></span>
+                            <span>Primary</span>
+                            <span class="text-secondary">Secondary</span>
+                            <span class="text-hint text-disabled">Hint / Disabled</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="palettes">
+
+                <div class="palette"
+                     *ngFor="let palette of treoPalettes">
+
+                    <h2>
+                        {{palette | titlecase}}
+                    </h2>
+
+                    <div class="colors">
+
+                        <div class="color"
+                             *ngFor="let hue of hues"
+                             [ngClass]="palette + '-' + hue"
+                             matRipple>
+                            <span class="hue">
+                                <mat-icon [svgIcon]="'palette'"></mat-icon>
+                                <span class="hue-value">{{hue}}</span>
+                            </span>
+                            <span class="divider"></span>
+                            <span>Primary</span>
+                            <span class="text-secondary">Secondary</span>
+                            <span class="text-hint text-disabled">Hint / Disabled</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,498 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">TREO</span>
+            </div>
+
+            <h1>Helpers</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <!-- Form field helpers -->
+            <h2>Form field helpers</h2>
+            <p>
+                By default, Treo changes the default form field appearance to <em>fill</em> and heavily modifies it to provide a more unique and consistent look. We recommend
+                <strong>NOT</strong> using any other form field styles as they are not optimized for Treo.
+            </p>
+            <p>
+                In addition to the heavy modifications, Treo also provides set of helper classes to further modify the style of the form fields.
+            </p>
+
+            <h3>Required classes</h3>
+            <ul>
+                <li>
+                    <p><code>.treo-mat-textarea</code></p>
+                    <p>
+                        This helper class is required if you are using a textarea as your input. Since Angular Material doesn't differentiate a textarea from a
+                        normal input while using them with <strong>mat-form-field</strong>, this helper class is required for <strong>textarea</strong> inputs to look good and
+                        consistent.
+                    </p>
+                </li>
+            </ul>
+            <textarea treo-highlight
+                      lang="html">
+                <mat-form-field class="treo-mat-textarea">
+                    <mat-label>Note</mat-label>
+                    &lt;textarea matInput&gt;&lt;/textarea&gt;
+                </mat-form-field>
+            </textarea>
+
+            <h3>Optional classes</h3>
+            <ul>
+                <li>
+                    <p><code>.treo-mat-dense</code></p>
+                    <p>
+                        Provides set of adjustments to make the fields denser. Dense fields are suitable for non-form usages and places where there isn't much space to work with such
+                        as small dialogs, menus, popovers and etc.
+                    </p>
+                </li>
+                <li>
+                    <p><code>.treo-mat-rounded</code></p>
+                    <p>Provides set of adjustments to make the fields look fully rounded.</p>
+                </li>
+                <li>
+                    <p><code>.treo-mat-no-subscript</code></p>
+                    <p>
+                        Provides set of adjustments to remove the bottom spacing where <em>hint</em> and <em>error</em> messages placed. This helper is particularly useful to align the
+                        field easily if you don't need to show error messages or hint text. For example a search bar in the toolbar uses this helper to fit the field to the toolbar
+                        without having an extra bottom spacing.
+                    </p>
+                </li>
+                <li>
+                    <p><code>.treo-mat-emphasized-affix</code></p>
+                    <p>
+                        Provides set of adjustments to emphasize the field prefix and suffix by changing their background color and adding a border around them.
+                    </p>
+                </li>
+            </ul>
+
+            <h3>Usage</h3>
+            <p>
+                <code>&lt;mat-form-field class="{{getFormFieldHelpersAsString()}}"&gt;...&lt;mat-form-field&gt;</code>
+            </p>
+
+            <p>
+                <mat-button-toggle-group [(ngModel)]="formFieldHelpers"
+                                         multiple>
+                    <mat-button-toggle [value]="'treo-mat-dense'">Dense</mat-button-toggle>
+                    <mat-button-toggle [value]="'treo-mat-rounded'">Rounded</mat-button-toggle>
+                    <mat-button-toggle [value]="'treo-mat-no-subscript'">No subscript</mat-button-toggle>
+                    <mat-button-toggle [value]="'treo-mat-emphasized-affix'">Emphasized affix</mat-button-toggle>
+                </mat-button-toggle-group>
+            </p>
+
+            <h3>With mat-label</h3>
+
+            <treo-card class="flex flex-col w-full mt-4 p-8">
+
+                <form>
+
+                    <div class="flex">
+                        <mat-form-field class="flex-auto"
+                                        [ngClass]="formFieldHelpers">
+                            <mat-label>Input</mat-label>
+                            <input matInput
+                                   [placeholder]="'This is a placeholder'">
+                            <mat-hint>This is a hint text</mat-hint>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex">
+                        <mat-form-field class="treo-mat-textarea flex-auto"
+                                        [ngClass]="formFieldHelpers">
+                            <mat-label>Textarea</mat-label>
+                            <textarea matInput></textarea>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col gt-xs:flex-row">
+                        <mat-form-field class="flex-auto gt-xs:pr-3"
+                                        [ngClass]="formFieldHelpers">
+                            <mat-label>Select with prefix</mat-label>
+                            <mat-select>
+                                <mat-option value="select1-1">Select 1-1 Select 1-1 Select 1-1 Select 1-1 Select 1-1 Select 1-1 Select 1-1</mat-option>
+                                <mat-option value="select1-2">Select 1-2</mat-option>
+                                <mat-option value="select1-3">Select 1-3</mat-option>
+                            </mat-select>
+                            <mat-icon matPrefix
+                                      [svgIcon]="'room'"></mat-icon>
+                        </mat-form-field>
+                        <mat-form-field class="flex-auto gt-xs:pl-3"
+                                        [ngClass]="formFieldHelpers">
+                            <mat-label>Select with suffix</mat-label>
+                            <mat-select>
+                                <mat-option value="select2-1">Select 2-1 Select 2-1 Select 2-1 Select 2-1 Select 2-1 Select 2-1 Select 2-1</mat-option>
+                                <mat-option value="select2-2">Select 2-2</mat-option>
+                                <mat-option value="select2-3">Select 2-3</mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix
+                                      [svgIcon]="'language'"></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col gt-xs:flex-row">
+                        <mat-form-field class="flex-auto gt-xs:pr-3"
+                                        [ngClass]="formFieldHelpers">
+                            <mat-label>Native select with prefix</mat-label>
+                            <select matNativeControl>
+                                <option value=""></option>
+                                <option value="select1-1">Select 1-1 Select 1-1 Select 1-1 Select 1-1 Select 1-1 Select 1-1 Select 1-1</option>
+                                <option value="select1-2">Select 1-2</option>
+                                <option value="select1-3">Select 1-3</option>
+                            </select>
+                            <mat-icon matPrefix
+                                      [svgIcon]="'room'"></mat-icon>
+                        </mat-form-field>
+                        <mat-form-field class="flex-auto gt-xs:pl-3"
+                                        [ngClass]="formFieldHelpers">
+                            <mat-label>Native select with suffix</mat-label>
+                            <select matNativeControl>
+                                <option value=""></option>
+                                <option value="select2-1">Select 2-1 Select 2-1 Select 2-1 Select 2-1 Select 2-1 Select 2-1 Select 2-1</option>
+                                <option value="select2-2">Select 2-2</option>
+                                <option value="select2-3">Select 2-3</option>
+                            </select>
+                            <mat-icon matSuffix
+                                      [svgIcon]="'language'"></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex">
+                        <mat-form-field class="flex-auto"
+                                        [ngClass]="formFieldHelpers">
+                            <mat-chip-list #chipList01>
+                                <mat-chip [removable]="true"
+                                          [selectable]="true">
+                                    Lemon
+                                    <mat-icon matChipRemove
+                                              [svgIcon]="'remove_circle'"></mat-icon>
+                                </mat-chip>
+                                <mat-chip [removable]="true"
+                                          [selectable]="true">
+                                    Lime
+                                    <mat-icon matChipRemove
+                                              [svgIcon]="'remove_circle'"></mat-icon>
+                                </mat-chip>
+                                <mat-chip [removable]="true"
+                                          [selectable]="true">
+                                    Apple
+                                    <mat-icon matChipRemove
+                                              [svgIcon]="'remove_circle'"></mat-icon>
+                                </mat-chip>
+                                <input [placeholder]="'New fruit...'"
+                                       [matChipInputFor]="chipList01">
+                            </mat-chip-list>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex">
+                        <mat-form-field class="flex-auto"
+                                        [ngClass]="formFieldHelpers">
+                            <mat-label>Choose a date</mat-label>
+                            <input matInput
+                                   [matDatepicker]="picker1">
+                            <mat-datepicker-toggle matSuffix
+                                                   [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                </form>
+
+            </treo-card>
+
+            <h3>Without mat-label</h3>
+
+            <treo-card class="flex flex-col w-full mt-4 p-8">
+
+                <form>
+
+                    <div class="flex">
+                        <mat-form-field class="flex-auto"
+                                        [ngClass]="formFieldHelpers">
+                            <input matInput
+                                   [placeholder]="'Input'">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex">
+                        <mat-form-field class="treo-mat-textarea flex-auto"
+                                        [ngClass]="formFieldHelpers">
+                            <textarea matInput
+                                      [placeholder]="'Textarea'"></textarea>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col gt-xs:flex-row">
+                        <mat-form-field class="flex-auto gt-xs:pr-3"
+                                        [ngClass]="formFieldHelpers">
+                            <mat-select [placeholder]="'Select with prefix'">
+                                <mat-option value="select1-1">Select 1-1 Select 1-1 Select 1-1 Select 1-1 Select 1-1 Select 1-1 Select 1-1</mat-option>
+                                <mat-option value="select1-2">Select 1-2</mat-option>
+                                <mat-option value="select1-3">Select 1-3</mat-option>
+                            </mat-select>
+                            <mat-icon matPrefix
+                                      [svgIcon]="'room'"></mat-icon>
+                        </mat-form-field>
+                        <mat-form-field class="flex-auto gt-xs:pl-3"
+                                        [ngClass]="formFieldHelpers">
+                            <mat-select [placeholder]="'Select with suffix'">
+                                <mat-option value="select2-1">Select 2-1 Select 2-1 Select 2-1 Select 2-1 Select 2-1 Select 2-1 Select 2-1</mat-option>
+                                <mat-option value="select2-2">Select 2-2</mat-option>
+                                <mat-option value="select2-3">Select 2-3</mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix
+                                      [svgIcon]="'language'"></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col gt-xs:flex-row">
+                        <mat-form-field class="flex-auto gt-xs:pr-3"
+                                        [ngClass]="formFieldHelpers">
+                            <select matNativeControl
+                                    [placeholder]="'Native select with prefix'">
+                                <option value=""></option>
+                                <option value="select1-1">Select 1-1 Select 1-1 Select 1-1 Select 1-1 Select 1-1 Select 1-1 Select 1-1</option>
+                                <option value="select1-2">Select 1-2</option>
+                                <option value="select1-3">Select 1-3</option>
+                            </select>
+                            <mat-icon matPrefix
+                                      [svgIcon]="'room'"></mat-icon>
+                        </mat-form-field>
+                        <mat-form-field class="flex-auto gt-xs:pl-3"
+                                        [ngClass]="formFieldHelpers">
+                            <select matNativeControl
+                                    [placeholder]="'Native select with suffix'">
+                                <option value=""></option>
+                                <option value="select2-1">Select 2-1 Select 2-1 Select 2-1 Select 2-1 Select 2-1 Select 2-1 Select 2-1</option>
+                                <option value="select2-2">Select 2-2</option>
+                                <option value="select2-3">Select 2-3</option>
+                            </select>
+                            <mat-icon matSuffix
+                                      [svgIcon]="'language'"></mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex">
+                        <mat-form-field class="flex-auto"
+                                        [ngClass]="formFieldHelpers">
+                            <mat-chip-list #chipList02>
+                                <mat-chip [removable]="true"
+                                          [selectable]="true">
+                                    Lemon
+                                    <mat-icon matChipRemove
+                                              [svgIcon]="'remove_circle'"></mat-icon>
+                                </mat-chip>
+                                <mat-chip [removable]="true"
+                                          [selectable]="true">
+                                    Lime
+                                    <mat-icon matChipRemove
+                                              [svgIcon]="'remove_circle'"></mat-icon>
+                                </mat-chip>
+                                <mat-chip [removable]="true"
+                                          [selectable]="true">
+                                    Apple
+                                    <mat-icon matChipRemove
+                                              [svgIcon]="'remove_circle'"></mat-icon>
+                                </mat-chip>
+                                <input [placeholder]="'New fruit...'"
+                                       [matChipInputFor]="chipList02">
+                            </mat-chip-list>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex">
+                        <mat-form-field class="flex-auto"
+                                        [ngClass]="formFieldHelpers">
+                            <input matInput
+                                   [matDatepicker]="picker2"
+                                   [placeholder]="'Choose a date'">
+                            <mat-datepicker-toggle matSuffix
+                                                   [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                </form>
+
+            </treo-card>
+
+            <hr class="mt-16 mb-14">
+
+            <h2>TailwindCSS based helpers</h2>
+            <p>
+                As mentioned before, Treo uses <em>TailwindCSS</em> to configure itself. Breakpoints, colors, font sizes, shadows and etc. configuration is provided by
+                TailwindCSS config file. While all of the TailwindCSS utilities are available as classes, it's also useful to have some of them as SCSS variables and mixins:
+            </p>
+
+            <!-- Icon size helpers -->
+            <h3>Icon size helpers</h3>
+            <p>
+                Icon size helpers helps quickly changing the icon size on <code>mat-icon</code> elements. These helpers support both icon fonts and svg icons.
+            </p>
+
+            <h4>Class</h4>
+            <ul>
+                <li>
+                    <p><code>.icon-size-[SIZE]</code></p>
+                    <p>By default, <strong>SIZE</strong> parameters are but not limited to: <strong>12 14 16 18 20 24 32 40 48 56 64 72 80 88 96</strong>.</p>
+                </li>
+            </ul>
+
+            <h4>Mixin</h4>
+            <p>
+                To change the icon size from the SCSS files, you can also use the <code>@include treo-icon-size($size)</code> mixin. It has the same <strong>$size</strong>
+                parameter rule as the helper class.
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      [lang]="'scss'">
+                .some-element {
+
+                    .mat-icon {
+                        @include treo-icon-size(24)
+                    }
+                }
+            </textarea>
+            <!-- @formatter:on -->
+            <treo-message appearance="outline"
+                          type="info">
+                In order to use this mixin, you need to target the <code>.mat-icon</code> element and you must <strong>turn off</strong> the <em>View encapsulation</em> of your
+                component.
+            </treo-message>
+
+            <hr>
+
+            <!-- Breakpoint helpers -->
+            <h3>Breakpoint helpers</h3>
+            <p>
+                These helpers provide a way to quickly wrap the styles in a media query that's compatible with the Treo's current set of breakpoints.
+            </p>
+
+            <h4>Mixin</h4>
+            <p>
+                Use the <code>@include treo-breakpoint($breakpoint)</code> mixin to add a media rule that wraps the code inside it:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      [lang]="'css'">
+                @include treo-breakpoint('md') {
+                    top: 0;
+                    height: 100vh;
+                    min-height: 100vh;
+                    max-height: 100vh;
+                }
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                will result with the following code:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      [lang]="'css'">
+                @media (max-width: 959px) {
+                    top: 0;
+                    height: 100vh;
+                    min-height: 100vh;
+                    max-height: 100vh;
+                }
+            </textarea>
+            <!-- @formatter:on -->
+
+            <h4>Available breakpoints</h4>
+            <p>
+                All available breakpoints and their widths can be seen and modified via TailwindCSS config file: <code>src/tailwind/config.js</code>.
+            </p>
+
+            <hr>
+
+            <!-- Color & Contrast helpers -->
+            <h3>Color & Contrast helpers</h3>
+            <p>
+                This function helps to quickly add colors and contrasting colors to the elements.
+            </p>
+            <h4>Function</h4>
+            <p>
+                Use the <code>treo-color($color, $hue, $opacity)</code> function to return a color from the pre-defined color palettes.
+            </p>
+            <p>
+                Use the <code>treo-contrast($color, $hue, $opacity)</code> function to return the contrasting color of the given color.
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      [lang]="'css'">
+                .some-element {
+                    background: treo-color('red', 500);
+                    color: treo-contrast('red', 500);
+                }
+            </textarea>
+            <!-- @formatter:on -->
+            <p>
+                will result with the following code:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      [lang]="'css'">
+                .some-element {
+                    background: #F05252;
+                    color: #771D1D;
+                }
+            </textarea>
+            <!-- @formatter:on -->
+            <h4>Available colors</h4>
+            <p>
+                All available colors and their contrasting colors can be seen and modified via TailwindCSS config file: <code>src/tailwind/config.js</code>.
+            </p>
+
+            <hr>
+
+            <!-- Elevation helpers -->
+            <h3>Elevation helpers</h3>
+            <p>
+                These helpers can be used to quickly add an elevation to the elements.
+            </p>
+
+            <h4>Mixin</h4>
+            <p>
+                Use the <code>@include treo-elevation($elevation, $important, $color)</code> mixin to add an elevation based on box-shadow.
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      [lang]="'css'">
+                treo-card {
+                    @include treo-elevation('md');
+                }
+            </textarea>
+
+            <h4>Parameters</h4>
+            <ul>
+                <li>
+                    <p><code>$elevation</code></p>
+                    <p>Default elevation levels from TailwindCSS</p>
+                </li>
+                <li>
+                    <p><code>$important</code></p>
+                    <p>Whether to add <strong>!important</strong> tag to the generated rule.</p>
+                </li>
+                <li>
+                    <p><code>$color</code></p>
+                    <p>Color of the shadow, can be any valid SCSS color.</p>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,108 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">OTHER COMPONENTS</span>
+                <span class="separator">/</span>
+                <span class="path">COMMON</span>
+            </div>
+
+            <h1>Search</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                This component can be used for searching. It will make API calls as you start typing the search query into the search field and show the results in the
+                <em>Autocomplete</em> panel.
+            </p>
+
+            <h2>Usage</h2>
+            <p>
+                Here's the basic usage of the component:
+            </p>
+            <textarea treo-highlight
+                      lang="html">
+                <search [appearance]="'bar'"></search>
+            </textarea>
+
+            <h2>Properties</h2>
+            <div class="bg-card py-3 px-6 rounded shadow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>appearance: 'basic' | 'bar'</div>
+                            </td>
+                            <td>
+                                Appearance of the search. <strong>basic</strong> will show a simple search field. <strong>bar</strong> will show a dropdown bar that covers the
+                                header.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">'bar'</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>debounce: number</div>
+                            </td>
+                            <td>
+                                Number of milliseconds to debounce the API calls.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">300</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>minLength: number</div>
+                            </td>
+                            <td>
+                                Minimum length of the search value required before making API calls.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">2</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Output()</div>
+                                <div>search: EventEmitter</div>
+                            </td>
+                            <td>
+                                An event emitted after search happened.
+                            </td>
+                            <td>
+                                -
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

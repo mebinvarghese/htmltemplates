@@ -1,0 +1,504 @@
+<div class="flex flex-col flex-auto w-full p-8 xs:p-2">
+
+    <div class="flex flex-wrap w-full">
+
+        <div class="flex items-center justify-between w-full my-4 px-4 xs:pr-0">
+            <div class="mr-6">
+                <h2 class="m-0">Finance dashboard</h2>
+                <div class="text-secondary tracking-tight">Keep track of your financial status</div>
+            </div>
+            <!-- Action buttons -->
+            <div class="flex items-center">
+                <button class="xs:hidden"
+                        mat-stroked-button>
+                    <mat-icon class="icon-size-20"
+                              [svgIcon]="'save'"></mat-icon>
+                    <span class="ml-2">Export</span>
+                </button>
+                <button class="ml-2 xs:hidden"
+                        mat-stroked-button>
+                    <mat-icon class="icon-size-20"
+                              [svgIcon]="'assessment'"></mat-icon>
+                    <span class="ml-2">Reports</span>
+                </button>
+                <button class="ml-2 xs:hidden"
+                        mat-stroked-button>
+                    <mat-icon class="icon-size-20 rotate-90 mirror"
+                              [svgIcon]="'tune'"></mat-icon>
+                    <span class="ml-2">Settings</span>
+                </button>
+
+                <!-- Actions menu (visible on xs) -->
+                <div class="hidden xs:flex">
+                    <button [matMenuTriggerFor]="actionsMenu"
+                            mat-icon-button>
+                        <mat-icon [svgIcon]="'more_vert'"></mat-icon>
+                    </button>
+                    <mat-menu #actionsMenu="matMenu">
+                        <button mat-menu-item>
+                            <mat-icon class="icon-size-20"
+                                      [svgIcon]="'save'"></mat-icon>
+                            <span class="ml-2">Export</span>
+                        </button>
+                        <button mat-menu-item>
+                            <mat-icon class="icon-size-20"
+                                      [svgIcon]="'share'"></mat-icon>
+                            <span class="ml-2">Share</span>
+                        </button>
+                        <button mat-menu-item>
+                            <mat-icon class="icon-size-20 rotate-90 mirror"
+                                      [svgIcon]="'tune'"></mat-icon>
+                            <span class="ml-2">Settings</span>
+                        </button>
+                    </mat-menu>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap w-1/2 lt-xl:w-full">
+
+            <!-- Previous statement -->
+            <div class="flex flex-auto w-full min-w-80 p-4 lt-xl:w-1/2">
+                <div class="relative flex flex-col flex-auto p-6 pr-3 pb-3 bg-card border-green rounded border-l-4 shadow-md overflow-hidden">
+                    <div class="absolute bottom-0 right-0 w-24 h-24 -m-6">
+                        <mat-icon class="icon-size-96 opacity-12 text-green"
+                                  [svgIcon]="'heroicons_outline:check-circle'"></mat-icon>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="flex flex-col">
+                            <div class="font-bold text-md text-secondary uppercase tracking-wider">Previous Statement</div>
+                            <div class="text-green font-medium text-sm">
+                                Paid on {{data.previousStatement.date}}
+                            </div>
+                        </div>
+                        <div class="ml-auto">
+                            <button mat-icon-button
+                                    [matMenuTriggerFor]="previousStatementMenu">
+                                <mat-icon [svgIcon]="'more_vert'"></mat-icon>
+                            </button>
+                            <mat-menu #previousStatementMenu="matMenu">
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon class="icon-size-20 mr-3"
+                                                  [svgIcon]="'payment'"></mat-icon>
+                                        <span>View statement</span>
+                                    </span>
+                                </button>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon class="icon-size-20 mr-3"
+                                                  [svgIcon]="'attach_money'"></mat-icon>
+                                        <span>Spending breakdown</span>
+                                    </span>
+                                </button>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon class="icon-size-20 mr-3"
+                                                  [svgIcon]="'account_balance'"></mat-icon>
+                                        <span>Tax breakdown</span>
+                                    </span>
+                                </button>
+                                <mat-divider class="my-2"></mat-divider>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon class="icon-size-20 mr-3"
+                                                  [svgIcon]="'print'"></mat-icon>
+                                        <span>Print statement</span>
+                                    </span>
+                                </button>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon class="icon-size-20 mr-3"
+                                                  [svgIcon]="'email'"></mat-icon>
+                                        <span>Email statement</span>
+                                    </span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div class="flex flex-row flex-wrap mt-4 -mx-6">
+                        <div class="flex flex-col mx-6 my-3 xs:w-full">
+                            <div class="font-semibold text-xs text-hint uppercase tracking-wider leading-none">Card Limit</div>
+                            <div class="mt-2 font-medium text-3xl leading-none">{{data.previousStatement.limit | currency:'USD'}}</div>
+                        </div>
+                        <div class="flex flex-col mx-6 my-3 xs:w-full">
+                            <div class="font-semibold text-xs text-hint uppercase tracking-wider leading-none">Spent</div>
+                            <div class="mt-2 font-medium text-3xl leading-none">{{data.previousStatement.spent | currency:'USD'}}</div>
+                        </div>
+                        <div class="flex flex-col mx-6 my-3 xs:w-full">
+                            <div class="font-semibold text-xs text-hint uppercase tracking-wider leading-none">Minimum</div>
+                            <div class="mt-2 font-medium text-3xl leading-none">{{data.previousStatement.minimum | currency:'USD'}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current statement -->
+            <div class="flex flex-auto w-full min-w-80 p-4 lt-xl:w-1/2">
+                <div class="relative flex flex-col flex-auto p-6 pr-3 pb-3 bg-card border-red rounded border-l-4 shadow-md overflow-hidden">
+                    <div class="absolute bottom-0 right-0 w-24 h-24 -m-6">
+                        <mat-icon class="icon-size-96 opacity-12 text-red"
+                                  [svgIcon]="'heroicons_outline:exclamation-circle'"></mat-icon>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="flex flex-col">
+                            <div class="font-bold text-md text-secondary uppercase tracking-wider">Current Statement</div>
+                            <div class="text-red font-medium text-sm">
+                                Must be paid before {{data.currentStatement.date}}
+                            </div>
+                        </div>
+                        <div class="ml-auto">
+                            <button mat-icon-button
+                                    [matMenuTriggerFor]="currentStatementMenu">
+                                <mat-icon [svgIcon]="'more_vert'"></mat-icon>
+                            </button>
+                            <mat-menu #currentStatementMenu="matMenu">
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon class="icon-size-20 mr-3"
+                                                  [svgIcon]="'payment'"></mat-icon>
+                                        <span>View statement</span>
+                                    </span>
+                                </button>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon class="icon-size-20 mr-3"
+                                                  [svgIcon]="'attach_money'"></mat-icon>
+                                        <span>Spending breakdown</span>
+                                    </span>
+                                </button>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon class="icon-size-20 mr-3"
+                                                  [svgIcon]="'account_balance'"></mat-icon>
+                                        <span>Tax breakdown</span>
+                                    </span>
+                                </button>
+                                <mat-divider class="my-2"></mat-divider>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon class="icon-size-20 mr-3"
+                                                  [svgIcon]="'print'"></mat-icon>
+                                        <span>Print statement</span>
+                                    </span>
+                                </button>
+                                <button mat-menu-item>
+                                    <span class="flex items-center">
+                                        <mat-icon class="icon-size-20 mr-3"
+                                                  [svgIcon]="'email'"></mat-icon>
+                                        <span>Email statement</span>
+                                    </span>
+                                </button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div class="flex flex-row flex-wrap mt-4 -mx-6">
+                        <div class="flex flex-col mx-6 my-3 xs:w-full">
+                            <div class="font-semibold text-xs text-hint uppercase tracking-wider leading-none">Limit</div>
+                            <div class="mt-2 font-medium text-3xl leading-none">{{data.currentStatement.limit | currency:'USD'}}</div>
+                        </div>
+                        <div class="flex flex-col mx-6 my-3 xs:w-full">
+                            <div class="font-semibold text-xs text-hint uppercase tracking-wider leading-none">Spent</div>
+                            <div class="mt-2 font-medium text-3xl leading-none">{{data.currentStatement.spent | currency:'USD'}}</div>
+                        </div>
+                        <div class="flex flex-col mx-6 my-3 xs:w-full">
+                            <div class="font-semibold text-xs text-hint uppercase tracking-wider leading-none">Minimum</div>
+                            <div class="mt-2 font-medium text-3xl leading-none">{{data.currentStatement.minimum | currency:'USD'}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Account balance -->
+        <div class="flex flex-auto w-1/2 min-w-80 h-90 p-4">
+            <div class="flex flex-col flex-auto bg-card shadow-md rounded overflow-hidden">
+                <div class="flex flex-col p-6 pr-4 pb-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex flex-col">
+                            <div class="font-bold text-md text-secondary uppercase tracking-wider mr-4">Account Balance</div>
+                            <div class="text-sm text-hint font-medium">Monthly balance growth and avg. monthly income</div>
+                        </div>
+                        <div>
+                            <button class="h-8 min-h-8 px-2"
+                                    mat-button
+                                    [matMenuTriggerFor]="accountBalanceMenu">
+                                <span class="font-medium text-sm text-hint">12 months</span>
+                            </button>
+                            <mat-menu #accountBalanceMenu="matMenu">
+                                <button mat-menu-item>3 months</button>
+                                <button mat-menu-item>6 months</button>
+                                <button mat-menu-item>9 months</button>
+                                <button mat-menu-item>12 months</button>
+                            </mat-menu>
+                        </div>
+                    </div>
+                    <div class="flex items-start mt-6 mr-2">
+                        <div class="flex flex-col">
+                            <div class="font-semibold text-5xl tracking-tighter lt-md:text-3xl">{{data.accountBalance.growRate}}%</div>
+                            <div class="font-medium text-sm text-secondary leading-none">Average Monthly Growth</div>
+                        </div>
+                        <div class="flex flex-col ml-16 lt-md:ml-8">
+                            <div class="font-semibold text-5xl tracking-tighter lt-md:text-3xl">{{data.accountBalance.ami | currency:'USD'}}</div>
+                            <div class="font-medium text-sm text-secondary leading-none">Average Monthly Income</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col flex-auto">
+                    <apx-chart class="flex-auto w-full h-full"
+                               [chart]="accountBalanceOptions.chart"
+                               [colors]="accountBalanceOptions.colors"
+                               [fill]="accountBalanceOptions.fill"
+                               [series]="accountBalanceOptions.series"
+                               [stroke]="accountBalanceOptions.stroke"
+                               [tooltip]="accountBalanceOptions.tooltip"
+                               [xaxis]="accountBalanceOptions.xaxis"></apx-chart>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent transactions table -->
+        <div class="flex flex-auto w-2/3 p-4 overflow-hidden lt-xl:w-full">
+            <div class="flex flex-col flex-auto bg-card shadow-md rounded overflow-hidden">
+                <div class="p-6">
+                    <div class="font-bold text-md text-secondary uppercase tracking-wider">Recent transactions</div>
+                    <div class="text-sm text-hint font-medium">1 pending, 4 completed</div>
+                </div>
+                <div class="overflow-auto">
+                    <table class="w-full bg-transparent"
+                           mat-table
+                           matSort
+                           [dataSource]="recentTransactionsDataSource"
+                           [trackBy]="trackByFn"
+                           #recentTransactionsTable>
+
+                        <!-- Transaction ID -->
+                        <ng-container matColumnDef="transactionId">
+                            <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t"
+                                mat-header-cell
+                                mat-sort-header
+                                *matHeaderCellDef>
+                                <span class="whitespace-no-wrap">
+                                    Transaction ID
+                                </span>
+                            </th>
+                            <td mat-cell
+                                *matCellDef="let transaction">
+                                <span class="pr-6 font-medium text-sm text-secondary whitespace-no-wrap">
+                                    {{transaction.transactionId}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Date -->
+                        <ng-container matColumnDef="date">
+                            <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t"
+                                mat-header-cell
+                                mat-sort-header
+                                *matHeaderCellDef>
+                                <span class="whitespace-no-wrap">
+                                    Date
+                                </span>
+                            </th>
+                            <td mat-cell
+                                *matCellDef="let transaction">
+                                <span class="pr-6 whitespace-no-wrap">
+                                    {{transaction.date | date:'MMM dd, y'}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Name -->
+                        <ng-container matColumnDef="name">
+                            <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t"
+                                mat-header-cell
+                                mat-sort-header
+                                *matHeaderCellDef>
+                                <span class="whitespace-no-wrap">
+                                    Name
+                                </span>
+                            </th>
+                            <td mat-cell
+                                *matCellDef="let transaction">
+                                <span class="pr-6 whitespace-no-wrap">
+                                    {{transaction.name}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Amount -->
+                        <ng-container matColumnDef="amount">
+                            <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t"
+                                mat-header-cell
+                                mat-sort-header
+                                *matHeaderCellDef>
+                                <span class="whitespace-no-wrap">
+                                    Amount
+                                </span>
+                            </th>
+                            <td mat-cell
+                                *matCellDef="let transaction">
+                                <span class="pr-6 font-medium whitespace-no-wrap">
+                                    {{transaction.amount | currency:'USD'}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Status -->
+                        <ng-container matColumnDef="status">
+                            <th class="bg-cool-gray-50 dark:bg-cool-gray-700 border-t"
+                                mat-header-cell
+                                mat-sort-header
+                                *matHeaderCellDef>
+                                <span class="whitespace-no-wrap">
+                                    Status
+                                </span>
+                            </th>
+                            <td mat-cell
+                                *matCellDef="let transaction">
+                                <span class="inline-flex items-center font-bold text-xs px-2 py-2px rounded-full tracking-wide uppercase"
+                                      [ngClass]="{'red-200': transaction.status === 'pending',
+                                      'green-200': transaction.status === 'completed'}">
+                                    <span class="w-2 h-2 rounded-full mr-2"
+                                          [ngClass]="{'bg-red': transaction.status === 'pending',
+                                      'bg-green': transaction.status === 'completed'}"></span>
+                                    <span class="pr-2px leading-relaxed whitespace-no-wrap">{{transaction.status}}</span>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Footer -->
+                        <ng-container matColumnDef="recentOrdersTableFooter">
+                            <td class="px-3 border-none"
+                                mat-footer-cell
+                                *matFooterCellDef
+                                colspan="6">
+                                <button mat-button
+                                        [color]="'primary'">
+                                    See all transactions
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row
+                            *matHeaderRowDef="recentTransactionsTableColumns"></tr>
+                        <tr class="order-row h-16"
+                            mat-row
+                            *matRowDef="let row; columns: recentTransactionsTableColumns;"></tr>
+                        <tr class="h-16"
+                            mat-footer-row
+                            *matFooterRowDef="['recentOrdersTableFooter']"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Budget -->
+        <div class="flex flex-auto w-1/3 min-w-80 p-4 lt-xl:w-full">
+            <div class="flex flex-col flex-auto p-6 bg-card rounded shadow-md">
+                <div class="flex items-center">
+                    <div class="flex flex-col">
+                        <div class="font-bold text-md text-secondary uppercase tracking-wider">Budget</div>
+                        <div class="text-hint text-sm font-medium">Monthly budget summary</div>
+                    </div>
+                    <div class="ml-auto">
+                        <button mat-icon-button
+                                [matMenuTriggerFor]="budgetMenu">
+                            <mat-icon [svgIcon]="'more_vert'"></mat-icon>
+                        </button>
+                        <mat-menu #budgetMenu="matMenu">
+                            <button mat-menu-item>Expenses breakdown</button>
+                            <button mat-menu-item>Savings breakdown</button>
+                            <button mat-menu-item>Bills breakdown</button>
+                            <mat-divider class="my-2"></mat-divider>
+                            <button mat-menu-item>
+                                <span class="flex items-center">
+                                    <mat-icon class="icon-size-20 mr-3"
+                                              [svgIcon]="'print'"></mat-icon>
+                                    <span>Print budget summary</span>
+                                </span>
+                            </button>
+                            <button mat-menu-item>
+                                <span class="flex items-center">
+                                    <mat-icon class="icon-size-20 mr-3"
+                                              [svgIcon]="'email'"></mat-icon>
+                                    <span>Email budget summary</span>
+                                </span>
+                            </button>
+                        </mat-menu>
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <div class="my-4">
+                        Last month; you had <strong>223</strong> expense transactions, <strong>12</strong> savings entries and <strong>4</strong> bills.
+                    </div>
+                    <div class="flex items-center my-4">
+                        <div class="flex items-center justify-center w-14 h-14 rounded red-100">
+                            <mat-icon [svgIcon]="'heroicons_outline:credit-card'"></mat-icon>
+                        </div>
+                        <div class="flex-auto ml-4 leading-none">
+                            <div class="font-semibold text-xs text-hint uppercase tracking-wider">Expenses</div>
+                            <div class="mt-2 font-medium text-2xl">{{data.budget.expenses | currency:'USD'}}</div>
+                            <mat-progress-bar class="mt-3 rounded-full"
+                                              [color]="'warn'"
+                                              [mode]="'determinate'"
+                                              [value]="(data.budget.expenses  * 100) / data.budget.expensesLimit"></mat-progress-bar>
+                        </div>
+                        <div class="flex items-end justify-end min-w-18 mt-auto ml-6">
+                            <div class="text-lg leading-none">2.6%</div>
+                            <mat-icon class="text-blue icon-size-16 ml-1"
+                                      [svgIcon]="'arrow_downward'"></mat-icon>
+                        </div>
+                    </div>
+                    <div class="flex items-center my-4">
+                        <div class="flex items-center justify-center w-14 h-14 rounded indigo-100">
+                            <mat-icon [svgIcon]="'heroicons_outline:cash'"></mat-icon>
+                        </div>
+                        <div class="flex-auto ml-4 leading-none">
+                            <div class="font-semibold text-xs text-hint uppercase tracking-wider">Savings</div>
+                            <div class="mt-2 font-medium text-2xl">{{data.budget.savings | currency:'USD'}}</div>
+                            <mat-progress-bar class="mt-3 rounded-full"
+                                              [mode]="'determinate'"
+                                              [value]="(data.budget.savings  * 100) / data.budget.savingsGoal"></mat-progress-bar>
+                        </div>
+                        <div class="flex items-end justify-end min-w-18 mt-auto ml-6">
+                            <div class="text-lg leading-none">12.7%</div>
+                            <mat-icon class="text-blue icon-size-16 ml-1"
+                                      [svgIcon]="'arrow_upward'"></mat-icon>
+                        </div>
+                    </div>
+                    <div class="flex items-center my-4">
+                        <div class="flex items-center justify-center w-14 h-14 rounded teal-100">
+                            <mat-icon [svgIcon]="'heroicons_outline:light-bulb'"></mat-icon>
+                        </div>
+                        <div class="flex-auto ml-4 leading-none">
+                            <div class="font-semibold text-xs text-hint uppercase tracking-wider">Bills</div>
+                            <div class="mt-2 font-medium text-2xl">{{data.budget.bills | currency:'USD'}}</div>
+                            <mat-progress-bar class="mt-3 rounded-full"
+                                              [mode]="'determinate'"
+                                              [value]="(data.budget.bills  * 100) / data.budget.billsLimit"></mat-progress-bar>
+                        </div>
+                        <div class="flex items-end justify-end min-w-18 mt-auto ml-6">
+                            <div class="text-lg leading-none">105.7%</div>
+                            <mat-icon class="text-blue icon-size-16 ml-1"
+                                      [svgIcon]="'arrow_upward'"></mat-icon>
+                        </div>
+                    </div>
+                    <div class="text-sm text-hint">Exceeded your personal limit on <strong>bills</strong>! Be careful next month.</div>
+                </div>
+                <div class="flex items-center mt-auto">
+                    <button class="mt-2"
+                            mat-stroked-button
+                            [color]="'primary'">
+                        <mat-icon [svgIcon]="'cloud_download'"></mat-icon>
+                        <span class="ml-3">Download Summary</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

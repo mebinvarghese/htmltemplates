@@ -1,0 +1,234 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">CORE FEATURES</span>
+                <span class="separator">/</span>
+                <span class="path">DIRECTIVES</span>
+            </div>
+
+            <h1>Scrollbar</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                <strong>treoScrollbar</strong> is a wrapper directive for <a href="https://github.com/mdbootstrap/perfect-scrollbar"
+                                                                             rel="noreferrer"
+                                                                             target="_blank">Perfect Scrollbar</a> plugin.
+            </p>
+            <p>
+                <strong>Exported as: </strong><code>treoScrollbar</code>
+            </p>
+
+            <h2>Module</h2>
+            <textarea treo-highlight
+                      lang="typescript">
+                import { TreoScrollbarModule } from '@treo/directives/scrollbar';
+            </textarea>
+
+            <h2>Usage</h2>
+            <p>
+                Here's the basic usage of the <code>treoScrollbar</code>:
+            </p>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="html">
+                <div treoScrollbar
+                     [treoScrollbarOptions]="{wheelPropagation: false, suppressScrollX: true}">
+                    A very long content to add scrollbars.
+                </div>
+            </textarea>
+            <!-- @formatter:on -->
+
+            <h2>Properties</h2>
+            <div class="bg-card py-3 px-6 rounded shadow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>treoScrollbar: boolean</div>
+                            </td>
+                            <td>
+                                Whether to enable or disable the custom scrollbars.
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">''</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>@Input()</div>
+                                <div>treoScrollbarOptions: any</div>
+                            </td>
+                            <td>
+                                Perfect Scrollbar options
+                            </td>
+                            <td>
+                                <code class="whitespace-no-wrap">{{'{}'}}</code>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>Methods</h2>
+            <p>
+                It's possible to access the methods of this directive using a <em>@ViewChild</em> or <em>@ViewChildren</em>:
+            </p>
+            <textarea treo-highlight
+                      lang="html">
+                <!-- Content #1 with custom scrollbar -->
+                <div treoScrollbar>
+                    A very long content to add scrollbars.
+                </div>
+
+                <!-- Content #2 with custom scrollbar -->
+                <div treoScrollbar>
+                    Another long content to add scrollbars.
+                </div>
+            </textarea>
+
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="typescript">
+                import { TreoScrollbarDirective } from '@treo/directives/scrollbar/scrollbar.directive';
+
+                @ViewChildren(TreoScrollbarDirective)
+                private _treoScrollbarDirectives: QueryList<TreoScrollbarDirective>
+
+                ngAfterViewInit(): void
+                {
+                    // Iterate through the directives and update all of them
+                    treoScrollbarDirectives.forEach((treoScrollbarDirective) => {
+                        treoScrollbarDirective.update();
+                    });
+                }
+            </textarea>
+            <!-- @formatter:on -->
+
+            <p>
+                Here's the list of all available methods:
+            </p>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    update(): void
+                </div>
+                <div class="p-6">
+                    Updates the scrollbar.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    destroy(): void
+                </div>
+                <div class="p-6">
+                    Destroy the custom scrollbar instance.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    geometry(prefix: string = 'scroll'): ScrollbarGeometry
+                </div>
+                <div class="p-6">
+                    Returns the geometry of the scrollable element (scrollLeft, scrollTop, scrollHeight, scrollWidth etc.)
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    position(absolute: boolean = false): ScrollbarPosition
+                </div>
+                <div class="p-6">
+                    Returns the position of the scrollable element (scrollLeft, scrollTop)
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    scrollTo(x: number, y?: number, speed?: number): void
+                </div>
+                <div class="p-6">
+                    Scrolls to given position.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    scrollToX(x: number, speed?: number): void
+                </div>
+                <div class="p-6">
+                    Scrolls to given position on X axis.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    scrollToY(y: number, speed?: number): void
+                </div>
+                <div class="p-6">
+                    Scrolls to given position on Y axis.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    scrollToTop(offset: number = 0, speed?: number): void
+                </div>
+                <div class="p-6">
+                    Scrolls to top.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    scrollToBottom(offset: number = 0, speed?: number): void
+                </div>
+                <div class="p-6">
+                    Scrolls to bottom.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    scrollToLeft(offset: number = 0, speed?: number): void
+                </div>
+                <div class="p-6">
+                    Scrolls to left.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    scrollToRight(offset: number = 0, speed?: number): void
+                </div>
+                <div class="p-6">
+                    Scrolls to right.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    scrollToElement(qs: string, offset: number = 0, ignoreVisible: boolean = false, speed?: number): void
+                </div>
+                <div class="p-6">
+                    Scrolls to found element based on the given <strong>QuerySelector</strong>. If <code>ignoreVisible</code> is <strong>true</strong> then scroll won't
+                    be triggered if the element is already inside the current viewport.
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

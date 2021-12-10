@@ -1,0 +1,176 @@
+@import 'treo';
+
+calendar-recurrence {
+    display: flex;
+    width: 320px;
+    min-width: 320px;
+    max-width: 320px;
+    padding: 32px 24px;
+    border-radius: 8px;
+    @include treo-elevation('2xl');
+
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+
+        h4 {
+            margin: 0 0 32px 0;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 32px;
+
+            .label {
+                margin-bottom: 8px;
+            }
+
+            .field {
+                flex: 1 1 auto;
+            }
+
+            &.interval-frequency {
+
+                .field {
+
+                    .interval {
+                        width: 96px;
+                    }
+
+                    .frequency {
+                        width: 164px;
+                        margin-left: 12px;
+                    }
+                }
+            }
+
+            &.weekly {
+
+                .field {
+
+                    .mat-button-toggle-group {
+                        width: 100%;
+                        border: none;
+                        border-radius: 6px;
+
+                        .mat-button-toggle {
+                            width: 32px;
+                            min-width: 32px;
+                            height: 32px;
+                            border: none;
+                            border-radius: 50%;
+                            margin: 0 4px;
+
+                            &:first-child {
+                                margin-left: 0;
+                            }
+
+                            &:last-child {
+                                margin-right: 0;
+                            }
+
+                            .mat-button-toggle-button {
+
+                                .mat-button-toggle-label-content {
+                                    width: 100%;
+                                    padding: 0;
+                                    font-size: 12px;
+                                    line-height: 32px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.monthly {
+
+                .field {
+
+                    .mat-form-field {
+                        width: 100%;
+                    }
+                }
+            }
+
+            &.ends {
+
+                .field {
+
+                    .end-option {
+                        width: 96px;
+                    }
+
+                    .end-value {
+                        margin-left: 12px;
+
+                        &.until,
+                        &.count {
+                            width: 164px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            .clear {
+                margin-right: 8px;
+            }
+        }
+    }
+}
+
+.calendar-event-recurrence-dialog {
+
+    .mat-dialog-container {
+        padding: 0 !important;
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $foreground: map-get($theme, foreground);
+    $primary: map-get($theme, primary);
+
+    calendar-recurrence {
+
+        form {
+
+            .row {
+
+                .label {
+                    color: map-get($foreground, secondary-text);
+                }
+
+                &.weekly {
+
+                    .field {
+
+                        .mat-button-toggle-group {
+
+                            .mat-button-toggle {
+                                background: treo-color('cool-gray', 100);
+                                color: treo-contrast('gray', 200);
+
+                                &.mat-button-toggle-checked {
+                                    background: map-get($primary, default);
+                                    color: map-get($primary, default-contrast);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

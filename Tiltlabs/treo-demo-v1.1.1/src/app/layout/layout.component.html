@@ -1,0 +1,115 @@
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<!-- Empty layout -->
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<empty-layout *ngIf="layout === 'empty'"></empty-layout>
+
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<!-- Layouts with horizontal navigation -->
+<!-- ----------------------------------------------------------------------------------------------------- -->
+
+<!-- Centered -->
+<centered-layout *ngIf="layout === 'centered'"></centered-layout>
+
+<!-- Enterprise -->
+<enterprise-layout *ngIf="layout === 'enterprise'"></enterprise-layout>
+
+<!-- Material -->
+<material-layout *ngIf="layout === 'material'"></material-layout>
+
+<!-- Modern -->
+<modern-layout *ngIf="layout === 'modern'"></modern-layout>
+
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<!-- Layouts with vertical navigation -->
+<!-- ----------------------------------------------------------------------------------------------------- -->
+
+<!-- Basic -->
+<basic-layout *ngIf="layout === 'basic'"></basic-layout>
+
+<!-- Classic -->
+<classic-layout *ngIf="layout === 'classic'"></classic-layout>
+
+<!-- Classy -->
+<classy-layout *ngIf="layout === 'classy'"></classy-layout>
+
+<!-- Compact -->
+<compact-layout *ngIf="layout === 'compact'"></compact-layout>
+
+<!-- Dense -->
+<dense-layout *ngIf="layout === 'dense'"></dense-layout>
+
+<!-- Futuristic -->
+<futuristic-layout *ngIf="layout === 'futuristic'"></futuristic-layout>
+
+<!-- Thin -->
+<thin-layout *ngIf="layout === 'thin'"></thin-layout>
+
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<!-- Settings drawer - Remove this to remove the drawer and its button -->
+<!-- ----------------------------------------------------------------------------------------------------- -->
+<div class="settings-drawer-toggle fixed flex items-center justify-center right-0 w-12 h-12 shadow-lg rounded-l-4 z-99 cursor-pointer bg-red-600"
+     style="top: 310px"
+     (click)="settingsDrawer.toggle()">
+    <mat-icon class="icon-size-24 text-white"
+              style="animation: rotation 2s infinite linear;"
+              [svgIcon]="'settings'"></mat-icon>
+</div>
+
+<treo-drawer [fixed]="true"
+             [name]="'settingsDrawer'"
+             [position]="'right'"
+             [mode]="'over'"
+             [transparentOverlay]="true"
+             #settingsDrawer>
+
+    <div class="flex flex-col w-full light:bg-cool-gray-100 overflow-auto">
+
+        <div class="flex flex-row items-center px-6 h-20 min-h-20 border-b">
+            <mat-icon class="mr-3 text-secondary"
+                      [svgIcon]="'settings'"></mat-icon>
+            <div class="text-lg font-semibold tracking-wide">SETTINGS</div>
+        </div>
+
+        <div class="flex flex-col p-6">
+
+            <!-- Theme -->
+            <div class="mb-4 text-sm font-medium text-secondary tracking-widest">THEME</div>
+            <mat-radio-group class="flex flex-col flex-shrink-0 space-y-2"
+                             [color]="'primary'"
+                             [value]="config.theme"
+                             (change)="setTheme($event)">
+                <mat-radio-button [value]="'auto'">
+                    <span class="inline-flex items-center">
+                        Auto
+                        <mat-icon class="ml-2 icon-size-18"
+                                  [svgIcon]="'heroicons_solid:question-mark-circle'"
+                                  [matTooltip]="'Automatically sets the theme based on user\'s operating system\'s color scheme preference using \'prefer-color-scheme\' media query.'"></mat-icon>
+                    </span>
+                </mat-radio-button>
+                <mat-radio-button [value]="'dark'">Dark</mat-radio-button>
+                <mat-radio-button [value]="'light'">Light</mat-radio-button>
+            </mat-radio-group>
+
+            <hr class="my-8">
+
+            <!-- Layout -->
+            <div class="mb-4 text-sm font-medium text-secondary tracking-widest">LAYOUT</div>
+            <div class="flex flex-wrap">
+                <div class="flex flex-col items-center mb-6 cursor-pointer"
+                     *ngFor="let layoutType of ['empty', 'basic', 'classic', 'classy', 'compact', 'dense', 'futuristic', 'thin', 'centered', 'enterprise', 'material', 'modern']"
+                     (click)="setLayout(layoutType)">
+                    <img class="w-full p-1 border-4 rounded-sm text-primary light:border-cool-gray-300 dark:border-cool-gray-900 light:bg-card dark:bg-cool-gray-600"
+                         [ngClass]="{'border-primary shadow-solid': config.layout === layoutType}"
+                         [src]="'assets/images/demo/layouts/' + layoutType + '-' + theme + '.png'">
+                    <div class="mt-2 text-md font-medium text-secondary tracking-wide"
+                         [ngClass]="{'text-primary': config.layout === layoutType}">
+                        {{layoutType | titlecase}}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</treo-drawer>

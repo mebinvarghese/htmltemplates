@@ -1,0 +1,14 @@
+demo-content {
+    display: block;
+
+    img {
+        max-width: 720px;
+    }
+
+    .extra-content:empty {
+
+        + h2 {
+            margin-top: 0;
+        }
+    }
+}

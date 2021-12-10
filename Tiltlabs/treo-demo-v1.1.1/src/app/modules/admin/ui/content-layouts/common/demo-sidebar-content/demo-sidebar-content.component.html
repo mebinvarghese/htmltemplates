@@ -1,0 +1,42 @@
+<!-- Add any extra content that might be supplied with the component -->
+<div class="extra-content">
+    <ng-content></ng-content>
+</div>
+
+<!-- Fixed demo sidebar -->
+<h3 class="mx-6 my-0">Demo Sidebar</h3>
+<treo-vertical-navigation [navigation]="menuData"
+                          [inner]="true"
+                          [mode]="'side'"
+                          [name]="'demo-sidebar-navigation'"
+                          [opened]="true"></treo-vertical-navigation>
+
+<!-- Storage -->
+<div class="mx-6 mt-2">
+    <div class="flex items-center">
+        <mat-icon class="mr-3"
+                  [svgIcon]="'storage'"></mat-icon>
+        <h6 class="m-0">Storage</h6>
+    </div>
+    <div class="flex flex-col flex-auto mt-4">
+        <span class="text-sm leading-none mb-3">19.9 GB of 100 GB used</span>
+        <mat-progress-bar [mode]="'determinate'"
+                          [color]="'primary'"
+                          [value]="19.9"></mat-progress-bar>
+    </div>
+</div>
+
+<!-- Users -->
+<div class="mx-6 mt-10">
+    <div class="flex items-center">
+        <mat-icon class="mr-3"
+                  [svgIcon]="'people_alt'"></mat-icon>
+        <h6 class="m-0">Users</h6>
+    </div>
+    <div class="flex flex-col flex-auto mt-4">
+        <span class="text-sm leading-none mb-3">8 of 20 users used</span>
+        <mat-progress-bar [mode]="'determinate'"
+                          [color]="'accent'"
+                          [value]="40"></mat-progress-bar>
+    </div>
+</div>

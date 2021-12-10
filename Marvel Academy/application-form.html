@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Marvel Academy</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+  <link rel="stylesheet" href="css/animate.css">
+
+  <link rel="stylesheet" href="css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="css/bootstrap-datepicker.standalone.min.css">
+
+  <link rel="stylesheet" href="css/owl.carousel.min.css">
+  <link rel="stylesheet" href="css/owl.theme.default.min.css">
+  <link rel="stylesheet" href="css/magnific-popup.css">
+
+  <link rel="stylesheet" href="css/aos.css">
+
+  <link rel="stylesheet" href="css/ionicons.min.css">
+  <link rel="stylesheet" href="css/jquery.timepicker.css">
+  <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+  <link rel="stylesheet" href="css/flaticon.css">
+  <link rel="stylesheet" href="css/icomoon.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="./images/marvelacademy.png" style="width: 60%;" />
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="oi oi-menu"></span> Menu
+      </button>
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="training.html">Training</a></li>
+          <li class="nav-item active"><a class="nav-link" href="application-form.html">Application Form</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item cta"><a href="tel:+919847033091" class="nav-link">Call +919847033091</a></li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- END nav -->
+
+  <section class="hero-wrap hero-wrap-2 js-halfheight" style="background-image: url('images/banner-4.jpg');"
+    data-stellar-background-ratio="0.5">
+    <div class="overlay js-halfheight"></div>
+    <div class="container">
+      <div class="row no-gutters slider-text js-halfheight align-items-end justify-content-center">
+        <div class="col-md-9 ftco-animate pb-5 text-center">
+          <h1 class="mb-3 bread">Application Form</h1>
+          <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i
+                  class="ion-ios-arrow-forward"></i></a></span> <span>Application Form <i
+                class="ion-ios-arrow-forward"></i></span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ftco-section contact-section">
+    <div class="container bg-light">
+      <div class="text-center bg-light wow fadeInDown">
+        <h2>MARVEL ACADEMY</h2>
+        <p class="lead">Job Oriented Industrial Training Programme</p>
+        <!-- <h3>
+          READ INSTRUCTIONS CAREFULLY BEFORE FILLING THE APPLICATION
+        </h3> -->
+      </div>
+      <div class="row block-9 bg-light">
+        <div class="col-md-12 order-md-last d-flex">
+          <form class="bg-light p-5 contact-form" id="applicationForm">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Name of the Candidate:</label>
+                  <input type="text" class="form-control" placeholder="Name of the Candidate" id="candidateName"
+                    required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Name of the college where studied:</label>
+                  <input type="text" class="form-control" placeholder="Name of the college where studied "
+                    id="candidateCollegeName" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Father’s/Mother's Name:</label>
+                  <input type="text" class="form-control" placeholder="Father’s/Mother's Name" id="candidateParentName"
+                    required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Gender:</label>
+                  <select name="" class=" form-control country" placeholder="Gender" id="candidateGender" required>
+                    <option value="">Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Transgender">Transgender</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="email">Date Of Birth:</label>
+                  <input type="date" class="form-control" placeholder="MM/DD/YYYY" onfocus="(this.type='date')"
+                    id="candidateDob" required>
+                  <!-- <input type="text" class="form-control" placeholder="Date of Birth" id="datepicker-13"> -->
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Email:</label>
+                  <input type="text" class="form-control" placeholder="Your Email" id="candidateEmail" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Contact Number:</label>
+                  <input type="text" class="form-control" placeholder="Contact Number" id="candidateNumber">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Candidate Image:</label>
+                  <input type="hidden" class="form-control" placeholder="Contact Number" id="candidateImageUrl">
+                  <input type="file" class="form-control" placeholder="Contact Number" id="candidateImage" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Address for Communication:</label>
+                  <textarea name="" cols="30" rows="7" class="form-control" placeholder="Address for Communication"
+                    id="candidateCommunicationAddress" required></textarea>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Permanent Communication:</label>
+                  <textarea name="" cols="30" rows="7" class="form-control" placeholder="Permanent Communication"
+                    id="candidatePermanentAddress" required></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>
+                    Space for attending online classes (2500 rs per month)
+                  </label>
+                  <br>
+                  <label>Yes</label>
+                  <input type="radio" placeholder="Contact Number" id="candidateClassrooom" value="Yes"
+                    name="candidateClassrooom">
+                  <label style="margin-left: 2rem;">No</label>
+                  <input type="radio" placeholder="Contact Number" id="candidateClassrooom" value="No"
+                    name="candidateClassrooom">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <h3>
+                Last Examination passed (Details)
+              </h3>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Course Name:</label>
+                  <input type="text" class="form-control" placeholder="Course Name" id="candidateCourseName" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Board/University:</label>
+                  <input type="text" class="form-control" placeholder="Board/University" id="candidateUniversity"
+                    required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Month & Year of pass:</label>
+                  <input type="text" class="form-control" placeholder="Month & Year of pass " id="candidateYearofPass"
+                    required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Percentage Obtained:</label>
+                  <input type="text" class="form-control" placeholder="Percentage Obtained" id="candidateMark" required>
+                </div>
+              </div>
+            </div>
+            <div class="form-group success-message" style="display: none;" id="successMessageDiv">
+              <label>Your application submitted successfully</label>
+            </div>
+            <div class="form-group error-message" style="display: none;" id="errorMessage">
+              <label>Something went wrong, Please try again!</label>
+            </div>
+            <div class="form-group">
+              <input type="submit" value="Send Application" class="btn btn-primary py-3 px-5" id="submitbutton">
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ftco-footer bg-bottom" style="background-image: url(images/footer-bg.jpg);">
+    <div class="container">
+      <div class="row mb-5">
+        <div class="col-md">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2">Marvel Academy</h2>
+            <p>Education is the passport to the future, for tomorrow belongs to those who prepare for it
+              today.</p>
+            <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+              <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+              <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+              <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md">
+        </div>
+        <div class="col-md">
+          <div class="ftco-footer-widget mb-4">
+            <h2 class="ftco-heading-2">Have a Questions?</h2>
+            <div class="block-23 mb-3">
+              <ul>
+                <li><span class="icon icon-map-marker"></span><span class="text">Earthen Cube, Bund
+                    Road, Off NH 47, Bypass, Maradu, Kochi, Kerala,</span></li>
+                <li><a href="tel:+919847033091"><span class="icon icon-phone"></span><span
+                      class="text">+919847033091</span></a></li>
+                <li><a href="#"><span class="icon icon-envelope"></span><span
+                      class="text">info@marvelacademy.net</span></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center">
+
+          <p>
+            Marvel Academy Copyright &copy;
+            <script>document.write(new Date().getFullYear());</script> All rights reserved
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+      <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+      <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+        stroke="#F96D00" /></svg></div>
+
+
+  <div id="share">
+    <a class="facebook" href="https://www.facebook.com" target="blank"><span class="icon-facebook"></span></a>
+    <a class="twitter" href="https://twitter.com/" target="blank"><span class="icon-twitter"></span></a>
+    <a class="whatsapp" href="" target="blank"><span class="icon-whatsapp"></span></a>
+  </div>
+
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/jquery.validate.min.js"></script>
+  <script src="./js/jquery-ui.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/bootstrap-datepicker.js"></script>
+  <script src="js/scrollax.min.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    $("#candidateImage").change(function () {
+      var fd = new FormData();
+      var files = $('#candidateImage')[0].files[0];
+      fd.append('avatar', files);
+      $.ajax({
+        url: 'http://development.mebinvarghese.in/php/fileupload.php',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          if (response.status == 'success') {
+            $('#candidateImageUrl').val(response.url);
+          } else {
+            alert('file not uploaded');
+          }
+        },
+      });
+    });
+
+    var candidateGender = '';
+    $("select#candidateGender").change(function () {
+      candidateGender = $(this).children("option:selected").val();
+    });
+    $("#but_upload").click(function () {
+      var fd = new FormData();
+      var files = $('#candidateImage')[0].files[0];
+      fd.append('file', files);
+
+      $.ajax({
+        url: './php/send-application.php',
+        type: 'post',
+        data: fd,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+          if (response != 0) {
+            $("#img").attr("src", response);
+            $(".preview img").show(); // Display image element
+          } else {
+            alert('file not uploaded');
+          }
+        },
+      });
+    });
+    $("#applicationForm").submit(function (e) {
+      e.preventDefault();
+      $("#applicationForm").validate();
+      document.getElementById('submitbutton').value = 'Sending Your Application';
+      const candidateName = $('#candidateName').val();
+      const candidateCollegeName = $('#candidateCollegeName').val();
+      const candidateParentName = $('#candidateParentName').val();
+      const candidateDob = $('#candidateDob').val();
+      const candidateEmail = $('#candidateEmail').val();
+      const candidateNumber = $('#candidateNumber').val();
+      const candidateCommunicationAddress = $('#candidateCommunicationAddress').val();
+      const candidatePermanentAddress = $('#candidatePermanentAddress').val();
+      const candidateCourseName = $('#candidateCourseName').val();
+      const candidateUniversity = $('#candidateUniversity').val();
+      const candidateYearofPass = $('#candidateYearofPass').val();
+      const candidateMark = $('#candidateMark').val();
+      const candidateImageUrl = $('#candidateImageUrl').val();
+      let candidateClassrooom = 'No';
+      var ele = document.getElementsByTagName('input');
+      for (i = 0; i < ele.length; i++) {
+
+        if (ele[i].type == "radio") {
+
+          if (ele[i].checked)
+            candidateClassrooom = ele[i].value;
+        }
+      }
+      // const candidateClassrooom = $('#candidateClassrooom').val();
+      var data = {
+        candidateName,
+        candidateCollegeName,
+        candidateParentName,
+        candidateGender,
+        candidateDob,
+        candidateEmail,
+        candidateNumber,
+        candidateCommunicationAddress,
+        candidatePermanentAddress,
+        candidateUniversity,
+        candidateCourseName,
+        candidateYearofPass,
+        candidateMark,
+        candidateImageUrl,
+        candidateClassrooom
+      }
+
+      $.post("./php/send-application.php", data, function (result) {
+        document.getElementById('submitbutton').value = 'Submit';
+        if (result) {
+          $('#candidateName').val('');
+          $('#candidateCollegeName').val('');
+          $('#candidateParentName').val('');
+          $('#candidateGender').val('');
+          $('#candidateDob').val('');
+          $('#candidateEmail').val('');
+          $('#candidateNumber').val('');
+          $('#candidateCommunicationAddress').val('');
+          $('#candidatePermanentAddress').val('');
+          $('#candidateCourseName').val('');
+          $('#candidateUniversity').val('');
+          $('#candidateYearofPass').val('');
+          $('#candidateMark').val('');
+          $('#successMessageDiv').show();
+          const responseResult = JSON.parse(result);
+          if (responseResult.status == 'success' && !responseResult.error) {
+            $('#successMessageDiv').show();
+          } else {
+            $('#errorMessageDiv').show();
+          }
+        } else {
+          $('#errorMessageDiv').show();
+        }
+        setTimeout(() => {
+          $('#successMessageDiv').hide();
+          $('#errorMessageDiv').hide();
+        }, 5000);
+      });
+    });
+
+  </script>
+</body>
+
+</html>

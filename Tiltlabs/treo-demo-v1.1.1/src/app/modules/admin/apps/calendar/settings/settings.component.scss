@@ -1,0 +1,69 @@
+@import 'treo';
+
+calendar-settings {
+
+    .main {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        padding: 0 !important;
+        width: 100%;
+
+        .header {
+            display: flex;
+            align-items: center;
+            height: 64px;
+            min-height: 64px;
+            max-height: 64px;
+            padding: 8px 16px;
+            border-bottom-width: 1px;
+
+            .back {
+                margin: 0 20px 0 0;
+            }
+
+            .title {
+                margin: 0;
+            }
+        }
+
+        .settings {
+            display: flex;
+            flex: 1 1 auto;
+            padding: 32px;
+
+            form {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                max-width: 320px;
+                width: 100%;
+
+                .mat-form-field {
+                    width: 100%;
+                }
+
+                .mat-flat-button {
+                    margin-top: 8px;
+                }
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+    $background: map-get($theme, background);
+    $is-dark: map-get($theme, is-dark);
+
+    calendar-settings {
+        @if ($is-dark) {
+            background: treo-color('cool-gray', 900);
+        } @else {
+            background: map-get($background, card);
+        }
+    }
+}

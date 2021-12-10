@@ -1,0 +1,87 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="left">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">GUIDES</span>
+                <span class="separator">/</span>
+                <span class="path">GETTING STARTED</span>
+            </div>
+
+            <h1>Prerequisites</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                Before you begin developing with Treo, make sure your development environment includes Node.js, npm and Angular CLI.
+            </p>
+
+            <h2>1. Node.js</h2>
+            <p>
+                To install Node.js, go to <a href="https://nodejs.org/"
+                                             rel="noreferrer"
+                                             target="_blank">Node.js</a> and install the active LTS version.
+            </p>
+
+            <h2>2. npm</h2>
+            <p>
+                To download and install npm packages, you must have the npm package manager. This guide uses the npm client command line interface, which is installed with Node.js
+                by default. To check that you have the npm client installed, run <code>npm -v</code> in a terminal/console window.
+            </p>
+
+            <h2>3. Angular CLI</h2>
+            <p>
+                You will use the <a href="https://cli.angular.io/"
+                                    rel="noreferrer"
+                                    target="_blank">Angular CLI</a> to create projects, generate application and library code, and perform a variety of ongoing development tasks
+                such as testing, bundling, and deployment.
+            </p>
+            <p>
+                To install the CLI using npm, open a terminal/console window and enter the following command:
+            </p>
+            <textarea treo-highlight
+                      lang="bash">
+                npm install -g @angular/cli
+            </textarea>
+
+            <!-- Nav -->
+            <div class="flex items-center xs:flex-col xs:items-stretch w-full mt-16">
+
+                <!-- Prev -->
+                <a class="bg-card flex items-center justify-between flex-1 mr-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:mr-0 xs:mt-4 xs:order-2"
+                   [routerLink]="['../introduction']">
+                    <mat-icon [svgIcon]="'arrow_back'"></mat-icon>
+                    <div>
+                        <div class="text-md text-secondary text-right">Previous</div>
+                        <div class="mt-1 text-lg font-medium">Introduction</div>
+                    </div>
+                </a>
+
+                <!-- Next -->
+                <a class="bg-card flex items-center justify-between flex-1 ml-4 px-6 py-4 rounded no-underline transition-shadow ease-in-out duration-150 shadow gt-xs:hover:shadow-lg xs:ml-0 xs:order-1"
+                   [routerLink]="['../installation']">
+                    <div>
+                        <div class="text-md text-secondary">Next</div>
+                        <div class="mt-1 text-lg font-medium">Installation</div>
+                    </div>
+                    <mat-icon [svgIcon]="'arrow_forward'"></mat-icon>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

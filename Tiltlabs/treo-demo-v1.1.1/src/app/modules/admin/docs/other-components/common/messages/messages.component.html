@@ -1,0 +1,215 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <!-- Header -->
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">DOCUMENTATION</span>
+                <span class="separator">/</span>
+                <span class="path">OTHER COMPONENTS</span>
+                <span class="separator">/</span>
+                <span class="path">COMMON</span>
+            </div>
+
+            <h1>Messages</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="rich-text max-w-3xl">
+
+            <p>
+                This component can be used to show latest messages in a custom made panel. These messages can be either system wide messages or messages that sent to the currently
+                logged in user from other users.
+            </p>
+            <p>
+                It has some basic features including
+            </p>
+            <ul>
+                <li>marking all messages as read</li>
+                <li>marking individual messages as read</li>
+                <li>removing individual messages from the list</li>
+            </ul>
+
+            <h2>Usage</h2>
+            <p>
+                The component only has one input to supply the messages:
+            </p>
+            <textarea treo-highlight
+                      lang="html">
+                <messages [messages]="data.messages"></messages>
+            </textarea>
+
+            <h2>Message</h2>
+            <!-- @formatter:off -->
+            <textarea treo-highlight
+                      lang="typescript">
+                export interface Message
+                {
+                    id: string;
+                    icon?: string;
+                    image?: string;
+                    title?: string;
+                    description?: string;
+                    time: string;
+                    link?: string;
+                    useRouter?: boolean;
+                    read: boolean;
+                }
+            </textarea>
+            <!-- @formatter:on -->
+            <div class="bg-card py-3 px-6 mt-2 rounded shadow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>id</div>
+                            </td>
+                            <td>
+                                Unique id of the message.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>icon</div>
+                            </td>
+                            <td>
+                                Icon name for the message.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>image</div>
+                            </td>
+                            <td>
+                                Image for the message.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>title</div>
+                            </td>
+                            <td>
+                                Title of the message.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>description</div>
+                            </td>
+                            <td>
+                                Description of the message.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>time</div>
+                            </td>
+                            <td>
+                                String representation of the time of the message (like ISO string).
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>link</div>
+                            </td>
+                            <td>
+                                Link of the message.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>useRouter</div>
+                            </td>
+                            <td>
+                                Whether to use the Router to parse the link.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="font-mono text-md text-secondary">
+                                <div>read</div>
+                            </td>
+                            <td>
+                                Whether the message marked as read.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>Messages Service</h2>
+            <p>
+                The <code>MessagesService</code> can be used to control the messages outside of the <strong>Messages</strong> component. This is particularly useful to control the
+                messages from other components for actions like creating, updating or deleting them.
+            </p>
+
+            <h3>Methods</h3>
+            <p>
+                Here's the list of all available methods from <code>MessagesService</code>:
+            </p>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    messages$: Observable&lt;Message[]&gt;
+                </div>
+                <div class="p-6">
+                    Getter for messages.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    store(messages: Message[])
+                </div>
+                <div class="p-6">
+                    Store messages on the service. This will replace the current messages and can be used as an alternative to <em>messages</em> input of the
+                    component.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    create(message: Message): Observable&lt;Messages&gt;
+                </div>
+                <div class="p-6">
+                    Create a new message on the server.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    update(id: string, message: Message): Observable&lt;Message&gt;
+                </div>
+                <div class="p-6">
+                    Update the message on the server.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    delete(id: string): Observable&lt;boolean&gt;
+                </div>
+                <div class="p-6">
+                    Delete the message on the server.
+                </div>
+            </div>
+            <div class="bg-card rounded shadow mt-4">
+                <div class="px-6 py-3 font-mono text-secondary border-b">
+                    markAllAsRead(): Observable&lt;boolean&gt;
+                </div>
+                <div class="p-6">
+                    Mark all messages as read.
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

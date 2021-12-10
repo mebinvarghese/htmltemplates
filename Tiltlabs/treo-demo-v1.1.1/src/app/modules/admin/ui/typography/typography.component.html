@@ -1,0 +1,244 @@
+<div class="content-layout fullwidth-standard-normal-scroll">
+
+    <div class="header">
+
+        <div class="container">
+
+            <div class="breadcrumb">
+                <span class="path">UI ELEMENTS</span>
+            </div>
+            <h1>Typography</h1>
+
+        </div>
+
+    </div>
+
+    <div class="main">
+
+        <div class="max-w-3xl">
+
+            <div class="rich-text">
+                <p>
+                    When building a web application, you don't want to have the default HTML element styles interfering with your design. This is mainly because those style are
+                    designed for building web sites therefore Treo provides a typographic reset and some limited styling by default.
+                </p>
+                <p>
+                    This way, you can build complex layouts and application interfaces without needing to reset element styles.
+                </p>
+
+                <h2>Body</h2>
+                <p>
+                    The default body text is set to <strong>14px</strong>. This allows building more complex and dense layouts without needing too much screen space. Applications
+                    usually need to show a lot more information on one page compared to, let's say, a blog post. This requires more denser layouts hence the smaller default body
+                    font size.
+                </p>
+
+                <h2>Headings</h2>
+                <p>
+                    These headings are specifically designed for application and page titles. They are a lot bigger and bolder compared to content headings.
+                </p>
+            </div>
+            <div class="example-viewer">
+                <div class="title">
+                    <h6>Example</h6>
+                </div>
+                <mat-tab-group [animationDuration]="'0ms'">
+                    <mat-tab label="Preview">
+                        <ng-template matTabContent>
+
+                            <h1>Heading h1</h1>
+                            <h2>Heading h2</h2>
+                            <h3>Heading h3</h3>
+                            <h4>Heading h4</h4>
+                            <h5>Heading h5</h5>
+                            <h6>Heading h6</h6>
+
+                        </ng-template>
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            &lt;h1&gt;Heading h1&lt;/h1&gt;
+                            &lt;h2&gt;Heading h2&lt;/h2&gt;
+                            &lt;h3&gt;Heading h3&lt;/h3&gt;
+                            &lt;h4&gt;Heading h4&lt;/h4&gt;
+                            &lt;h5&gt;Heading h5&lt;/h5&gt;
+                            &lt;h6&gt;Heading h6&lt;/h6&gt;
+
+                        </textarea>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+
+            <div class="rich-text">
+                <h2>Links</h2>
+                <p>
+                    Since links can also be used as buttons, <code>&lt;a&gt;</code> tag has been reset to not have a color nor an underline by default. If you wish to actually
+                    show a link, use <code>.link</code> class.
+                </p>
+            </div>
+            <div class="example-viewer">
+                <div class="title">
+                    <h6>Example</h6>
+                </div>
+                <mat-tab-group [animationDuration]="'0ms'">
+                    <mat-tab label="Preview">
+                        <ng-template matTabContent>
+
+                            <div>
+                                <a href="#">a tag without link styling</a>
+                            </div>
+                            <div>
+                                <a class="link"
+                                   href="#">a tag with proper link styling</a>
+                            </div>
+
+                        </ng-template>
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <a href="#">a tag without link styling</a>
+                            <a class="link"
+                               href="#">a tag with proper link styling</a>
+
+                        </textarea>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+
+            <div class="rich-text">
+                <h2>Breadcrumb</h2>
+                <p>
+                    Treo also provides default styling for basic breadcrumbs:
+                </p>
+            </div>
+            <div class="example-viewer">
+                <div class="title">
+                    <h6>Example</h6>
+                </div>
+                <mat-tab-group [animationDuration]="'0ms'">
+                    <mat-tab label="Preview">
+                        <ng-template matTabContent>
+
+                            <div class="breadcrumb">
+                                <span class="path">TREO</span>
+                                <span class="separator">/</span>
+                                <span class="path">COMPONENTS</span>
+                                <span class="separator">/</span>
+                                <span class="path current">MESSAGE</span>
+                            </div>
+
+                        </ng-template>
+                    </mat-tab>
+
+                    <mat-tab label="HTML">
+                        <textarea treo-highlight
+                                  [lang]="'html'">
+
+                            <div class="breadcrumb">
+                                <span class="path">TREO</span>
+                                <span class="separator">/</span>
+                                <span class="path">COMPONENTS</span>
+                                <span class="separator">/</span>
+                                <span class="path current">MESSAGE</span>
+                            </div>
+
+                        </textarea>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+
+            <div class="rich-text mb-4">
+                <h2>Rich text</h2>
+                <p>
+                    As we mentioned before, by default, Treo resets all typographic styles. Because of this, a rich-text content with paragraphs, lists, links, titles and other
+                    HTML elements will look bad and they won't be properly styled.
+                </p>
+                <p>
+                    To overcome this issue, there is a helper class called <code>.rich-text</code>. Anything put into a container with this class will be treated as rich-text
+                    content and will be styled accordingly.
+                </p>
+                <h4>A sample content without <code>.rich-text</code> container:</h4>
+            </div>
+            <div class="p-8 bg-card shadow rounded overflow-hidden">
+                <h2>Demo Content</h2>
+                <p>
+                    <strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat
+                    vitae, ultricies eget, tempor sit amet, ante. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien
+                    ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget
+                    tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis.
+                </p>
+                <h3>Header Level 3</h3>
+                <ul>
+                    <li>
+                        <p><strong>Unordered list</strong></p>
+                        <p>Here's an explanation for this list item</p>
+                    </li>
+                    <li>
+                        <p><strong>Ultricies eget</strong></p>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+                    </li>
+                    <li>
+                        <p><strong>Vestibulum erat</strong></p>
+                        <p>Aliquam tincidunt mauris eu risus.</p>
+                    </li>
+                </ul>
+                <blockquote>
+                    <p>
+                        Blockquote. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula
+                        molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam.
+                        Vivamus pretium ornare est.
+                    </p>
+                    <footer>
+                        Andrew Watkins
+                    </footer>
+                </blockquote>
+            </div>
+
+            <div class="rich-text mt-8 mb-4">
+                <h4>A sample content with a <code>.rich-text</code> container</h4>
+            </div>
+            <div class="rich-text p-8 bg-card shadow rounded overflow-hidden">
+                <h2>Demo Content</h2>
+                <p>
+                    <strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat
+                    vitae, ultricies eget, tempor sit amet, ante. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien
+                    ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget
+                    tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis.
+                </p>
+                <h3>Header Level 3</h3>
+                <ul>
+                    <li>
+                        <p><strong>Unordered list</strong></p>
+                        <p>Here's an explanation for this list item</p>
+                    </li>
+                    <li>
+                        <p><strong>Ultricies eget</strong></p>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p>
+                    </li>
+                    <li>
+                        <p><strong>Vestibulum erat</strong></p>
+                        <p>Aliquam tincidunt mauris eu risus.</p>
+                    </li>
+                </ul>
+                <blockquote>
+                    <p>
+                        Blockquote. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula
+                        molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam.
+                        Vivamus pretium ornare est.
+                    </p>
+                    <footer>
+                        Andrew Watkins
+                    </footer>
+                </blockquote>
+            </div>
+        </div>
+
+    </div>
+
+</div>
